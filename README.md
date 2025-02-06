@@ -71,6 +71,21 @@
 * keep it short and sweet
 -->
 
+### Built With
+
+This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+
+* Next
+* React
+* Vue
+* Angular
+* Svelte
+* Laravel
+* Bootstrap
+* JQuery
+
+<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+
 
 ## How to use this project<!-- Required -->
 <!-- 
@@ -92,12 +107,17 @@
 
 
 
-## Project Roadmap <!-- Optional --> <!-- add learning_Rs-->
-<!-- 
-* Add this section in case the project has different phases
-* 
-* Under production or will be updated.
--->
+## Roadmap
+
+- [x] Add Changelog
+- [x] Add back to top links
+- [ ] Add Additional Templates w/ Examples
+- [ ] Add "components" document to easily copy & paste sections of the readme
+- [ ] Multi-language Support
+    - [ ] Chinese
+    - [ ] Spanish
+
+See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
@@ -112,22 +132,29 @@
 
 
 ## Contributors<!-- Required -->
-<!-- 
-* Without contribution we wouldn't have open source. 
-* 
-* Generate github contributors Image here https://contrib.rocks/preview?repo=angular%2Fangular-ja
--->
+
+### Top contributors:
+
+<a href="https://github.com/L1ttl3G4m3r/Blok-Tech/contributors">
+  <img src="https://contrib.rocks/image?repo=othneildrew/Best-README-Template" alt="contrib.rocks image" />
+</a>
+
+<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
 
 ## Acknowledgments<!-- Optional -->
-<!-- 
-* Credit where it's do 
-* 
-* Feel free to share your inspiration sources, Stackoverflow questions, github repos, tools etc.
--->
 
+Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
-<!-- - Use this html element to create a back to top button. -->
+* [Choose an Open Source License](https://choosealicense.com)
+* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
+* [Malven's Grid Cheatsheet](https://grid.malven.co/)
+* [Img Shields](https://shields.io)
+* [GitHub Pages](https://pages.github.com)
+* [Font Awesome](https://fontawesome.com)
+* [React Icons](https://react-icons.github.io/react-icons/search)
+
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
 
@@ -139,19 +166,16 @@
 -->
 
 ## Contact<!-- Required -->
-<!-- 
-* add your email and contact info here
-* 
-* 
--->
+
+Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+
+Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 
 
 ## License<!-- Optional -->
-<!-- 
-* Here you can add project license for copyrights and distribution 
-* 
-* check this website for an easy reference https://choosealicense.com/)
--->
 
 - [MIT License](./LICENSE.txt)
 
