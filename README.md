@@ -30,33 +30,6 @@
 </div>
 
 
-## About<!-- Required -->
-<!-- 
-* information about the project 
-* 
-* keep it short and sweet
--->
-
-
-## How to use this project<!-- Required -->
-<!-- 
-* Here you may add information about how 
-* 
-* and why to use this project.
--->
--
--
--
-
-
-## Demo<!-- Required -->
-<!-- 
-* You can add a demo here GH supports images/ GIFs/videos 
-* 
-* It's recommended to use GIFs as they are more dynamic
--->
-
-
 ## Table of Contents<!-- Optional -->
 <!-- 
 * This section is optional, yet having a contents table 
@@ -89,6 +62,34 @@
 
 <!-- - Use this html element to create a back to top button. -->
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+
+
+## About<!-- Required -->
+<!-- 
+* information about the project 
+* 
+* keep it short and sweet
+-->
+
+
+## How to use this project<!-- Required -->
+<!-- 
+* Here you may add information about how 
+* 
+* and why to use this project.
+-->
+-
+-
+-
+
+
+## Demo<!-- Required -->
+<!-- 
+* You can add a demo here GH supports images/ GIFs/videos 
+* 
+* It's recommended to use GIFs as they are more dynamic
+-->
+
 
 
 ## Project Roadmap <!-- Optional --> <!-- add learning_Rs-->
@@ -149,6 +150,14 @@
 <!-- 
 * Here you can add project license for copyrights and distribution 
 * 
+* check this website for an easy reference https://choosealicense.com/)
+-->
+
+- [MIT License](./LICENSE.txt)
+
+
+<!-- - Use this html element to create a back to top button. -->
+<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 * check this website for an easy reference https://choosealicense.com/)
 -->
 
