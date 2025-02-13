@@ -1,0 +1,23 @@
+{
+  "name": "blok-tech",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">\r     <a href=\"https://github.com/YousefIbrahimismail/Project-README-Template/blob/main/LICENSE.txt\"><img alt=\"GitHub license\" src=\"https://img.shields.io/github/license/YousefIbrahimismail/Project-README-Template?color=ff69b4&style=for-the-badge\"></a>\r </div>\r <br>",
+  "homepage": "https://github.com/L1ttl3G4m3r/Blok-Tech#readme",
+  "bugs": {
+    "url": "https://github.com/L1ttl3G4m3r/Blok-Tech/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L1ttl3G4m3r/Blok-Tech.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
