@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/style.css" />
+    <title><%= data.title %> - Movie Site</title>
+  </head>
+  <body>
+    <%- include('menu.ejs') %>
+    <h1><%= data.title %></h1>
+    <h2>Welcome, <%= username %>!</h2>
+    <p><%= data.description %></p>
+    <p><a href="/">Back to list</a></p>
+  </body>
+</html>
