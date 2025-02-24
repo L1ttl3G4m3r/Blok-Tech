@@ -75,14 +75,11 @@
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-* Next
-* React
-* Vue
-* Angular
-* Svelte
-* Laravel
-* Bootstrap
-* JQuery
+* HTML
+* CSS
+* JavaScript
+* NodeJS
+* MongoDB
 
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
@@ -109,32 +106,26 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 ## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+- [x] Concept bedenken
+- [ ] 5 job stories p.p.
+- [ ] Test
+    - [ ] Test 1
+    - [ ] Test 2
 
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
 
 
 ## Documentation<!-- Optional -->
-<!-- 
-* You may add any documentation or Wikis here
-* 
-* 
--->
-<a href src="https://www.figma.com/design/3OAuN2IeLESEPVOFF2RBT9/Lowfi-wireframes-Tech?node-id=0-1&t=A8jp3HvrXiEzE0TN-1">Link naar Figma</a>
 
+### Links to different platforms we use
+<a href src="https://www.figma.com/design/3OAuN2IeLESEPVOFF2RBT9/Lowfi-wireframes-Tech?node-id=0-1&t=A8jp3HvrXiEzE0TN-1">Link naar Figma</a>
+<a href src="">Test Link</a>
+
+### General documentation
+<!-- Hier alle info die we samen besproken hebben.-->
 
 ## Contributors<!-- Required -->
-
-### Top contributors:
 
 <a href="https://github.com/L1ttl3G4m3r/Blok-Tech/contributors">
   <img src="https://contrib.rocks/image?repo=othneildrew/Best-README-Template" alt="contrib.rocks image" />
@@ -147,33 +138,22 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Test](hier een link plaatsen)
 
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
 
 
 ## Feedback<!-- Required -->
-<!-- 
-* You can add contacts information like your email and social media account 
-* 
-* Also it's common to add some PR guidance.
--->
+<!--Hier alle feedback momenten weergeven.-->
 
 ## Contact<!-- Required -->
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Kaylee Hoek - kaylee.hoek@hva.nl
 Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/L1ttl3G4m3r/Blok-Tech](https://github.com/L1ttl3G4m3r/Blok-Tech)
 
 
 ## License<!-- Optional -->
@@ -183,8 +163,6 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 
 <!-- - Use this html element to create a back to top button. -->
 <p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
-* check this website for an easy reference https://choosealicense.com/)
--->
 
 
 <!-- - Use this html element to create a back to top button. -->
