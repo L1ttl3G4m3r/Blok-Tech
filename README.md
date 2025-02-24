@@ -13,7 +13,7 @@
 -->
 <div align="center">
     <a href="your_github_user_name" target="_blank">
-        <img src="https://user-images.githubusercontent.com/59213365/198116794-365cd9b5-e705-4111-a249-85ed713b9c87.jpg" 
+        <img src="https://i.pinimg.com/1200x/80/d7/9c/80d79ccdfc71b6695a94b3e2f1ae7305.jpg" 
         alt="Logo" height="300" width="auto">
     </a>
 </div>
