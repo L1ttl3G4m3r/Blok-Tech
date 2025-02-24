@@ -40,7 +40,7 @@
 
 
 <!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
 ## Over
@@ -60,7 +60,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * NodeJS
 * MongoDB
 
-<p align="right"><a href="#how-to-use-this-project">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
 ## Aan de slag
@@ -78,7 +78,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
     - [ ] Test 1
     - [ ] Test 2
 
-<p align="right"><a href="#how-to-use-this-project">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
 
@@ -97,14 +97,14 @@ This section should list any major frameworks/libraries used to bootstrap your p
   <img src="https://contrib.rocks/image?repo=othneildrew/Best-README-Template" alt="contrib.rocks image" />
 </a>
 
-<p align="right"><a href="#how-to-use-this-project">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
 ## Dankbetuigingen
 <!--Gebruik deze plek voor bronnen en helpvolle informatie die je hebt vergaard-->
 * [Test woord](hier een link plaatsen)
 
-<p align="right"><a href="#how-to-use-this-project">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
 ## Feedback
@@ -124,10 +124,5 @@ Project Link: [https://github.com/L1ttl3G4m3r/Blok-Tech](https://github.com/L1tt
 
 - [MIT Licensie](./LICENSE.txt)
 
-
 <!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">Terug naar boven ⬆️</a></p>
-
-
-<!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
