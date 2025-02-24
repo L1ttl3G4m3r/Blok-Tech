@@ -118,6 +118,8 @@ Alle ideeën + uitleg:
 * _Game concept_ = Door voorkeuren een concept voor een game samenstellen. Dit leek ons moeilijk en naast de uitdaging in coderen zagen we al dat er niet een directe API is die zich hierop kan aansluiten.
 * _Sport achterhalen + mensen ontmoeten_ = Een nieuwe sport ontdekken en in die sport andere mensen ontmoeten met dezelfde interesse in de sport. Deze hebben we niet gekozen omdat deze ons ook saai leek. Hier lagen ook meerendeel van onze interesses of motivatie niet.
 
+Ons gekozen concept is dus Tattoo samenstellen. voor de data API dachten we aan Picsart's AI Tattoo Generator. Pinterest zal ons helpen voor ideeën maar deze website heeft geen aparte API.
+
 Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. De volgende job stories zijn een **requirement list** geworden:
 * .
 * .
