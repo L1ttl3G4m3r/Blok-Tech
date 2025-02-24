@@ -129,7 +129,7 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 * 
 * 
 -->
-<a href src="https://www.figma.com/design/3OAuN2IeLESEPVOFF2RBT9/Lowfi-wireframes-Tech?node-id=0-1&t=A8jp3HvrXiEzE0TN-1">
+<a href src="https://www.figma.com/design/3OAuN2IeLESEPVOFF2RBT9/Lowfi-wireframes-Tech?node-id=0-1&t=A8jp3HvrXiEzE0TN-1">Link naar Figma</a>
 
 
 ## Contributors<!-- Required -->
