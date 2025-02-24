@@ -1,3 +1,19 @@
+const { MongoClient } = require("mongodb");
+const uri = PerformanceObserverEntryList.env.URI;
+const client = new MongoClient(uri);
+const db = client.db(process.env.DB_NAME);
+
+async function connectDB(){
+  try {
+    await client.connect();
+    console.log("Client connected to database");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+connectDB();
+
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
