@@ -137,11 +137,11 @@ _Job stories Tess_
 5. Wanneer ik twijfel over de betekenis van een symbool, wil ik dat de website mij daar informatie over geeft, zodat ik een ontwerp kies dat echt bij mij past.
 
 _Job stories Christian_
-Wanneer ik een tattoo selecteer wil ik deze kunnen sturen naar anderen, zodat ik het kan delen met vrienden. 
-Wanneer ik bij mijn profiel kijk wil ik al mijn opgeslagen tattoos zien, zodat ik in 1 oogopslag alles zie wat ik heb geliked. 
-Wanneer ik een tattoo selecteer wil ik een mapje maken waarin ik soort gelijke tattoos stop, zodat ik mijn verschillende ideeën of smaken kan ordenen. 
-Wanneer ik een tattoo selecteer met tekst wil ik een optie om dit te vertalen, zodat ik zeker weet wat er staat.  
-Wanneer ik filter wil ik eenvoudig mijn filters uit kunnen zetten, zodat ik niet hoef te zoeken tussen de filter opties.  
+1. Wanneer ik een tattoo selecteer wil ik deze kunnen sturen naar anderen, zodat ik het kan delen met vrienden. 
+2. Wanneer ik bij mijn profiel kijk wil ik al mijn opgeslagen tattoos zien, zodat ik in 1 oogopslag alles zie wat ik heb geliked. 
+3. Wanneer ik een tattoo selecteer wil ik een mapje maken waarin ik soort gelijke tattoos stop, zodat ik mijn verschillende ideeën of smaken kan ordenen. 
+4. Wanneer ik een tattoo selecteer met tekst wil ik een optie om dit te vertalen, zodat ik zeker weet wat er staat.  
+5. Wanneer ik filter wil ik eenvoudig mijn filters uit kunnen zetten, zodat ik niet hoef te zoeken tussen de filter opties.  
 
 
 ## Ontwikkelaars
