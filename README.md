@@ -129,6 +129,13 @@ _Job stories Mick_
 4. Wanneer ik een voorbeeld van een tattoo zie wil ik de kleur en grootte kunnen aanpassen zodat de tattoo wat persoonlijker wordt.
 5. Wanneer ik een idee van een tattoo heb gezien wil ik een overzicht van tattooshops bij mij in de buurt zodat ik snel een afspraak kan maken.
 
+_Job stories Tess_
+1. Wanneer ik aan het filteren ben, wil ik met plaatjes zien wat de website bedoelt, zodat ik zeker weet waar ik voor kies.
+2. Wanneer ik aan het scrollen ben door mijn resultaten van de zoekopdracht, wil ik kunnen sorteren op de geschatte prijs van de tattoo.
+3. Wanneer ik aan het scrollen ben door mijn resultaten van de zoekopdracht, wil ik makkelijk mijn filters kunnen verwijderen/aanpassen, zodat ik scherper/nauwkeuriger mijn zoekresultaten krijg.
+4. Wanneer ik op een plaatje klik, wil ik nog een aantal gerelateerde plaatjes te zien krijgen onderaan, zodat ik niet nog meer hoef te scrollen door de resultaten van de zoekopdracht.
+5. Wanneer ik twijfel over de betekenis van een symbool, wil ik dat de website mij daar informatie over geeft, zodat ik een ontwerp kies dat echt bij mij past.
+
 ## Ontwikkelaars
 
 <a href="https://github.com/L1ttl3G4m3r/Blok-Tech/contributors">
