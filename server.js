@@ -7,12 +7,9 @@ const port = 8000;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.set('view engine', 'ejs') .set('views', 'view');
+app.set('view engine', 'ejs')
+   .set('views', 'view');
 app.use("/static", express.static("static"));
-app.get("/", onhome)
-.post("/klaar", onhome2).listen(port, () => {
-  console.log('connected top port ${port}')
-})
 
 const { MongoClient, ObjectId } = require('mongodb')
 const uri = process.env.URI;
@@ -31,15 +28,10 @@ async function run(){
 
 run();
 
-app.get("/register", onhome);
-app.get("/klaar", onhome2);
-app.listen(8000);
-
 function onhome(req, res) {
   res.render("register.ejs")
 }
 
-app.post("/klaar", onhome2)
 async function onhome2(req, res){
   console.log(req.body);
 
@@ -49,6 +41,14 @@ async function onhome2(req, res){
     const result = await collection.insertOne(formData);
     res.render("klaar.ejs", req.body);
   } catch(error){
-    console.error("Error ocurred while inserting:", error);
+    console.error("Error occurred while inserting:", error);
+    res.status(500).send("An error occurred");
   }
 }
+
+app.get("/", onhome);
+app.post("/klaar", onhome2);
+
+app.listen(port, () => {
+  console.log(`Connected to port ${port}`);
+});
