@@ -1,48 +1,54 @@
-require('dotenv').config() 
+require('dotenv').config();
 
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const port = 8000;
 
-app
-  .use(express.urlencoded({extended: true}))
-  .use(express.static('static'))
-  .set('view engine', 'ejs')
-  .set('views', 'view')
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-const { MongoClient, ServerApiVersion, ObjectId, Collection } = require('mongodb')
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
-
-const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
+app.set('view engine', 'ejs') .set('views', 'view');
+app.use("/static", express.static("static"));
+app.get("/", onhome)
+.post("/klaar", onhome2).listen(port, () => {
+  console.log('connected top port ${port}')
 })
 
-client.connect()
-  .then(() => {
-    console.log('Database connection established')
-  })
-  .catch((err) => {
-    console.log(`Database connection error - ${err}`)
-    console.log(`For uri - ${uri}`)
-  })
+const { MongoClient, ObjectId } = require('mongodb')
+const uri = process.env.URI;
+const client = new MongoClient(uri);
+const db = client.db(process.env.DB_NAME);
+const collection = db.collection(process.env.DB_collection)
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+async function run(){
+  try {
+    await client.connect();
+    console.log("Client connected to database");
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-app.use((req, res) => {
-  console.error('404 error at URL: ' + req.url)
-  res.status(404).send('404 error at URL: ' + req.url)
-})
+run();
 
-app.use((err, req, res) => {
-  console.error(err.stack)
-  res.status(500).send('500: server error')
-})
+app.get("/", onhome);
+app.get("pages/register", register);
+app.listen(8000);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Now my webserver is listening at port ${process.env.PORT}`)
-})
+function onhome(req, res) {
+  res.render("index.ejs")
+}
+
+app.post("/klaar", onhome2)
+async function onhome2(req, res){
+  console.log(req.body);
+
+  try{
+    const collection = db.collection('users');
+    const formData = req.body;
+    const result = await collection.insertOne(formData);
+    res.render("klaar.ejs", req.body);
+  } catch(error){
+    console.error("Error ocurred while inserting:", error);
+  }
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <header>
+
+    </header>
+    <body>
+        <div class="container">
+            <h2>Register</h2>
+            <form action="/register" id="aanmaakform" method="POST">                
+                <label for="gebruikersnaam">gebruikersnaam:</label>
+                <input type="text" name="gebruikersnaam" id="gebruikersnaam" required>
+
+                <label for="wachtwoord">wachtwoord:</label>
+                <input type="password" name="wachtwoord" id="wachtwoord" required>
+                
+                <label for="email">e-mail:</label>
+                <input type="email" name="email" id="email" required>
+                
+                <label for="leeftijd">leeftijd:</label>
+                <input type="number" name="leeftijd" id="leeftijd" required>
+
+                <label for="datum">dag van aanmaak:</label>
+                <input type="date" name="datum" id="datum" required>
+                
+                <label for="kleur">favoriete kleur:</label>
+                <input type="color" name="color" id="kleur">
+
+                <button type="submit">Maak gebruiker aan</button>
+                <button type="reset">Begin opnieuw</button>
+            </form>
+        </div>
+    </body>
+    <footer>
+        
+    </footer>
+</body>
+</html>
