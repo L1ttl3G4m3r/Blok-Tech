@@ -11,7 +11,7 @@ app.set('view engine', 'ejs') .set('views', 'view');
 app.use("/static", express.static("static"));
 app.get("/", onhome)
 .post("/klaar", onhome2).listen(port, () => {
-  console.log('connected top port ${port}')
+  console.log('connected to port ${port}')
 })
 
 const { MongoClient, ObjectId } = require('mongodb')
