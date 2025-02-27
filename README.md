@@ -147,7 +147,7 @@ _Job stories Christian_
 ## Ontwikkelaars
 
 <a href="https://github.com/L1ttl3G4m3r/Blok-Tech/contributors">
-  <img src="." alt="alle ontwikkelaars" />
+  <img src="https://github.com/user-attachments/assets/c6bb56ff-0e88-4e87-96a0-202d1629e354" alt="alle ontwikkelaars" />
 </a>
 
 <p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
