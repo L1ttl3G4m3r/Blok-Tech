@@ -73,10 +73,8 @@ This section should list any major frameworks/libraries used to bootstrap your p
 ## Project Voortgang
 
 - [x] Concept bedenken
-- [ ] 5 job stories p.p.
-- [ ] Test
-    - [ ] Test 1
-    - [ ] Test 2
+- [x] 5 job stories p.p.
+- [ ] Lo-Fi wireframes
 
 <p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
@@ -123,15 +121,53 @@ Ons gekozen concept is dus Tattoo samenstellen. voor de data API dachten we aan 
 Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. De volgende job stories zijn een **requirement list** geworden:
 <table align="left">
         <tr>
-            <td>*List of requirements*</td>        
-            <td></td>
-            <td></td>
+            <td>*List of requirements*</td>
+            <td>*Moscow methode*</td>
+        </tr>
+        <tr>      
+            <td>Preview van Tattoo</td>
             <td></td>
         </tr>
-        <tr>
-            <td>*Moscow methode*</td>        
+        <tr>      
+            <td>Eigen font kiezen</td>
             <td></td>
+        </tr>    
+            <td>Tatoo ideeën opslaan</td>
             <td></td>
+        </tr>
+        <tr>      
+            <td>Kleur en grootte van tattoo aanpassen</td>
+            <td></td>
+        </tr>    
+            <td>Overzicht tattooshops/artiesten</td>
+            <td></td>
+        </tr>
+        <tr>      
+            <td>Afbeeldingen voor verduidelijking</td>
+            <td></td>
+        </tr>
+        <tr>      
+            <td>Sorteren op prijs</td>
+            <td></td>
+        </tr>
+        <tr>      
+            <td>Filters kunnen verwijderen en/of aanpassen</td>
+            <td></td>
+        </tr>
+        <tr>      
+            <td>Gerelateerde content verkrijgen</td>
+            <td></td>
+        </tr>
+        <tr>      
+            <td>Informatie over symbolen</td>
+            <td></td>
+        </tr>
+        <tr>      
+            <td>Op generatie suggesties krijgen</td>
+            <td></td>
+        </tr>
+        <tr>      
+            <td>Stijlen en ideeën vergelijken</td>
             <td></td>
         </tr>
 </table>
@@ -142,20 +178,6 @@ _Job stories Mick_
 3. Wanneer ik een mooi idee van een tattoo zie wil ik dit kunnen opslaan zodat ik later kan terugzien wat ik leuk vind.
 4. Wanneer ik een voorbeeld van een tattoo zie wil ik de kleur en grootte kunnen aanpassen zodat de tattoo wat persoonlijker wordt.
 5. Wanneer ik een idee van een tattoo heb gezien wil ik een overzicht van tattooshops bij mij in de buurt zodat ik snel een afspraak kan maken.
-
-_Job stories Tess_
-1. Wanneer ik aan het filteren ben, wil ik met plaatjes zien wat de website bedoelt, zodat ik zeker weet waar ik voor kies.
-2. Wanneer ik aan het scrollen ben door mijn resultaten van de zoekopdracht, wil ik kunnen sorteren op de geschatte prijs van de tattoo.
-3. Wanneer ik aan het scrollen ben door mijn resultaten van de zoekopdracht, wil ik makkelijk mijn filters kunnen verwijderen/aanpassen, zodat ik scherper/nauwkeuriger mijn zoekresultaten krijg.
-4. Wanneer ik op een plaatje klik, wil ik nog een aantal gerelateerde plaatjes te zien krijgen onderaan, zodat ik niet nog meer hoef te scrollen door de resultaten van de zoekopdracht.
-5. Wanneer ik twijfel over de betekenis van een symbool, wil ik dat de website mij daar informatie over geeft, zodat ik een ontwerp kies dat echt bij mij past.
-
-_Job stories Kaylee_
-1. Wanneer ik een tattoo overweeg, wil ik op basis van mijn levensfase suggesties krijgen, zodat mijn tattoo niet alleen bij mijn smaak, maar ook bij mijn persoonlijke groei past.
-2. Wanneer ik een unieke tattoo wil, wil ik suggesties krijgen voor minder gebruikelijke lichaamsplekken en hoe die het ontwerp beïnvloeden, zodat ik een opvallende en persoonlijke keuze kan maken.
-3. Wanneer ik een tattoo ontwerp heb dat ik mooi vind, wil ik kunnen zien welke tattoo-artiesten gespecialiseerd zijn in deze stijl, zodat ik de juiste persoon kan kiezen om mijn idee tot leven te brengen.
-4. Wanneer ik een tattoo wil laten zetten met een persoonlijke betekenis, wil ik geholpen worden met het vertalen van mijn verhaal naar een passend ontwerp, zodat mijn tattoo echt iets voor mij betekent.
-5. Wanneer ik moeite heb met het kiezen van een tattoo, wil ik verschillende stijlen en ideeën kunnen vergelijken, zodat ik zeker weet dat mijn keuze bij mij past en ik hier geen spijt van krijg.
 
 
 ## Ontwikkelaars
