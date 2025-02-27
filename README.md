@@ -202,7 +202,7 @@ Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. 
 
 **Feedback moment 1:**
 
-Vragen:
+Algemene Vragen:
 * Wat vinden jullie van de won't have?
 * Missen we informatie of iets in onze wiki's tot nu toe?
 * Wat vinden jullie van ons concept?
