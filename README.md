@@ -63,12 +63,6 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
-## Aan de slag
--
--
--
-
-
 
 ## Project Voortgang
 
@@ -210,13 +204,13 @@ Algemene Vragen:
 
 ## Contact
 
-Kaylee Hoek - kaylee.hoek@hva.nl
+Kaylee Hoek (Back-end) - kaylee.hoek@hva.nl
 
-Christian de With - christian.de.with@hva.nl
+Christian de With (Back-end) - christian.de.with@hva.nl
 
-Tess Wieman - tess.wieman@hva.nl
+Tess Wieman (Front-end) - tess.wieman@hva.nl
 
-Your Name - email@example.com
+Mick van der Linden (Front-end) - email@example.com
 
 
 Project Link: [https://github.com/L1ttl3G4m3r/Blok-Tech](https://github.com/L1ttl3G4m3r/Blok-Tech)
