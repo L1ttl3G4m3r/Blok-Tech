@@ -4,188 +4,182 @@
 <br>
 
 
-<!-- Logo Section  --> <!-- Required -->
-
-<!--
-* Insert your github profile URL in the <a> "href" attribute bellow (line-25)
-* 
-* Insert an image URL in the <img> "src" attribute bellow. (line-26)
--->
+<!-- Logo Section  -->
 <div align="center">
     <a href="your_github_user_name" target="_blank">
-        <img src="https://user-images.githubusercontent.com/59213365/198116794-365cd9b5-e705-4111-a249-85ed713b9c87.jpg" 
+        <img src="https://i.pinimg.com/1200x/80/d7/9c/80d79ccdfc71b6695a94b3e2f1ae7305.jpg" 
         alt="Logo" height="300" width="auto">
     </a>
 </div>
 
 
-<!-- Project title 
-* use a dynamic typing-SvG here https://readme-typing-svg.demolab.com/demo/
-*
-*  Instead you can type your project name after a # header
--->
-
+<!-- Project title-->
 <div align="center">
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=4000&pause=5000&background=FFFFFF00&center=true&vCenter=true&multiline=true&width=435&lines=Vivid-Project-Readme-Template!">
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=4000&pause=5000&background=FFFFFF00&center=true&vCenter=true&multiline=true&width=435&lines=Tattoo-Project">
 </div>
 
 
-## Table of Contents<!-- Optional -->
-<!-- 
-* This section is optional, yet having a contents table 
-* helps keeping your README readable and more professional.
-* 
-* If you are not familiar with HTML, no worries we all been there :D 
-* Review learning resources to create anchor links. 
--->
-
-
+## Inhoudsopgave
 <dev align="center">
 <table align="center">
         <tr>
-            <td><a href="#about">About</a></td>        
-            <td><a href="#how-to-use-this-project">Getting started</td>
-            <td><a href="#demo">Demo</a></td>
-            <td><a href="#project-roadmap--">Project Roadmap</a></td>
-            <td><a href="#documentation">Documentation</a></td>
+            <td><a href="#over">Over</a></td>        
+            <td><a href="#aan-de-slag">Aan de slag</td>
+            <td><a href="#project-voortgang">Project Voortgang</a></td>
+            <td><a href="#documentatie">Documentatie</a></td>
         </tr>
         <tr>
-            <td><a href="#contributors">Contributors</a></td>
-            <td><a href="#acknowledgments">Acknowledgments</a></td>
+            <td><a href="#ontwikkelaars">Ontwikkelaars</a></td>
+            <td><a href="#dankbetuigingen">Dankbetuigingen</a></td>
             <td><a href="#feedback">Feedback</a></td>
             <td><a href="#contact">Contact</a></td>
-            <td><a href="#license">License</a></td>
+            <td><a href="#licensie">Licensie</a></td>
         </tr>
 </table>
 </dev>
 
 
 <!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
-## About<!-- Required -->
+## Over
 <!-- 
 * information about the project 
 * 
 * keep it short and sweet
 -->
 
-### Built With
+### Gemaakt met
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-* Next
-* React
-* Vue
-* Angular
-* Svelte
-* Laravel
-* Bootstrap
-* JQuery
+* HTML
+* CSS
+* JavaScript
+* NodeJS
+* MongoDB
 
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
-## How to use this project<!-- Required -->
-<!-- 
-* Here you may add information about how 
-* 
-* and why to use this project.
--->
+## Aan de slag
 -
 -
 -
 
 
-## Demo<!-- Required -->
-<!-- 
-* You can add a demo here GH supports images/ GIFs/videos 
-* 
-* It's recommended to use GIFs as they are more dynamic
--->
+
+## Project Voortgang
+
+- [x] Concept bedenken
+- [ ] 5 job stories p.p.
+- [ ] Test
+    - [ ] Test 1
+    - [ ] Test 2
+
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
 
-## Roadmap
+## Documentatie
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
-
-
-
-## Documentation<!-- Optional -->
-<!-- 
-* You may add any documentation or Wikis here
-* 
-* 
--->
+### Links naar verschillende platformen die wij gebruiken
 <a href src="https://www.figma.com/design/3OAuN2IeLESEPVOFF2RBT9/Lowfi-wireframes-Tech?node-id=0-1&t=A8jp3HvrXiEzE0TN-1">Link naar Figma</a>
 
+<a href src="">Test Link</a>
 
-## Contributors<!-- Required -->
+### Algemene documentatie
+<!-- Hier alle info die we samen besproken hebben.-->
+#### Week 3
+**Fase 1**: Oriënteren
+Bepaal welke gebruikersbelangen een rol spelen in dit ontwerpproces en welke technische eisen er aan het prototype worden gesteld vanuit de opdracht.
 
-### Top contributors:
+_Gebruikersbelangen_
+* Relevantie en nauwkeurigheid
+* gegevensbescherming
+* gebruikersvriendelijkheid
+* sociale interactie
+* platformonafhankelijkheid
+
+_Technische analyse_
+* Mobiel eerst -> daarna kijken voor andere mogelijkheden
+* Account aanmaken
+* Selecteren / Filteren / Sorteren
+
+**Fase 2**: Conceptualiseren
+Alle ideeën + uitleg:
+* _Huisdieren + daten_ = Het idee is om dan d.m.v. huisdieren een partner te vinden. Als je huisdieren matchen moet dat met de baasjes ook goed komen. Wij hebben deze alleen uiteindelijk niet gekomen omdat het voornamelijk met de data een ding kon worden aangezien er geen API is met deze specifieke data.
+* _Studiepartner matchen_ = Door interesses te volgen en te filteren op studies je perfecte studie date te vinden. Ook deze hebben wij niet gekozen vanwege dezelfde reden dat deze niet makkelijk te koppelen zal zijn met een API en dat vonden wij bij het bepalen van het concept belangrijk.
+* _Game matchen_ = Door verschillende onderdelen te selecteren op een nieuwe game komen die je kunt gaan spelen. Dit idee was leuk en zat ook zeker in onze top 3, maar we dachten dat deze wellicht gekozen zou kunnen worden door een ander team en vonden het daarbij iets te voor de hand liggend.
+* _Bier/Wijn muziek match_ = Het matchen van muziek d.m.v. jouw smaak in drank. Behalve dat we weinig API konden vinden die hierop aansloten voor alle dranksoorten hadden wij ook het idee dat dit concept te veel ging lijken op een idee wat een ander team al had.
+* _Vakantie inspiratie matching_ = Dit idee was wel een leuk idee, maar vonden wij iets te saai om te doen. Er zijn in de huidige maatschappij al een hoop van soortgelijke apps of websites die hierop ingesteld kunnen worden of zijn.
+* **Tattoo samenstellen** = Door interesses en voorkeuren een aantal ideeën voorgeschoteld krijgen om zo makkelijker te kunnen bepalen welke tattoo mensen willen zetten. Dit idee hebben we gekozen vanwege orginaliteit. Het is uniek en geeft ons de kans om desondanks de specificering toch veel kanten op te kunnen die ons uitdaging gaan kunnen geven.
+* _Game concept_ = Door voorkeuren een concept voor een game samenstellen. Dit leek ons moeilijk en naast de uitdaging in coderen zagen we al dat er niet een directe API is die zich hierop kan aansluiten.
+* _Sport achterhalen + mensen ontmoeten_ = Een nieuwe sport ontdekken en in die sport andere mensen ontmoeten met dezelfde interesse in de sport. Deze hebben we niet gekozen omdat deze ons ook saai leek. Hier lagen ook meerendeel van onze interesses of motivatie niet.
+
+Ons gekozen concept is dus Tattoo samenstellen. voor de data API dachten we aan Picsart's AI Tattoo Generator. Pinterest zal ons helpen voor ideeën maar deze website heeft geen aparte API.
+
+Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. De volgende job stories zijn een **requirement list** geworden:
+
+_Job stories Mick_
+1. Wanneer ik een tattoo heb uitgekozen wil ik een preview kunnen zien zodat ik een goed beeld krijg van hoe de tattoo er op mijn lichaam uitziet.
+2. Wanneer ik een tekst als tattoo wil ik een eigen font kunnen kiezen zodat de tattoo persoonlijker wordt.
+3. Wanneer ik een mooi idee van een tattoo zie wil ik dit kunnen opslaan zodat ik later kan terugzien wat ik leuk vind.
+4. Wanneer ik een voorbeeld van een tattoo zie wil ik de kleur en grootte kunnen aanpassen zodat de tattoo wat persoonlijker wordt.
+5. Wanneer ik een idee van een tattoo heb gezien wil ik een overzicht van tattooshops bij mij in de buurt zodat ik snel een afspraak kan maken.
+
+_Job stories Tess_
+1. Wanneer ik aan het filteren ben, wil ik met plaatjes zien wat de website bedoelt, zodat ik zeker weet waar ik voor kies.
+2. Wanneer ik aan het scrollen ben door mijn resultaten van de zoekopdracht, wil ik kunnen sorteren op de geschatte prijs van de tattoo.
+3. Wanneer ik aan het scrollen ben door mijn resultaten van de zoekopdracht, wil ik makkelijk mijn filters kunnen verwijderen/aanpassen, zodat ik scherper/nauwkeuriger mijn zoekresultaten krijg.
+4. Wanneer ik op een plaatje klik, wil ik nog een aantal gerelateerde plaatjes te zien krijgen onderaan, zodat ik niet nog meer hoef te scrollen door de resultaten van de zoekopdracht.
+5. Wanneer ik twijfel over de betekenis van een symbool, wil ik dat de website mij daar informatie over geeft, zodat ik een ontwerp kies dat echt bij mij past.
+
+_Job stories Christian_
+1. Wanneer ik een tattoo selecteer wil ik deze kunnen sturen naar anderen, zodat ik het kan delen met vrienden. 
+2. Wanneer ik bij mijn profiel kijk wil ik al mijn opgeslagen tattoos zien, zodat ik in 1 oogopslag alles zie wat ik heb geliked. 
+3. Wanneer ik een tattoo selecteer wil ik een mapje maken waarin ik soort gelijke tattoos stop, zodat ik mijn verschillende ideeën of smaken kan ordenen. 
+4. Wanneer ik een tattoo selecteer met tekst wil ik een optie om dit te vertalen, zodat ik zeker weet wat er staat.  
+5. Wanneer ik filter wil ik eenvoudig mijn filters uit kunnen zetten, zodat ik niet hoef te zoeken tussen de filter opties.  
+
+
+## Ontwikkelaars
 
 <a href="https://github.com/L1ttl3G4m3r/Blok-Tech/contributors">
-  <img src="https://contrib.rocks/image?repo=othneildrew/Best-README-Template" alt="contrib.rocks image" />
+  <img src="." alt="alle ontwikkelaars" />
 </a>
 
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
-## Acknowledgments<!-- Optional -->
+## Dankbetuigingen
+<!--Gebruik deze plek voor bronnen en helpvolle informatie die je hebt vergaard-->
+* [Test woord](hier een link plaatsen)
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
-## Feedback<!-- Required -->
-<!-- 
-* You can add contacts information like your email and social media account 
-* 
-* Also it's common to add some PR guidance.
--->
+## Feedback
+<!--Hier alle feedback momenten weergeven.-->
 
-## Contact<!-- Required -->
+## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Kaylee Hoek - kaylee.hoek@hva.nl
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Christian de With - christian.de.with@hva.nl
+
+Your Name - email@example.com
+
+Your Name - email@example.com
 
 
-## License<!-- Optional -->
+Project Link: [https://github.com/L1ttl3G4m3r/Blok-Tech](https://github.com/L1ttl3G4m3r/Blok-Tech)
 
-- [MIT License](./LICENSE.txt)
 
+## Licensie
+
+- [MIT Licensie](./LICENSE.txt)
 
 <!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
-* check this website for an easy reference https://choosealicense.com/)
--->
-
-
-<!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
