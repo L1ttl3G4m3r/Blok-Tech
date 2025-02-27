@@ -199,7 +199,9 @@ Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. 
 
 ## Feedback
 <!--Hier alle feedback momenten weergeven.-->
+
 **Feedback moment 1:**
+
 Vragen:
 * Wat vinden jullie van de won't have?
 * Missen we informatie of iets in onze wiki's tot nu toe?
