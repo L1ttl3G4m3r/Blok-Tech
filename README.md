@@ -121,8 +121,8 @@ Ons gekozen concept is dus Tattoo samenstellen. voor de data API dachten we aan 
 Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. De volgende job stories zijn een **requirement list** geworden:
 <table align="center">
             <tr>
-                <td>**List of requirements**</td>
-                <td>**Moscow methode**</td>
+                <td>*List of requirements*</td>
+                <td>*Moscow methode*</td>
             </tr>
             <tr>      
                 <td>Preview van Tattoo</td>
