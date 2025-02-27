@@ -31,8 +31,8 @@ async function run(){
 
 run();
 
-app.get("/", onhome);
-app.get("pages/register", register);
+app.get("/register", onhome);
+app.get("/klaar", onhome2);
 app.listen(8000);
 
 function onhome(req, res) {
