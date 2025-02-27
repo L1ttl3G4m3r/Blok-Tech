@@ -50,7 +50,7 @@
 * keep it short and sweet
 -->
 
-### Gemaakt met
+## Gemaakt met
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
@@ -121,8 +121,8 @@ Ons gekozen concept is dus Tattoo samenstellen. voor de data API dachten we aan 
 Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. De volgende job stories zijn een **requirement list** geworden:
 <table align="center">
         <tr>
-            <td>*List of requirements*</td>
-            <td>*Moscow methode*</td>
+            <td><strong>List of requirements</strong></td>
+            <td><strong>Moscow methode</strong></td>
         </tr>
         <tr>      
             <td>Preview van Tattoo</td>
@@ -204,7 +204,7 @@ Vragen:
 * Wat vinden jullie van de won't have?
 * Missen we informatie of iets in onze wiki's tot nu toe?
 * Wat vinden jullie van ons concept?
-* Wat moeten de frontenders en backenders doen (apart) om een voldoende te krijgen?
+
 
 ## Contact
 
