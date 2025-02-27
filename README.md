@@ -213,6 +213,7 @@ Tess Wieman (Front-end) - tess.wieman@hva.nl
 Mick van der Linden (Front-end) - email@example.com
 
 
+
 Project Link: [https://github.com/L1ttl3G4m3r/Blok-Tech](https://github.com/L1ttl3G4m3r/Blok-Tech)
 
 
