@@ -119,65 +119,66 @@ Alle ideeën + uitleg:
 Ons gekozen concept is dus Tattoo samenstellen. voor de data API dachten we aan Picsart's AI Tattoo Generator. Pinterest zal ons helpen voor ideeën maar deze website heeft geen aparte API.
 
 Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. De volgende job stories zijn een **requirement list** geworden:
-<table align="left">
-        <tr>
-            <td>*List of requirements*</td>
-            <td>*Moscow methode*</td>
-        </tr>
-        <tr>      
-            <td>Preview van Tattoo</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Eigen font kiezen</td>
-            <td></td>
-        </tr>    
-            <td>Tatoo ideeën opslaan</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Kleur en grootte van tattoo aanpassen</td>
-            <td></td>
-        </tr>    
-            <td>Overzicht tattooshops/artiesten</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Afbeeldingen voor verduidelijking</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Sorteren op prijs</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Filters kunnen verwijderen en/of aanpassen</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Gerelateerde content verkrijgen</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Informatie over symbolen</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Op generatie suggesties krijgen</td>
-            <td></td>
-        </tr>
-        <tr>      
-            <td>Stijlen en ideeën vergelijken</td>
-            <td></td>
-        </tr>
-</table>
+    <table align="center">
+            <tr>
+                <td>*List of requirements*</td>
+                <td>*Moscow methode*</td>
+            </tr>
+            <tr>      
+                <td>Preview van Tattoo</td>
+                <td>Could have</td>
+            </tr>
+            <tr>      
+                <td>Eigen font kiezen</td>
+                <td>Should have</td>
+            </tr>    
+                <td>Tattoo ideeën opslaan</td>
+                <td>Must have</td>
+            </tr>
+            <tr>      
+                <td>Kleur en grootte van tattoo aanpassen</td>
+                <td>Could have</td>
+            </tr>    
+                <td>Overzicht tattooshops/artiesten</td>
+                <td>Should have</td>
+            </tr>
+            <tr>      
+                <td>Afbeeldingen voor verduidelijking</td>
+                <td>Must have</td>
+            </tr>
+            <tr>      
+                <td>Sorteren op prijs</td>
+                <td>Should have</td>
+            </tr>
+            <tr>      
+                <td>Filters kunnen verwijderen en/of aanpassen</td>
+                <td>Must have</td>
+            </tr>
+            <tr>      
+                <td>Gerelateerde content verkrijgen</td>
+                <td>Should have</td>
+            </tr>
+            <tr>      
+                <td>Informatie over symbolen + vertalingen</td>
+                <td>Should have</td>
+            </tr>
+            <tr>      
+                <td>Op generatie suggesties krijgen</td>
+                <td>Could have</td>
+            </tr>
+            <tr>      
+                <td>Stijlen en ideeën vergelijken</td>
+                <td>Won't have</td>
+            </tr>
+            <tr>      
+                <td>Delen met anderen</td>
+                <td>Could have</td>
+            </tr>
+    </table>
 
-_Job stories Mick_
-1. Wanneer ik een tattoo heb uitgekozen wil ik een preview kunnen zien zodat ik een goed beeld krijg van hoe de tattoo er op mijn lichaam uitziet.
-2. Wanneer ik een tekst als tattoo wil ik een eigen font kunnen kiezen zodat de tattoo persoonlijker wordt.
-3. Wanneer ik een mooi idee van een tattoo zie wil ik dit kunnen opslaan zodat ik later kan terugzien wat ik leuk vind.
-4. Wanneer ik een voorbeeld van een tattoo zie wil ik de kleur en grootte kunnen aanpassen zodat de tattoo wat persoonlijker wordt.
-5. Wanneer ik een idee van een tattoo heb gezien wil ik een overzicht van tattooshops bij mij in de buurt zodat ik snel een afspraak kan maken.
+
+<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
+
 
 
 ## Ontwikkelaars
