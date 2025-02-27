@@ -214,7 +214,7 @@ Kaylee Hoek - kaylee.hoek@hva.nl
 
 Christian de With - christian.de.with@hva.nl
 
-Your Name - email@example.com
+Tess Wieman - tess.wieman@hva.nl
 
 Your Name - email@example.com
 
