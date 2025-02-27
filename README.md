@@ -24,7 +24,7 @@
 <table align="center">
         <tr>
             <td><a href="#over">Over</a></td>        
-            <td><a href="#aan-de-slag">Aan de slag</td>
+            <td><a href="#aan-de-slag">Aan de slag</a></td>
             <td><a href="#project-voortgang">Project Voortgang</a></td>
             <td><a href="#documentatie">Documentatie</a></td>
         </tr>
@@ -121,6 +121,20 @@ Alle ideeën + uitleg:
 Ons gekozen concept is dus Tattoo samenstellen. voor de data API dachten we aan Picsart's AI Tattoo Generator. Pinterest zal ons helpen voor ideeën maar deze website heeft geen aparte API.
 
 Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. De volgende job stories zijn een **requirement list** geworden:
+<table align="left">
+        <tr>
+            <td>*List of requirements*</td>        
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>*Moscow methode*</td>        
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+</table>
 
 _Job stories Mick_
 1. Wanneer ik een tattoo heb uitgekozen wil ik een preview kunnen zien zodat ik een goed beeld krijg van hoe de tattoo er op mijn lichaam uitziet.
@@ -135,6 +149,13 @@ _Job stories Tess_
 3. Wanneer ik aan het scrollen ben door mijn resultaten van de zoekopdracht, wil ik makkelijk mijn filters kunnen verwijderen/aanpassen, zodat ik scherper/nauwkeuriger mijn zoekresultaten krijg.
 4. Wanneer ik op een plaatje klik, wil ik nog een aantal gerelateerde plaatjes te zien krijgen onderaan, zodat ik niet nog meer hoef te scrollen door de resultaten van de zoekopdracht.
 5. Wanneer ik twijfel over de betekenis van een symbool, wil ik dat de website mij daar informatie over geeft, zodat ik een ontwerp kies dat echt bij mij past.
+
+_Job stories Kaylee_
+1. Wanneer ik een tattoo overweeg, wil ik op basis van mijn levensfase suggesties krijgen, zodat mijn tattoo niet alleen bij mijn smaak, maar ook bij mijn persoonlijke groei past.
+2. Wanneer ik een unieke tattoo wil, wil ik suggesties krijgen voor minder gebruikelijke lichaamsplekken en hoe die het ontwerp beïnvloeden, zodat ik een opvallende en persoonlijke keuze kan maken.
+3. Wanneer ik een tattoo ontwerp heb dat ik mooi vind, wil ik kunnen zien welke tattoo-artiesten gespecialiseerd zijn in deze stijl, zodat ik de juiste persoon kan kiezen om mijn idee tot leven te brengen.
+4. Wanneer ik een tattoo wil laten zetten met een persoonlijke betekenis, wil ik geholpen worden met het vertalen van mijn verhaal naar een passend ontwerp, zodat mijn tattoo echt iets voor mij betekent.
+5. Wanneer ik moeite heb met het kiezen van een tattoo, wil ik verschillende stijlen en ideeën kunnen vergelijken, zodat ik zeker weet dat mijn keuze bij mij past en ik hier geen spijt van krijg.
 
 
 ## Ontwikkelaars
