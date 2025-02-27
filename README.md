@@ -120,60 +120,60 @@ Ons gekozen concept is dus Tattoo samenstellen. voor de data API dachten we aan 
 
 Na het bepalen van het concept zijn wij aan de slag gegaan met **job stories**. De volgende job stories zijn een **requirement list** geworden:
 <table align="center">
-            <tr>
-                <td>*List of requirements*</td>
-                <td>*Moscow methode*</td>
-            </tr>
-            <tr>      
-                <td>Preview van Tattoo</td>
-                <td>Could have</td>
-            </tr>
-            <tr>      
-                <td>Eigen font kiezen</td>
-                <td>Should have</td>
+        <tr>
+            <td>*List of requirements*</td>
+            <td>*Moscow methode*</td>
+        </tr>
+        <tr>      
+            <td>Preview van Tattoo</td>
+            <td>Could have</td>
+        </tr>
+        <tr>      
+            <td>Eigen font kiezen</td>
+            <td>Should have</td>
+        </tr>    
+            <td>Tattoo ideeën opslaan</td>
+            <td>Must have</td>
+        </tr>
+        <tr>      
+            <td>Kleur en grootte van tattoo aanpassen</td>
+            <td>Could have</td>
             </tr>    
-                <td>Tattoo ideeën opslaan</td>
-                <td>Must have</td>
-            </tr>
-            <tr>      
-                <td>Kleur en grootte van tattoo aanpassen</td>
-                <td>Could have</td>
-            </tr>    
-                <td>Overzicht tattooshops/artiesten</td>
-                <td>Should have</td>
-            </tr>
-            <tr>      
-                <td>Afbeeldingen voor verduidelijking</td>
-                <td>Must have</td>
-            </tr>
-            <tr>      
-                <td>Sorteren op prijs</td>
-                <td>Should have</td>
-            </tr>
-            <tr>      
-                <td>Filters kunnen verwijderen en/of aanpassen</td>
-                <td>Must have</td>
-            </tr>
-            <tr>      
-                <td>Gerelateerde content verkrijgen</td>
-                <td>Should have</td>
-            </tr>
-            <tr>      
-                <td>Informatie over symbolen + vertalingen</td>
-                <td>Should have</td>
-            </tr>
-            <tr>      
-                <td>Op generatie suggesties krijgen</td>
-                <td>Could have</td>
-            </tr>
-            <tr>      
-                <td>Stijlen en ideeën vergelijken</td>
-                <td>Won't have</td>
-            </tr>
-            <tr>      
-                <td>Delen met anderen</td>
-                <td>Could have</td>
-            </tr>
+            <td>Overzicht tattooshops/artiesten</td>
+            <td>Should have</td>
+        </tr>
+        <tr>      
+            <td>Afbeeldingen voor verduidelijking</td>
+            <td>Must have</td>
+        </tr>
+        <tr>      
+            <td>Sorteren op prijs</td>
+            <td>Should have</td>
+        </tr>
+        <tr>      
+            <td>Filters kunnen verwijderen en/of aanpassen</td>
+            <td>Must have</td>
+        </tr>
+        <tr>      
+            <td>Gerelateerde content verkrijgen</td>
+            <td>Should have</td>
+        </tr>
+        <tr>      
+            <td>Informatie over symbolen + vertalingen</td>
+            <td>Should have</td>
+        </tr>
+        <tr>      
+            <td>Op generatie suggesties krijgen</td>
+            <td>Could have</td>
+        </tr>
+        <tr>      
+            <td>Stijlen en ideeën vergelijken</td>
+            <td>Won't have</td>
+        </tr>
+        <tr>      
+            <td>Delen met anderen</td>
+            <td>Could have</td>
+        </tr>
 </table>
 
 
