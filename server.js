@@ -36,7 +36,7 @@ app.get("pages/register", register);
 app.listen(8000);
 
 function onhome(req, res) {
-  res.render("index.ejs")
+  res.render("register.ejs")
 }
 
 app.post("/klaar", onhome2)
