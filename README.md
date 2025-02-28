@@ -64,17 +64,6 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 
 
-## Project Voortgang
-
-- [x] Concept bedenken
-- [x] 5 job stories p.p.
-- [ ] Lo-Fi wireframes
-- [ ] Coding standards maken
-
-<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
-
-
-
 ## Ontwikkelaars
 
 <a href="https://github.com/L1ttl3G4m3r/Blok-Tech/contributors">
