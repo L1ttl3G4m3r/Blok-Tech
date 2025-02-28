@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.set('view engine', 'ejs')
-   .set('views', 'view');
+   .set('views', 'views');
 app.use("/static", express.static("static"));
 
 const { MongoClient, ObjectId } = require('mongodb')
