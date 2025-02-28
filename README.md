@@ -91,16 +91,6 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
-## Feedback
-<!--Hier alle feedback momenten weergeven.-->
-
-**Feedback moment 1:**
-
-Algemene Vragen:
-* Wat vinden jullie van de won't have?
-* Missen we informatie of iets in onze wiki's tot nu toe?
-* Wat vinden jullie van ons concept?
-
 
 ## Contact
 
