@@ -44,11 +44,12 @@
 
 
 ## Over
-<!-- 
-* information about the project 
-* 
-* keep it short and sweet
--->
+
+Wij maken een matching website. Dit is ons idee:
+
+Tattoo samenstellen = Door interesses en voorkeuren een aantal ideeën voorgeschoteld krijgen om zo makkelijker te kunnen bepalen welke tattoo mensen willen zetten. Dit idee hebben we gekozen vanwege orginaliteit. Het is uniek en geeft ons de kans om desondanks de specificering toch veel kanten op te kunnen die ons uitdaging gaan kunnen geven.
+
+
 
 ## Gemaakt met
 
