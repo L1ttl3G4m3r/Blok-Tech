@@ -69,6 +69,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 - [x] Concept bedenken
 - [x] 5 job stories p.p.
 - [ ] Lo-Fi wireframes
+- [ ] Coding standards maken
 
 <p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
