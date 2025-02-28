@@ -78,9 +78,8 @@ This section should list any major frameworks/libraries used to bootstrap your p
 ## Documentatie
 
 ### Links naar verschillende platformen die wij gebruiken
-<a href src="https://www.figma.com/design/3OAuN2IeLESEPVOFF2RBT9/Lowfi-wireframes-Tech?node-id=0-1&t=A8jp3HvrXiEzE0TN-1">Link naar Figma</a>
+[Figma link](https://www.figma.com/design/3OAuN2IeLESEPVOFF2RBT9/Lowfi-wireframes-Tech?node-id=0-1&t=9FvgBj6m6uY5arpc-1)
 
-<a href src="">Test Link</a>
 
 ### Algemene documentatie
 <!-- Hier alle info die we samen besproken hebben.-->
