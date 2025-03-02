@@ -32,7 +32,7 @@ function onhome(req, res) {
   res.render("register.ejs")
 }
 
-async function onhome2(req, res){
+async function onregister(req, res){
   console.log(req.body);
 
   try{
@@ -47,7 +47,7 @@ async function onhome2(req, res){
 }
 
 app.get("/", onhome);
-app.post("/klaar", onhome2);
+app.post("/register", onregister);
 
 app.listen(port, () => {
   console.log(`Connected to port ${port}`);
