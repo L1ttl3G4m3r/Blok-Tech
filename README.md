@@ -20,26 +20,14 @@
 
 
 ## Inhoudsopgave
-<dev align="center">
-<table align="center">
-        <tr>
-            <td><a href="#over">Over</a></td>        
-            <td><a href="#aan-de-slag">Aan de slag</a></td>
-            <td><a href="#project-voortgang">Project Voortgang</a></td>
-            <td><a href="#documentatie">Documentatie</a></td>
-        </tr>
-        <tr>
-            <td><a href="#ontwikkelaars">Ontwikkelaars</a></td>
-            <td><a href="#dankbetuigingen">Dankbetuigingen</a></td>
-            <td><a href="#feedback">Feedback</a></td>
-            <td><a href="#contact">Contact</a></td>
-            <td><a href="#licensie">Licensie</a></td>
-        </tr>
-</table>
-</dev>
+1. [Over](#over)
+2. [Gemaakt met](#gemaakt-met)
+3. [Ontwikkelaars](#ontwikkelaars)
+4. [Dankbetuigingen](#dankbetuigingen)
+5. [Contact](#contact)
+6. [Licensie](#licensie)
 
 
-<!-- - Use this html element to create a back to top button. -->
 <p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
 
