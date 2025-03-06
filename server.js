@@ -42,7 +42,11 @@ async function run(){
 run();
 
 function onhome(req, res) {
-  res.render("register.ejs")
+  res.render("begin.ejs")
+}
+
+function onRegisterPage(req, res) {
+  res.render("register.ejs");
 }
 
 async function onregister(req, res) {
@@ -107,4 +111,5 @@ async function onregister(req, res) {
 }
 
 app.get("/", onhome);
+app.get("/register", onRegisterPage);
 app.post("/register", onregister);
