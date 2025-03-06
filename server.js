@@ -79,7 +79,7 @@ async function onregister(req, res) {
     // Controleer of de gebruiker al bestaat
     const existingUser = await collection.findOne({ email: email });
     if (existingUser) {
-      return res.status(400).send("E-mailadres is al in gebruik");
+      return res.status(400).send("Er is een probleem met dit e-mailadres. Probeer een ander of neem contact op.");
     }
 
     // Hash het wachtwoord
