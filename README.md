@@ -64,7 +64,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 ## Dankbetuigingen
 <!--Gebruik deze plek voor bronnen en helpvolle informatie die je hebt vergaard-->
-* [Test woord](hier een link plaatsen)
+* [Perplexity.ai](https://www.perplexity.ai/)
 
 <p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
 
