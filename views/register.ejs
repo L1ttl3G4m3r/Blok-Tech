@@ -13,23 +13,17 @@
         <div class="container">
             <h2>Register</h2>
             <form action="/register" id="aanmaakform" method="POST">                
-                <label for="gebruikersnaam">gebruikersnaam:</label>
-                <input type="text" name="gebruikersnaam" id="gebruikersnaam" required>
+                <label for="username">Gebruikersnaam</label>
+                <input type="text" name="username" id="username" required>
 
-                <label for="wachtwoord">wachtwoord:</label>
-                <input type="password" name="wachtwoord" id="wachtwoord" required>
-                
-                <label for="email">e-mail:</label>
+                <label for="age">Geboortedatum</label>
+                <input type="date" name="age" id="age" required>
+
+                <label for="email">E-mail</label>
                 <input type="email" name="email" id="email" required>
-                
-                <label for="leeftijd">leeftijd:</label>
-                <input type="number" name="leeftijd" id="leeftijd" required>
 
-                <label for="datum">dag van aanmaak:</label>
-                <input type="date" name="datum" id="datum" required>
-                
-                <label for="kleur">favoriete kleur:</label>
-                <input type="color" name="color" id="kleur">
+                <label for="password">Wachtwoord</label>
+                <input type="password" name="password" id="password" required>
 
                 <button type="submit">Maak gebruiker aan</button>
                 <button type="reset">Begin opnieuw</button>
