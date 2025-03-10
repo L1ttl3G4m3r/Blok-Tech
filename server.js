@@ -4,14 +4,7 @@ const express = require('express');
 const app = express();
 const port = 9000;
 
-const xss = require('xss');
-const validator = require('validator');
 const bcrypt = require('bcryptjs');
-
-async function hashPassword(password) {
-  const saltRounds = 10;
-  return await bcrypt.hash(password, saltRounds);
-}
 
 app.listen(port, () => {
   console.log(`Connected to port ${port}`);
@@ -42,74 +35,59 @@ async function run(){
 run();
 
 function onhome(req, res) {
-  res.render("begin.ejs")
+  res.render("register.ejs")
 }
 
-function onRegisterPage(req, res) {
-  res.render("register.ejs");
+async function onregister(req, res){
+  console.log(req.body);
+
+  try{
+    const collection = db.collection('users');
+    const formData = req.body;
+    const result = await collection.insertOne(formData);
+    res.render("klaar.ejs", req.body);
+  } catch(error){
+    console.error("Error occurred while inserting:", error);
+    res.status(500).send("An error occurred");
+  }
 }
 
-async function onregister(req, res) {
+function onloginpage(req, res) {
+  res.render("log-in.ejs");
+}
+
+async function onlogin(req, res) {
   try {
     const collection = db.collection('users');
-    const { username, email, birthdate, password, confirmPassword } = req.body;
+    const { email, password } = req.body;
 
-    // Valideer de invoer
-    if (!validator.isEmail(email)) {
-      return res.status(400).send("Ongeldig e-mailadres");
+    // Zoek de gebruiker in de database
+    const user = await collection.findOne({ email: email });
+
+    if (!user) {
+      return res.status(400).send("Gebruiker niet gevonden");
     }
 
-    if (!validator.isLength(password, { min: 8 })) {
-      return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
+    // Vergelijk het ingevoerde wachtwoord met het gehashte wachtwoord in de database
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+      // Wachtwoord is correct
+      res.render("welkom.ejs", { username: user.username });
+    } else {
+      // Wachtwoord is incorrect
+      res.status(400).send("Incorrect wachtwoord");
     }
-
-    if (password !== confirmPassword) {
-      return res.status(400).send("Wachtwoorden komen niet overeen");
-    }
-
-    // Controleer of de gebruiker 18+ is
-    const birthDate = new Date(birthdate);
-    const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (age < 18 || (age === 18 && monthDiff < 0)) {
-      return res.status(400).send("Je moet 18 jaar of ouder zijn om te registreren");
-    }
-
-    // Controleer of de gebruiker al bestaat
-    const existingUser = await collection.findOne({ email: email });
-    if (existingUser) {
-      return res.status(400).send("Er is een probleem met dit e-mailadres. Probeer een ander of neem contact op.");
-    }
-
-    // Hash het wachtwoord
-    const hashedPassword = await hashPassword(password);
-
-    // Sanitize invoervelden
-    const sanitizedUsername = xss(username);
-
-    // Maak het gebruikersobject
-    const newUser = {
-      username: sanitizedUsername,
-      email: email,
-      birthdate: birthdate,
-      password: hashedPassword
-    };
-
-    // Voeg de nieuwe gebruiker toe aan de database
-    const result = await collection.insertOne(newUser);
-    res.render("klaar.ejs", { 
-      username: sanitizedUsername,
-      birthdate: newUser.birthdate,
-      email: email,
-      password: password
-     });
   } catch (error) {
-    console.error("Error occurred while inserting:", error);
+    console.error("Error occurred during login:", error);
     res.status(500).send("Er is een fout opgetreden");
   }
 }
 
+
+
 app.get("/", onhome);
-app.get("/register", onRegisterPage);
+app.get("/log-in", onloginpage)
+app.post("/log-in", onlogin);
 app.post("/register", onregister);
+
