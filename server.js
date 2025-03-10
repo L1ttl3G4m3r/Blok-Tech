@@ -41,6 +41,47 @@ async function run(){
 
 run();
 
+/////////
+//API'S//
+/////////
+const fetch = require('node-fetch');
+const unsplashApiKey = process.env.UNSPLASH_API_KEY;
+
+async function fetchUnsplashImage(query) {
+  try {
+    const response = await fetch(`https://api.unsplash.com/photos/random?query=${query}&client_id=${unsplashApiKey}`);
+    if (!response.ok) {
+      throw new Error('Unsplash API request failed');
+    }
+    const data = await response.json();
+    return data.urls.regular;
+  } catch (error) {
+    console.error('Error fetching Unsplash image:', error);
+    return null;
+  }
+}
+
+app.get('/unsplash-image', async (req, res) => {
+  const query = req.query.query || 'nature';
+  const imageUrl = await fetchUnsplashImage(query);
+  if (imageUrl) {
+    res.json({ imageUrl });
+  } else {
+    res.status(500).json({ error: 'Failed to fetch image' });
+  }
+});
+
+//Voorbeeld code unsplash api
+/*fetch('/unsplash-image?query=jouw_zoekopdracht_hier')
+  .then(response => response.json())
+  .then(data => {
+    // Gebruik de imageUrl hier, bijvoorbeeld:
+    document.getElementById('unsplashImage').src = data.imageUrl;
+  })
+  .catch(error => console.error('Error:', error));*/
+
+
+
 function onhome(req, res) {
   res.render("begin.ejs")
 }
