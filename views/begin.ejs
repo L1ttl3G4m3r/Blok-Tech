@@ -4,72 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inkspire</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        .background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background-color: black; /* Zwarte achtergrond alleen voor de container */
-        }
-        .background-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.3);
-            z-index: 1;
-        }
-        .image-column {
-            display: flex;
-            flex-direction: column;
-            animation: scrollUp 30s linear infinite;
-            padding: 4px;
-        }
-        .background-image {
-            width: 100%;
-            background-size: cover;
-            background-position: center;
-            margin-bottom: 8px;
-            border-radius: 10px;
-        }
-        @keyframes scrollUp {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-50%); }
-        }
-        @media (max-width: 768px) {
-            .background-container { display: flex; }
-            .image-column { width: 50%; }
-        }
-        @media (min-width: 769px) {
-            .background-container { display: flex; }
-            .image-column { width: calc(100% / 7); }
-        }
-        main {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 20px;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/begin.css">
 </head>
 <body>
     <div class="background-container" id="backgroundContainer"></div>
