@@ -47,43 +47,45 @@ run();
 const fetch = require('node-fetch');
 const unsplashApiKey = process.env.UNSPLASH_API_KEY;
 
-async function fetchUnsplashImage(query) {
+async function fetchUnsplashImages(query, count = 70) {
   try {
-    const response = await fetch(`https://api.unsplash.com/photos/random?query=${query}&client_id=${unsplashApiKey}`);
+    const response = await fetch(`https://api.unsplash.com/photos/random?query=${query}&count=${count}`, {
+      headers: {
+        'Authorization': `Client-ID ${unsplashApiKey}`
+      }
+    });
     if (!response.ok) {
-      throw new Error('Unsplash API request failed');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    return data.urls.regular;
+    return data.map(image => ({
+      url: image.urls.regular,
+      height: image.height,
+      width: image.width
+    }));
   } catch (error) {
-    console.error('Error fetching Unsplash image:', error);
-    return null;
+    console.error('Error fetching Unsplash images:', error);
+    return [];
   }
 }
 
-app.get('/unsplash-image', async (req, res) => {
-  const query = req.query.query || 'nature';
-  const imageUrl = await fetchUnsplashImage(query);
-  if (imageUrl) {
-    res.json({ imageUrl });
-  } else {
-    res.status(500).json({ error: 'Failed to fetch image' });
+app.get('/begin', async (req, res) => {
+  console.log('Received request for /begin route');
+  const imageUrls = await fetchUnsplashImages('tattoo', 28);
+  console.log(`Retrieved ${imageUrls.length} image URLs`);
+  if (imageUrls.length > 0) {
+    console.log('First image URL:', imageUrls[0]);
   }
+  console.log('Rendering begin.ejs with imageUrls:', imageUrls);
+  res.render('begin', { imageUrls: imageUrls });
 });
 
-//Voorbeeld code unsplash api
-/*fetch('/unsplash-image?query=jouw_zoekopdracht_hier')
-  .then(response => response.json())
-  .then(data => {
-    // Gebruik de imageUrl hier, bijvoorbeeld:
-    document.getElementById('unsplashImage').src = data.imageUrl;
-  })
-  .catch(error => console.error('Error:', error));*/
 
-
-
-function onhome(req, res) {
-  res.render("begin.ejs")
+async function onhome(req, res) {
+  console.log('Fetching Unsplash images...');
+  const imageUrls = await fetchUnsplashImages('tattoo', 70);
+  console.log('Received image URLs:', imageUrls);
+  res.render("begin.ejs", { imageUrls: imageUrls });
 }
 
 function onRegisterPage(req, res) {
@@ -154,3 +156,8 @@ async function onregister(req, res) {
 app.get("/", onhome);
 app.get("/register", onRegisterPage);
 app.post("/register", onregister);
+
+app.use((req, res, next) => {
+  res.status(404).send('404 - Pagina niet gevonden');
+  console.log(`404 Error: ${req.originalUrl}`);
+});
