@@ -13,17 +13,17 @@
         <img src="." alt="Logo">
         <h1>Inkspire</h1>
         <h2>slogan/beschrijving</h2>
-
+    
         <button><a href="/log-in">Inloggen</a></button>
         <button><a href="/register">Maak een account aan</a></button>
         <button><a href="/registerartist">Maak een artiestenaccount aan</a></button>
     </main>
-
+    
     <script>
         const container = document.getElementById('backgroundContainer');
-        const imageUrls = <%- JSON.stringify(imageUrls) %>;
+        const imageUrls = JSON.parse('<%- JSON.stringify(imageUrls) %>');
         let columns = window.innerWidth <= 768 ? 2 : 7;
-
+    
         function createImageColumns() {
             container.innerHTML = '';
             for (let i = 0; i < columns; i++) {
@@ -32,7 +32,7 @@
                 container.appendChild(column);
             }
         }
-
+    
         function fillColumns() {
             const columns = container.children;
             let columnIndex = 0;
@@ -46,22 +46,22 @@
                 columnIndex = (columnIndex + 1) % columns.length;
             });
         }
-
+    
         function duplicateImages() {
             const columns = container.children;
             for (let column of columns) {
                 column.innerHTML += column.innerHTML;
             }
         }
-
+    
         function initializeBackground() {
             createImageColumns();
             fillColumns();
             duplicateImages();
         }
-
+    
         initializeBackground();
-
+    
         window.addEventListener('resize', () => {
             const newColumns = window.innerWidth <= 768 ? 2 : 7;
             if (newColumns !== columns) {
@@ -69,6 +69,6 @@
                 initializeBackground();
             }
         });
-    </script>
+    </script>    
 </body>
 </html>
