@@ -1,12 +1,109 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+/**************/
+/* CSS REMEDY */
+/**************/
+*, *::after, *::before {
+  box-sizing: border-box;
 }
+* {
+  margin: 0;
+  padding: 0;
+}
+/*********************/
+/* CUSTOM PROPERTIES */
+/*********************/ 
+:root {
+  --main-font: "Big Shoulders", sans-serif;
+  --color-text: #F3F0DD;
+  --color-background: #000000;
+  --color-button: #FF5527;
+  --uppercase: uppercase;
+  --border-button: 4px;
+}
+/****************/
+/* Algemeen */
+/****************/
+h1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px); /* Voor oudere browsers */
+  clip-path: inset(50%);
+  white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
+}
+
+body {
+  font-family: var(--main-font);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  background-color: var(--color-background);
+  margin: 0;
+  color: var(--color-text);
+}
+/****************/
+/* nav.ejs */
+/****************/
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+}
+
+.nav-item a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: color 1s ease, transform 0.3s ease;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.nav-item h5 {
+  font-size: 1em;
+}
+.nav-item img {
+  width: 4em;
+}
+
+.nav-item:hover img, 
+.nav-item:hover
+ {
+  filter: invert(50%);
+
+}
+/****************/
+/* top */
+/****************/
+.topPart {
+  top: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.topPart img {
+  width: 15em;
+}
+/****************/
+/* Carousel */
+/****************/
+ul.containerlist {
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  gap: 5em;
+  list-style-type: none;
+  overflow-x: auto;
+}
+ul.containerlist li img {
+  width: 6em;
+}
+/****************/
+/* form */
+/****************/
 
 .container {
   background-color: #fff;
