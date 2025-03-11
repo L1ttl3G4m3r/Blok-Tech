@@ -92,7 +92,7 @@ function onRegisterPage(req, res) {
   res.render("register.ejs");
 }
 
-async function onregister(req, res) {
+async function onRegister(req, res) {
   try {
     const collection = db.collection('users');
     const { username, email, birthdate, password, confirmPassword } = req.body;
@@ -153,9 +153,67 @@ async function onregister(req, res) {
   }
 }
 
+function onRegisterPageArtists(req, res) {
+  res.render("registerArtists.ejs");
+}
+
+async function onRegisterArtists(req, res) {
+  try {
+    const collection = db.collection('artists');
+    const { username, email, password, confirmPassword, studio } = req.body;
+
+    // Valideer de invoer
+    if (!validator.isEmail(email)) {
+      return res.status(400).send("Ongeldig e-mailadres");
+    }
+
+    if (!validator.isLength(password, { min: 8 })) {
+      return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).send("Wachtwoorden komen niet overeen");
+    }
+
+    // Controleer of de gebruiker al bestaat
+    const existingUser = await collection.findOne({ email: email });
+    if (existingUser) {
+      return res.status(400).send("Er is een probleem met dit e-mailadres. Probeer een ander of neem contact op.");
+    }
+
+    // Hash het wachtwoord
+    const hashedPassword = await hashPassword(password);
+
+    // Sanitize invoervelden
+    const sanitizedUsername = xss(username);
+
+    // Maak het gebruikersobject
+    const newUser = {
+      username: sanitizedUsername,
+      email: email,
+      password: hashedPassword,
+      studio: studio
+    };
+
+    // Voeg de nieuwe gebruiker toe aan de database
+    const result = await collection.insertOne(newUser);
+    res.render("klaar.ejs", { 
+      username: sanitizedUsername,
+      birthdate: newUser.birthdate,
+      email: email,
+      password: password
+     });
+  } catch (error) {
+    console.error("Error occurred while inserting:", error);
+    res.status(500).send("Er is een fout opgetreden");
+  }
+}
+
 app.get("/", onhome);
 app.get("/register", onRegisterPage);
-app.post("/register", onregister);
+app.post("/register", onRegister);
+app.get("/registerArtists", onRegisterPageArtists);
+app.post("/registerArtists", onRegisterArtists);
 
 app.use((req, res, next) => {
   res.status(404).send('404 - Pagina niet gevonden');
