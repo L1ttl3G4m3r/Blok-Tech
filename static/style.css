@@ -16,6 +16,7 @@
   --color-text: #F3F0DD;
   --color-background: #000000;
   --color-button: #FF5527;
+  --focus: #0035C7;
   --uppercase: uppercase;
   --border-button: 4px;
 }
@@ -31,7 +32,9 @@ h1 {
   clip-path: inset(50%);
   white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
 }
-
+h2 {
+  margin-left: 1em;
+}
 body {
   font-family: var(--main-font);
   font-optical-sizing: auto;
@@ -61,12 +64,12 @@ body {
   text-decoration: none;
   color: var(--color-text);
 }
-
 .nav-item h5 {
   font-size: 1em;
 }
 .nav-item img {
   width: 4em;
+  height: auto;
 }
 
 .nav-item:hover img, 
@@ -76,35 +79,124 @@ body {
 
 }
 /****************/
-/* top */
+/* logo */
 /****************/
 .topPart {
   top: 0;
   display: flex;
   justify-content: center;
+  margin: 3em 0;
 }
 
 .topPart img {
-  width: 15em;
+  width: 12em;
 }
 /****************/
 /* Carousel */
 /****************/
-ul.containerlist {
-  height: 60%;
+swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+swiper-slide {
+  text-align: center;
   display: flex;
   justify-content: center;
-  gap: 5em;
-  list-style-type: none;
-  overflow-x: auto;
+  align-items: center;
 }
-ul.containerlist li img {
-  width: 6em;
+
+swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+swiper-slide {
+  width: 80%;
+}
+/****************/
+/* Searchbar */
+/****************/
+.search-container {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  max-width: 450px;
+}
+
+.search-bar {
+  width: 20em;
+  padding: 0 0 0 2.5em;
+  height: 3em;
+  font-size: 1em;
+  border-radius: 4px;
+  color: var(--color-text); 
+  border: 2px solid var(--color-text);
+  background-color: var(--color-background);
+}
+.search-bar:focus {
+  border: 2px solid var(--focus);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.8em;
+}
+.search-icon img  {
+  width: 3em;
+  height: 3em;
+}
+/****************/
+/* Filter function */
+/****************/
+.filter-button {
+  border: 2px solid var(--color-text);
+  background-color: var(--color-background);
+  border-radius: 50px;
+  width: 4em;
+  height: 4em;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter-button img {
+  width: 3.5em; /* Pas de grootte van het icoon aan */
+  height: 3.5em;
+}
+
+.filter-menu {
+  position: absolute;
+  left: 0;
+  background-color: var(--color-text);
+  padding: 1em;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+  width: 27.5em;
+  z-index: 1000;
+  color: var(--color-background)
+}
+
+.hidden {
+  display: none;
+}
+
+.filter-option {
+  margin-bottom: 10px;
+}
+
+#applyFilters {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
 }
 /****************/
 /* form */
 /****************/
-
 .container {
   background-color: #fff;
   padding: 20px;
@@ -125,7 +217,6 @@ input {
 }
 
 button {
-  background-color: lightgray;
   color: black;
   padding: 10px;
   border: none;
