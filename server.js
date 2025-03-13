@@ -17,6 +17,10 @@ app.listen(port, () => {
   console.log(`Connected to port ${port}`);
 });
 
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${port}`);
+});
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -211,6 +215,33 @@ async function onRegisterArtists(req, res) {
 
 app.get("/", onhome);
 app.get("/register", onRegisterPage);
+app.post("/register", onregister);
+
+//////////////////////
+//Camera integration//
+//////////////////////
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
+app.post("/upload", upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No file uploaded");
+    }
+
+    const newImage = {
+      filename: req.file.originalname,
+      path: req.file.path,
+      createdAt: new Date()
+    };
+
+    const result = await db.collection('images').insertOne(newImage);
+    res.json({ message: 'File uploaded successfully', imageId: result.insertedId });
+  } catch (error) {
+    console.error("Error occurred while uploading:", error);
+    res.status(500).send("Er is een fout opgetreden bij het uploaden");
+  }
+
 app.post("/register", onRegister);
 app.get("/registerArtists", onRegisterPageArtists);
 app.post("/registerArtists", onRegisterArtists);
