@@ -5,19 +5,14 @@ const app = express();
 const port = 8000;
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs')
-   .set('views', 'view');
+   .set('views', 'views');
 app.use("/static", express.static("static"));
 
-const { MongoClient, ObjectId } = require('mongodb')
-const uri = process.env.URI;
-const client = new MongoClient(uri);
-const db = client.db(process.env.DB_NAME);
-const collection = db.collection(process.env.DB_collection)
 
-async function run(){
+async function run() {
   try {
     await client.connect();
     console.log("Client connected to database");
@@ -28,26 +23,33 @@ async function run(){
 
 run();
 
-function onhome(req, res) {
-  res.render("register.ejs")
-}
+// Route voor de homepagina (index.ejs)
+app.get("/", (req, res) => {
+  res.render("index");
+});
 
-async function onhome2(req, res){
+// Route voor het registerformulier (register.ejs)
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+// Route om formuliergegevens op te slaan en "klaar.ejs" te tonen
+async function onhome2(req, res) {
   console.log(req.body);
 
-  try{
+  try {
     const collection = db.collection('users');
     const formData = req.body;
     const result = await collection.insertOne(formData);
-    res.render("klaar.ejs", req.body);
-  } catch(error){
+    res.render("klaar", req.body);
+  } catch (error) {
     console.error("Error occurred while inserting:", error);
     res.status(500).send("An error occurred");
   }
 }
 
-app.get("/", onhome);
 app.post("/klaar", onhome2);
+app.post("/index", onhome2);
 
 app.listen(port, () => {
   console.log(`Connected to port ${port}`);
