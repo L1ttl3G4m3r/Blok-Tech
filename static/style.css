@@ -35,6 +35,8 @@ h1 {
 }
 
 body {
+  font-family: Arial, sans-serif;
+  background-color: black;
   font-family: var(--main-font);
   font-optical-sizing: auto;
   font-weight: 500;
@@ -246,7 +248,7 @@ swiper-slide {
 /* form */
 /****************/
 .container {
-  background-color: #fff;
+  background-color: black;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
