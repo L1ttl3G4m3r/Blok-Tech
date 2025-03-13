@@ -8,15 +8,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Big+Shoulders:opsz,wght@10..72,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 <body>
     <h1>Inspiration for your tattoo</h1>
     <div class="topPart">
         <%- include('partials/header') %>
     </div>
-    <nav>
+    <div class="search-container">
+        <%- include('partials/searchbar') %>
+        <%- include('partials/filter') %>
+    </div>
+    <h2>Unieke ideeën</h2>
+<section class="carousel">
+    <%- include('partials/carousel') %>
+</section>
+<nav>
     <%- include('partials/nav') %>
-    </nav>
+</nav>
     <script src="server.js"></script>
+    <script src="/static/script.js"></script>
 </body>
 </html>

@@ -3,6 +3,8 @@
 /**************/
 *, *::after, *::before {
   box-sizing: border-box;
+
+
 }
 * {
   margin: 0;
@@ -98,6 +100,153 @@ body {
 /* form */
 /****************/
 
+.nav-item a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: color 1s ease, transform 0.3s ease;
+  text-decoration: none;
+  color: var(--color-text);
+}
+.nav-item h5 {
+  font-size: 1em;
+}
+.nav-item img {
+  width: 4em;
+  height: auto;
+}
+
+.nav-item:hover img, 
+.nav-item:hover
+ {
+  filter: invert(50%);
+
+}
+/****************/
+/* logo */
+/****************/
+.topPart {
+  top: 0;
+  display: flex;
+  justify-content: center;
+  margin: 3em 0;
+}
+
+.topPart img {
+  width: 12em;
+}
+/****************/
+/* Carousel */
+/****************/
+swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+swiper-slide {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+swiper-slide {
+  width: 80%;
+}
+/****************/
+/* Searchbar */
+/****************/
+.search-container {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  max-width: 450px;
+}
+
+.search-bar {
+  width: 20em;
+  padding: 0 0 0 2.5em;
+  height: 3em;
+  font-size: 1em;
+  border-radius: 4px;
+  color: var(--color-text); 
+  border: 2px solid var(--color-text);
+  background-color: var(--color-background);
+}
+.search-bar:focus {
+  border: 2px solid var(--focus);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.8em;
+}
+.search-icon img  {
+  width: 3em;
+  height: 3em;
+}
+/****************/
+/* Filter function */
+/****************/
+.filter-button {
+  border: 2px solid var(--color-text);
+  background-color: var(--color-background);
+  border-radius: 50px;
+  width: 4em;
+  height: 4em;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter-button img {
+  width: 3.5em; /* Pas de grootte van het icoon aan */
+  height: 3.5em;
+}
+
+.filter-menu {
+  position: absolute;
+  left: 0;
+  background-color: var(--color-text);
+  padding: 1em;
+  width: 27.5em;
+  z-index: 1000;
+  color: var(--color-background);
+}
+
+.hidden {
+  display: none; /* Verbergt normal state */
+}
+
+.filter-option {
+  display: flex;
+
+}
+
+#applyFilters {
+  margin-top: 1em;
+  padding: 1em 3em;
+  background-color: var(--color-button);
+  cursor: pointer;
+  color: var(--color-text);
+  font-family: var(--main-font);
+  font-size: 1em;
+}
+.styled-checkbox {
+  accent-color: var(--color-button); /* Verander naar gewenste kleur */
+}
+/****************/
+/* form */
+/****************/
 .container {
   background-color: black;
   padding: 20px;
@@ -118,7 +267,6 @@ input {
 }
 
 button {
-  background-color: lightgray;
   color: black;
   padding: 10px;
   border: none;
