@@ -3,22 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inkspire</title>
+    <link rel="stylesheet" href="/static/begin.css">
 </head>
 <body>
-    <header>
-
-    </header>
+    <div class="background-container" id="backgroundContainer"></div>
+    
     <main>
         <img src="." alt="Logo">
         <h1>Inkspire</h1>
         <h2>slogan/beschrijving</h2>
-
+    
         <button><a href="/log-in">Inloggen</a></button>
         <button><a href="/register">Maak een account aan</a></button>
+        <button><a href="/registerArtists">Maak een artiestenaccount aan</a></button>
     </main>
     <footer>
         <%- include('../views/partials/navMobile.ejs') %>
     </footer>
+    
+    <script>
+        const container = document.getElementById('backgroundContainer');
+        const imageUrls = JSON.parse('<%- JSON.stringify(imageUrls) %>');
+        let columns = window.innerWidth <= 768 ? 2 : 7;
+    
+        function createImageColumns() {
+            container.innerHTML = '';
+            for (let i = 0; i < columns; i++) {
+                const column = document.createElement('div');
+                column.className = 'image-column';
+                container.appendChild(column);
+            }
+        }
+    
+        function fillColumns() {
+            const columns = container.children;
+            let columnIndex = 0;
+            imageUrls.forEach(img => {
+                const div = document.createElement('div');
+                div.className = 'background-image';
+                div.style.backgroundImage = `url(${img.url})`;
+                const aspectRatio = img.height / img.width;
+                div.style.paddingBottom = `${aspectRatio * 100}%`;
+                columns[columnIndex].appendChild(div);
+                columnIndex = (columnIndex + 1) % columns.length;
+            });
+        }
+    
+        function duplicateImages() {
+            const columns = container.children;
+            for (let column of columns) {
+                column.innerHTML += column.innerHTML;
+            }
+        }
+    
+        function initializeBackground() {
+            createImageColumns();
+            fillColumns();
+            duplicateImages();
+        }
+    
+        initializeBackground();
+    
+        window.addEventListener('resize', () => {
+            const newColumns = window.innerWidth <= 768 ? 2 : 7;
+            if (newColumns !== columns) {
+                columns = newColumns;
+                initializeBackground();
+            }
+        });
+    </script>    
 </body>
 </html>
