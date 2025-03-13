@@ -128,6 +128,40 @@ app.post('/log-in', async (req, res) => {
     }
 });
 
+app.get('/profiel', (req, res) => {
+    res.render('profiel.ejs');
+  });
+  
+  // Route for posts
+  app.get('/post', (req, res) => {
+    res.render('post.ejs');
+  });
+  
+  // Route for artists
+  app.get('/artiesten', (req, res) => {
+    res.render('artiesten.ejs');
+  });
+  
+  // Route for "see all" page
+  app.get('/zie-alle', (req, res) => {
+    res.render('zie-alle.ejs');
+  });
+  
+  // Route for detail page
+  app.get('/detail/:id', (req, res) => {
+    res.render('detailpagina', { id: req.params.id });
+  });
+  
+  // Route for preview page
+  app.get('/preview', (req, res) => {
+    res.render('preview');
+  });
+
+  // Route for index
+  app.get('/index', (req, res) => {
+    res.render('index.ejs');
+  });
+
 // 404 handler
 app.use((req, res) => {
     res.status(404).send('404 - Pagina niet gevonden');
