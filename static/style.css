@@ -1,15 +1,105 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+/**************/
+/* CSS REMEDY */
+/**************/
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+* {
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  padding: 0;
+}
+/*********************/
+/* CUSTOM PROPERTIES */
+/*********************/ 
+:root {
+  --main-font: "Big Shoulders", sans-serif;
+  --color-text: #F3F0DD;
+  --color-background: #000000;
+  --color-button: #FF5527;
+  --uppercase: uppercase;
+  --border-button: 4px;
+}
+/****************/
+/* Algemeen */
+/****************/
+h1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px); /* Voor oudere browsers */
+  clip-path: inset(50%);
+  white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
 }
 
+body {
+  font-family: Arial, sans-serif;
+  background-color: black;
+  font-family: var(--main-font);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  background-color: var(--color-background);
+  margin: 0;
+  color: var(--color-text);
+  width: 27.5em;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+}
+/****************/
+/* nav.ejs */
+/****************/
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+}
+
+.nav-item a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: color 1s ease, transform 0.3s ease;
+  text-decoration: none;
+  color: var(--color-text)
+}
+
+.nav-item h5 {
+  font-size: 1em;
+}
+.nav-item img {
+  width: 6em;
+}
+
+.nav-item:hover img, 
+.nav-item:hover
+ {
+  filter: invert(50%);
+
+}
+/****************/
+/* top */
+/****************/
+.topPart {
+  top: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.topPart img {
+  width: 15em;
+}
+/****************/
+/* form */
+/****************/
+
 .container {
-  background-color: #fff;
+  background-color: black;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
