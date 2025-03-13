@@ -32,8 +32,9 @@ h1 {
   clip-path: inset(50%);
   white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
 }
-h2 {
-  margin-left: 1em;
+h2, h3 {
+  font-size: 2em;
+  margin-left: 0.5em;
 }
 body {
   font-family: var(--main-font);
@@ -173,26 +174,31 @@ swiper-slide {
   left: 0;
   background-color: var(--color-text);
   padding: 1em;
-  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
   width: 27.5em;
   z-index: 1000;
-  color: var(--color-background)
+  color: var(--color-background);
 }
 
 .hidden {
-  display: none;
+  display: none; /* Verbergt normal state */
 }
 
 .filter-option {
-  margin-bottom: 10px;
+  display: flex;
+
 }
 
 #applyFilters {
-  margin-top: 10px;
-  padding: 5px 10px;
-  background-color: #007bff;
-  border: none;
+  margin-top: 1em;
+  padding: 1em 3em;
+  background-color: var(--color-button);
   cursor: pointer;
+  color: var(--color-text);
+  font-family: var(--main-font);
+  font-size: 1em;
+}
+.styled-checkbox {
+  accent-color: var(--color-button); /* Verander naar gewenste kleur */
 }
 /****************/
 /* form */
