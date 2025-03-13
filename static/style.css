@@ -3,6 +3,8 @@
 /**************/
 *, *::after, *::before {
   box-sizing: border-box;
+
+
 }
 * {
   margin: 0;
@@ -16,7 +18,6 @@
   --color-text: #F3F0DD;
   --color-background: #000000;
   --color-button: #FF5527;
-  --focus: #0035C7;
   --uppercase: uppercase;
   --border-button: 4px;
 }
@@ -32,10 +33,7 @@ h1 {
   clip-path: inset(50%);
   white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
 }
-h2, h3 {
-  font-size: 2em;
-  margin-left: 0.5em;
-}
+
 body {
   font-family: var(--main-font);
   font-optical-sizing: auto;
@@ -44,6 +42,11 @@ body {
   background-color: var(--color-background);
   margin: 0;
   color: var(--color-text);
+  width: 27.5em;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
 }
 /****************/
 /* nav.ejs */
@@ -55,6 +58,45 @@ body {
   list-style-type: none;
   padding: 0;
 }
+
+.nav-item a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: color 1s ease, transform 0.3s ease;
+  text-decoration: none;
+  color: var(--color-text)
+}
+
+.nav-item h5 {
+  font-size: 1em;
+}
+.nav-item img {
+  width: 6em;
+}
+
+.nav-item:hover img, 
+.nav-item:hover
+ {
+  filter: invert(50%);
+
+}
+/****************/
+/* top */
+/****************/
+.topPart {
+  top: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.topPart img {
+  width: 15em;
+}
+/****************/
+/* form */
+/****************/
 
 .nav-item a {
   display: flex;
