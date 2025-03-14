@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="static/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,22 +12,54 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 <body>
-    <h1>Inspiration for your tattoo</h1>
-    <div class="topPart">
+
+    <!-- Header -->
+    <header>
         <%- include('partials/header') %>
-    </div>
-    <div class="search-container">
-        <%- include('partials/searchbar') %>
-        <%- include('partials/filter') %>
-    </div>
-    <h2>Unieke ideeën</h2>
-<section class="carousel">
-    <%- include('partials/carousel') %>
-</section>
-<nav>
-    <%- include('partials/nav') %>
-</nav>
+    </header>
+
+    <main>
+        <!-- Titel -->
+        <section class="intro">
+            <h1>Inspiration for your tattoo</h1>
+        </section>
+
+        <!-- Zoekfunctionaliteit -->
+        <section class="search">
+                <%- include('partials/searchbar') %>
+        </section>
+        <section class="filtersorting">
+            <%- include('partials/filter') %>
+    </section>
+
+        <!-- Carousel met unieke ideeën -->
+        <section class="carousel-section">
+            <h2>Unieke ideeën</h2>
+            <div class="carousel">
+                <%- include('partials/carousel') %>
+            </div>
+        </section>
+
+        <!-- Gallerij -->
+        <section class="gallery-container">
+            <div class="gallery">
+                <img src="/static/icons/collection fill.svg" alt="Foto 1">
+                <img src="/static/icons/collection fill.svg" alt="Foto 2">
+                <img src="https://source.unsplash.com/300x400/?mountain" alt="Foto 3">
+                <img src="https://source.unsplash.com/300x400/?city" alt="Foto 4">
+                <img src="https://source.unsplash.com/300x400/?ocean" alt="Foto 5">
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <%- include('partials/nav') %>
+    </footer>
+
+    <!-- Scripts -->
     <script src="server.js"></script>
     <script src="/static/script.js"></script>
+    
 </body>
 </html>

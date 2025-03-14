@@ -3,8 +3,6 @@
 /**************/
 *, *::after, *::before {
   box-sizing: border-box;
-
-
 }
 * {
   margin: 0;
@@ -28,78 +26,44 @@ h1 {
   position: absolute;
   width: 1px;
   height: 1px;
-  overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px); /* Voor oudere browsers */
   clip-path: inset(50%);
   white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: black;
+  background-color: var(--color-background);
   font-family: var(--main-font);
   font-optical-sizing: auto;
   font-weight: 500;
-  font-style: normal;
-  background-color: var(--color-background);
-  margin: 0;
   color: var(--color-text);
-  width: 27.5em;
+}
+/****************/
+/* logo */
+/****************/
+header {
+  top: 0;
   display: flex;
   justify-content: center;
-  flex-direction: column;
-
+  margin: 3em 0;
+}
+header img {
+  width: 12em;
 }
 /****************/
 /* nav.ejs */
 /****************/
-
+footer {
+  position: sticky;
+  bottom: 0;
+}
 .navbar {
   display: flex;
   justify-content: space-around;
   list-style-type: none;
   padding: 0;
-}
-
-.nav-item a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: color 1s ease, transform 0.3s ease;
-  text-decoration: none;
-  color: var(--color-text)
-}
-
-.nav-item h5 {
-  font-size: 1em;
-}
-.nav-item img {
-  width: 6em;
-}
-
-.nav-item:hover img, 
-.nav-item:hover
- {
-  filter: invert(50%);
 
 }
-/****************/
-/* top */
-/****************/
-.topPart {
-  top: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.topPart img {
-  width: 15em;
-}
-/****************/
-/* form */
-/****************/
-
 .nav-item a {
   display: flex;
   flex-direction: column;
@@ -116,25 +80,9 @@ body {
   width: 4em;
   height: auto;
 }
-
 .nav-item:hover img, 
-.nav-item:hover
- {
+.nav-item:hover {
   filter: invert(50%);
-
-}
-/****************/
-/* logo */
-/****************/
-.topPart {
-  top: 0;
-  display: flex;
-  justify-content: center;
-  margin: 3em 0;
-}
-
-.topPart img {
-  width: 12em;
 }
 /****************/
 /* Carousel */
@@ -164,6 +112,10 @@ swiper-slide {
 /****************/
 /* Searchbar */
 /****************/
+section.search {
+  display: flex;
+  justify-content: center;
+}
 .search-container {
   position: relative;
   display: flex;
@@ -172,8 +124,8 @@ swiper-slide {
 }
 
 .search-bar {
-  width: 20em;
-  padding: 0 0 0 2.5em;
+  width: 22em;
+  padding: 0 0 0 3em;
   height: 3em;
   font-size: 1em;
   border-radius: 4px;
@@ -187,7 +139,7 @@ swiper-slide {
 
 .search-icon {
   position: absolute;
-  left: 0.8em;
+  left: 2.5em;
 }
 .search-icon img  {
   width: 3em;
