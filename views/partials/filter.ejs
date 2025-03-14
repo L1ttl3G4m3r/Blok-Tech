@@ -1,34 +1,17 @@
-<div class="filter-container">
-    <button id="filterButton" class="filter-button">
-      <img src="/static/icons/filter.svg" alt="Filter Icon">
-    </button>
-    <div id="filterMenu" class="filter-menu hidden">
-      <!-- Voeg hier je filtermenu-inhoud toe -->
-      <h3>Filteren</h3>
-      <div class="filter-option">
-        <input type="checkbox" class="styled-checkbox" name="option1">
-        <label for="option1">Optie 1</label>
-      </div>
-      <div class="filter-option">
-        <input type="checkbox" class="styled-checkbox" name="option2">
-        <label for="option2">Optie 2</label>
-      </div>
-      <div class="filter-option">
-        <input type="checkbox" class="styled-checkbox" name="option3">
-        <label for="option3">Optie 3</label>
-      </div>
-      <div class="filter-option">
-        <input type="checkbox" class="styled-checkbox" name="option3">
-        <label for="option3">Optie 3</label>
-      </div>
-      <div class="filter-option">
-        <input type="checkbox" class="styled-checkbox" name="option3">
-        <label for="option3">Optie 3</label>
-      </div>
-         <div class="filter-option">
-        <input type="checkbox" class="styled-checkbox" name="option3">
-        <label for="option3">Optie 3</label>
-      </div>
-      <button id="applyFilters">Toepassen</button>
-    </div>
+<nav>
+  <button id="filterButton"><img src="/static/icons/filter.svg" alt="filter"></button>
+</nav>
+
+<div id="filterSidebar" class="sidebar">
+  <div class="sidebar-header">
+      <h2>Filteren</h2>
+      <button id="closeSidebar" class="close-button"><img src="/static/icons/close.svg" alt="close"></button>
   </div>
+  <div class="sidebar-content">
+      <h3>Stijl</h3>
+      <label><input type="checkbox" class="checkbox-checked"> Optie 1</label>
+      <label><input type="checkbox" class="checkbox-checked"> Optie 2</label>
+      <label><input type="checkbox" class="checkbox-checked"> Optie 3</label>
+
+  </div>
+</div>
