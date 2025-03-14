@@ -57,3 +57,9 @@ window.addEventListener('click', function(e) {
     }
   }
 });
+// Icons opslaan bij foto's
+document.querySelectorAll('.icon-box').forEach(box => {
+    box.addEventListener('click', function() {
+      this.classList.toggle('active');
+    });
+  });

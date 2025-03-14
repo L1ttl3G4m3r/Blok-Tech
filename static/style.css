@@ -272,20 +272,18 @@ swiper-slide {
 /*vertical carousel*/
 /****************/
 .carousel-container {
+  margin-top: 2em;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  height: 100vh;
 }
 
 .carousel-item {
-  scroll-snap-align: start;
   position: relative;
-  height: 100vh; /* Volledige viewporthoogte */
+  height: 60vh; /* Volledige viewporthoogte */
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 2em;
 }
 
 .carousel-item img {
@@ -296,17 +294,35 @@ swiper-slide {
 
 .icon-box {
   position: absolute;
-  width: 80px;
-  height: 80px;
-  background-color: rgba(255, 255, 255, 0.8);
+  width: 3em;
+  height: 3em;
+  background-color: var(--color-background);
   display: flex;
+  left: 1em;
+  top: 1em;
   justify-content: center;
   align-items: center;
-  border-radius: 10px; /* Optioneel voor afgeronde hoeken */
+  border-radius: 4px; /* Optioneel voor afgeronde hoeken */
+}
+.icon-box img {
+  width: 40px;
+  height: 40px;
 }
 
-.icon-box i {
-  font-size: 40px; /* Grootte van het icoon */
+.icon-box .outline {
+  display: block;
+}
+
+.icon-box .fill {
+  display: none;
+}
+
+.icon-box.active .outline {
+  display: none;
+}
+
+.icon-box.active .fill {
+  display: block;
 }
 /****************/
 /* form */
