@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const port = 9000;
@@ -10,13 +11,11 @@ const fetch = require('node-fetch');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-// Configuratie
 const uri = process.env.URI;
 const client = new MongoClient(uri);
 const db = client.db(process.env.DB_NAME);
 const unsplashApiKey = process.env.UNSPLASH_API_KEY;
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs').set('views', 'views');
@@ -45,6 +44,7 @@ async function fetchUnsplashImages(query, count = 70) {
         return [];
     }
 }
+
 
 function isLoggedIn(req, res, next) {
     if (req.session.user) {
@@ -83,10 +83,8 @@ app.get('/log-out', (req, res) => {
     });
   });
   
-  
-  
 
-// Database connectie
+// Connectie
 async function connectToDatabase() {
     try {
         await client.connect();
@@ -98,6 +96,10 @@ async function connectToDatabase() {
 }
 
 connectToDatabase();
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${port}`);
+});
 
 // Routes
 app.get('/', async (req, res) => {
@@ -118,11 +120,35 @@ app.post('/register', async (req, res) => {
       const collection = db.collection('users');
       const { username, email, password, confirmPassword } = req.body;
 
-      // Validatiestappen blijven hetzelfde
-      // ...
+      if (!username || !email || !password || !confirmPassword) {
+          return res.status(400).send("Alle velden zijn verplicht");
+      }
 
-      // Nieuwe gebruiker aanmaken
-      const hashedPassword = await hashPassword(password);
+      if (typeof username !== 'string' || 
+          typeof email !== 'string' || 
+          typeof password !== 'string' || 
+          typeof confirmPassword !== 'string') {
+          return res.status(400).send("Ongeldig formulierformaat");
+      }
+
+      if (!validator.isEmail(email)) {
+          return res.status(400).send("Ongeldig e-mailadres");
+      }
+
+      if (!validator.isLength(password, { min: 8 })) {
+          return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
+      }
+
+      if (password !== confirmPassword) {
+          return res.status(400).send("Wachtwoorden komen niet overeen");
+      }
+
+      const existingUser = await collection.findOne({ email: email });
+      if (existingUser) {
+          return res.status(400).send("Dit e-mailadres is al in gebruik");
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
       const sanitizedUsername = xss(username);
       const newUser = { 
           username: sanitizedUsername.trim(), 
@@ -133,7 +159,6 @@ app.post('/register', async (req, res) => {
       const result = await collection.insertOne(newUser);
       console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
 
-      // Redirect naar home.ejs met gebruikersnaam
       res.render("index.ejs", { 
           username: sanitizedUsername,
           email: email
@@ -179,32 +204,26 @@ app.post('/log-in', async (req, res) => {
     
   });
   
-  // Route for posts
   app.get('/post', (req, res) => {
     res.render('post.ejs');
   });
   
-  // Route for artists
   app.get('/artiesten', (req, res) => {
     res.render('artiesten.ejs');
   });
   
-  // Route for "see all" page
   app.get('/zie-alle', (req, res) => {
     res.render('zie-alle.ejs');
   });
   
-  // Route for detail page
   app.get('/detail/:id', (req, res) => {
     res.render('detailpagina', { id: req.params.id });
   });
-  
-  // Route for preview page
+
   app.get('/preview', (req, res) => {
     res.render('preview');
   });
 
-  // Route for index
   app.get('/index', (req, res) => {
     res.render('index.ejs');
   });
@@ -222,9 +241,4 @@ app.use((err, req, res, next) => {
       message: "Serverfout",
       error: err.message
   });
-});
-
-// Server starten
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running on http://0.0.0.0:${port}`);
 });
