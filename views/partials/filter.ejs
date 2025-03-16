@@ -1,20 +1,38 @@
 <nav>
-  <button id="filterButton"><img src="/static/icons/filter.svg" alt="filter"></button>
+  <button id="filterButton">
+    <img src="/static/icons/filter.svg" alt="filter" />
+  </button>
 </nav>
 
 <div id="filterSidebar" class="sidebar">
   <div class="sidebar-header">
-      <h2>Filteren</h2>
-      <button id="closeSidebar" class="close-button"><img src="/static/icons/close.svg" alt="close"></button>
+    <h2>Filteren</h2>
+    <button id="closeSidebar" class="close-button">
+      <img src="/static/icons/close.svg" alt="close" />
+    </button>
   </div>
   <div class="sidebar-content">
-      <h3>Stijl</h3>
-      <label><input type="checkbox" class="checkbox-checked">Fine line</label>
-      <label><input type="checkbox" class="checkbox-checked">Traditioneel</label>
-      <label><input type="checkbox" class="checkbox-checked">Blackwork</label>
-      <label><input type="checkbox" class="checkbox-checked">Waterkleur</label>
-      <label><input type="checkbox" class="checkbox-checked">Geometrisch</label>
-      <label><input type="checkbox" class="checkbox-checked">Minimalistisch</label>
-      <label><input type="checkbox" class="checkbox-checked">Cartoon</label>
+    <h3>Stijl</h3>
+    <div class="checkbox-container">
+      <label>
+        <input type="checkbox" class="checkbox-checked" />
+        Fine line
+      </label>
+      <label
+        ><input type="checkbox" class="checkbox-checked" />Traditioneel</label
+      >
+      <label><input type="checkbox" class="checkbox-checked" />Blackwork</label>
+      <label
+        ><input type="checkbox" class="checkbox-checked" />Waterkleur</label
+      >
+      <label
+        ><input type="checkbox" class="checkbox-checked" />Geometrisch</label
+      >
+      <label
+        ><input type="checkbox" class="checkbox-checked" />Minimalistisch</label
+      >
+      <label><input type="checkbox" class="checkbox-checked" />Cartoon</label>
+    </div>
+    <button class="filter-button">Toepassen</button>
   </div>
 </div>

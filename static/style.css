@@ -9,7 +9,10 @@
 * {
   margin: 0;
   padding: 0;
-  overflow-x: auto;
+  
+}
+*:focus {
+  outline: 2px solid var(--focus-item);
 }
 /*********************/
 /* CUSTOM PROPERTIES */
@@ -21,6 +24,7 @@
   --color-button: #ff5527;
   --uppercase: uppercase;
   --border-button: 4px;
+  --focus-item: #0035C7;
 }
 /****************/
 /* Algemeen */
@@ -32,6 +36,7 @@ h1 {
   clip: rect(1px, 1px, 1px, 1px); /* Voor oudere browsers */
   clip-path: inset(50%);
   white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
+  overflow: hidden;
 }
 
 body {
@@ -59,9 +64,8 @@ header img {
 /* nav.ejs */
 /****************/
 footer {
-  position: fixed;
+  position: sticky;
   bottom: 0;
-  width: 100%;
   z-index: 1000;
   background-color: var(--color-background);
 }
@@ -113,10 +117,6 @@ section.search {
   border: 2px solid var(--color-text);
   background-color: var(--color-background);
 }
-.search-bar:focus {
-  border: 2px solid var(--focus);
-}
-
 .search-icon {
   position: absolute;
   left: 2.5em;
@@ -134,20 +134,18 @@ section.filtersorting {
   align-items: center;
   padding: 0 1em;
 }
-
 nav {
-  padding: 0 1em;
+  padding: 0 1.2em;
   display: flex;
   justify-content: flex-end;
 }
 
 #filterButton {
-  font-size: 24px;
   cursor: pointer;
   background-color: var(--color-background);
 }
 #filterButton img {
-  width: 2em;
+  width: 3em;
   height: auto;
   border: 2px solid var(--color-text);
   border-radius: 40px;
@@ -188,12 +186,36 @@ nav {
 .sidebar-content {
   padding: 2em;
 }
-.sidebar-content input[type="checkbox"] {
-  margin: 0; /* Verwijdert standaardmarges rond de checkbox */
-  vertical-align: middle; /* Zorgt ervoor dat de checkbox goed uitlijnt met de tekst */
+.checkbox-container {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
+.checkbox-container label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 2em;
+  width: 20px;
+  height: 20px;
+}
+
 .checkbox-checked {
   accent-color: var(--color-button); /* Verander naar gewenste kleur */
+}
+.filter-button {
+  background-color: var(--color-button);
+  width: 15em;
+  height: 3em;
+  margin-top: 3em;
+  color: var(--color-text);
+  font-family: var(--main-font);
+  font-size: 1em;
 }
 /****************/
 /* Sorting function */
@@ -249,15 +271,6 @@ swiper-container {
   height: 100%;
 }
 
-swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 swiper-slide img {
   display: block;
   width: 100%;
@@ -269,7 +282,7 @@ swiper-slide {
   width: 80%;
 }
 /****************/
-/*vertical carousel*/
+/* vertical carousel */
 /****************/
 .carousel-container {
   margin-top: 2em;
@@ -279,7 +292,6 @@ swiper-slide {
 
 .carousel-item {
   position: relative;
-  height: 60vh; /* Volledige viewporthoogte */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -294,19 +306,19 @@ swiper-slide {
 
 .icon-box {
   position: absolute;
-  width: 3em;
-  height: 3em;
+  width: 2.5em;
+  height: 2.5em;
   background-color: var(--color-background);
   display: flex;
   left: 1em;
   top: 1em;
   justify-content: center;
   align-items: center;
-  border-radius: 4px; /* Optioneel voor afgeronde hoeken */
+  border-radius: 4px;
 }
 .icon-box img {
-  width: 40px;
-  height: 40px;
+  width: 2.5em;
+  height: 2.5em;
 }
 
 .icon-box .outline {
