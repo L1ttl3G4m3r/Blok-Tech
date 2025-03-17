@@ -148,7 +148,7 @@ app.post('/register', async (req, res) => {
           return res.status(400).send("Dit e-mailadres is al in gebruik");
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await hashPassword(password);
       const sanitizedUsername = xss(username);
       const newUser = { 
           username: sanitizedUsername.trim(), 
