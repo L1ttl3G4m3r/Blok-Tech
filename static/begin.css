@@ -1,8 +1,25 @@
+/*********************/
+/* CUSTOM PROPERTIES */
+/*********************/
+:root {
+    --main-font: "Big Shoulders", sans-serif;
+    --color-text: #f3f0dd;
+    --color-background: #000000;
+    --color-button: #ff5527;
+    --button-hover: #DC3F15;
+    --uppercase: uppercase;
+    --border-button: 4px; 
+    --focus-item: #0035C7;
+  }
+/*********************/
+/* Achtergrond API */
+/*********************/
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
+    font-family: var(--main-font);
 }
 .background-container {
     position: fixed;
@@ -57,8 +74,14 @@ main {
     color: white;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
-button {
-    margin: 10px;
-    padding: 10px 20px;
+
+
+.buttoncontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40vh;
     font-size: 16px;
 }
+
