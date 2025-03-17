@@ -1,25 +1,30 @@
 /**************/
 /* CSS REMEDY */
 /**************/
-*, *::after, *::before {
+*,
+*::after,
+*::before {
   box-sizing: border-box;
-
-
 }
 * {
   margin: 0;
   padding: 0;
+  
+}
+*:focus {
+  outline: 2px solid var(--focus-item);
 }
 /*********************/
 /* CUSTOM PROPERTIES */
-/*********************/ 
+/*********************/
 :root {
   --main-font: "Big Shoulders", sans-serif;
-  --color-text: #F3F0DD;
+  --color-text: #f3f0dd;
   --color-background: #000000;
-  --color-button: #FF5527;
+  --color-button: #ff5527;
   --uppercase: uppercase;
   --border-button: 4px;
+  --focus-item: #0035C7;
 }
 /****************/
 /* Algemeen */
@@ -28,78 +33,47 @@ h1 {
   position: absolute;
   width: 1px;
   height: 1px;
-  overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px); /* Voor oudere browsers */
   clip-path: inset(50%);
   white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
+  overflow: hidden;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: black;
+  background-color: var(--color-background);
   font-family: var(--main-font);
   font-optical-sizing: auto;
   font-weight: 500;
-  font-style: normal;
-  background-color: var(--color-background);
-  margin: 0;
   color: var(--color-text);
   width: 27.5em;
+}
+
+/****************/
+/* logo */
+/****************/
+header {
+  top: 0;
   display: flex;
   justify-content: center;
-  flex-direction: column;
-
+  margin: 2em 0;
+}
+header img {
+  width: 12em;
 }
 /****************/
 /* nav.ejs */
 /****************/
-
+footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  background-color: var(--color-background);
+}
 .navbar {
   display: flex;
   justify-content: space-around;
   list-style-type: none;
-  padding: 0;
 }
-
-.nav-item a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: color 1s ease, transform 0.3s ease;
-  text-decoration: none;
-  color: var(--color-text)
-}
-
-.nav-item h5 {
-  font-size: 1em;
-}
-.nav-item img {
-  width: 6em;
-}
-
-.nav-item:hover img, 
-.nav-item:hover
- {
-  filter: invert(50%);
-
-}
-/****************/
-/* top */
-/****************/
-.topPart {
-  top: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.topPart img {
-  width: 15em;
-}
-/****************/
-/* form */
-/****************/
-
 .nav-item a {
   display: flex;
   flex-direction: column;
@@ -116,39 +90,185 @@ body {
   width: 4em;
   height: auto;
 }
-
-.nav-item:hover img, 
-.nav-item:hover
- {
+.nav-item:hover img,
+.nav-item:hover {
   filter: invert(50%);
-
 }
 /****************/
-/* logo */
+/* Searchbar */
 /****************/
-.topPart {
-  top: 0;
+section.search {
   display: flex;
   justify-content: center;
-  margin: 3em 0;
+}
+.search-container {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
 }
 
-.topPart img {
-  width: 12em;
+.search-bar {
+  width: 22em;
+  padding: 0 0 0 3em;
+  height: 3em;
+  font-size: 1em;
+  border-radius: 4px;
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  background-color: var(--color-background);
+}
+.search-icon {
+  position: absolute;
+  left: 2.5em;
+}
+.search-icon img {
+  width: 3em;
+  height: 3em;
+}
+/****************/
+/* Filter function */
+/****************/
+section.filtersorting {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 1em;
+}
+nav {
+  padding: 0 1.2em;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#filterButton {
+  cursor: pointer;
+  background-color: var(--color-background);
+}
+#filterButton img {
+  width: 3em;
+  height: auto;
+  border: 2px solid var(--color-text);
+  border-radius: 40px;
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  right: 0;
+  background-color: var(--color-text);
+  color: var(--color-background);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  border-bottom: 2px solid var(--color-background);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.close-button img {
+  width: 2em;
+  height: auto;
+  filter: invert(100%);
+}
+.sidebar-content {
+  padding: 2em;
+}
+.checkbox-container {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-container label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 2em;
+  width: 20px;
+  height: 20px;
+}
+
+.checkbox-checked {
+  accent-color: var(--color-button); /* Verander naar gewenste kleur */
+}
+.filter-button {
+  background-color: var(--color-button);
+  width: 15em;
+  height: 3em;
+  margin-top: 3em;
+  color: var(--color-text);
+  font-family: var(--main-font);
+  font-size: 1em;
+}
+/****************/
+/* Sorting function */
+/****************/
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropbtn {
+  background-color: var(--color-background);
+  cursor: pointer;
+  width: 8em;
+  height: 3em;
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  font-family: var(--main-font);
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--color-text);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: var(--color-background);
+  padding: 1em 1em;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover {
+  background-color: var(--color-text);
+}
+.show {
+  display: block;
 }
 /****************/
 /* Carousel */
 /****************/
+section.carousel-section {
+  margin-top: 2em;
+}
+.textcontainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em 2em;
+  align-items: center;
+}
+.textcontainer a {
+  color: var(--color-text);
+}
 swiper-container {
   width: 100%;
   height: 100%;
-}
-
-swiper-slide {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 swiper-slide img {
@@ -162,87 +282,59 @@ swiper-slide {
   width: 80%;
 }
 /****************/
-/* Searchbar */
+/* vertical carousel */
 /****************/
-.search-container {
-  position: relative;
+.carousel-container {
+  margin-top: 2em;
   display: flex;
-  justify-content: space-around;
-  max-width: 450px;
+  flex-direction: column;
 }
 
-.search-bar {
-  width: 20em;
-  padding: 0 0 0 2.5em;
-  height: 3em;
-  font-size: 1em;
-  border-radius: 4px;
-  color: var(--color-text); 
-  border: 2px solid var(--color-text);
-  background-color: var(--color-background);
-}
-.search-bar:focus {
-  border: 2px solid var(--focus);
-}
-
-.search-icon {
-  position: absolute;
-  left: 0.8em;
-}
-.search-icon img  {
-  width: 3em;
-  height: 3em;
-}
-/****************/
-/* Filter function */
-/****************/
-.filter-button {
-  border: 2px solid var(--color-text);
-  background-color: var(--color-background);
-  border-radius: 50px;
-  width: 4em;
-  height: 4em;
-  z-index: 2;
+.carousel-item {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 2em;
 }
 
-.filter-button img {
-  width: 3.5em; /* Pas de grootte van het icoon aan */
-  height: 3.5em;
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.filter-menu {
+.icon-box {
   position: absolute;
-  left: 0;
-  background-color: var(--color-text);
-  padding: 1em;
-  width: 27.5em;
-  z-index: 1000;
-  color: var(--color-background);
-}
-
-.hidden {
-  display: none; /* Verbergt normal state */
-}
-
-.filter-option {
+  width: 2.5em;
+  height: 2.5em;
+  background-color: var(--color-background);
   display: flex;
-
+  left: 1em;
+  top: 1em;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+}
+.icon-box img {
+  width: 2.5em;
+  height: 2.5em;
 }
 
-#applyFilters {
-  margin-top: 1em;
-  padding: 1em 3em;
-  background-color: var(--color-button);
-  cursor: pointer;
-  color: var(--color-text);
-  font-family: var(--main-font);
-  font-size: 1em;
+.icon-box .outline {
+  display: block;
 }
-.styled-checkbox {
-  accent-color: var(--color-button); /* Verander naar gewenste kleur */
+
+.icon-box .fill {
+  display: none;
+}
+
+.icon-box.active .outline {
+  display: none;
+}
+
+.icon-box.active .fill {
+  display: block;
 }
 /****************/
 /* form */
@@ -253,19 +345,16 @@ swiper-slide {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 label {
   display: block;
   margin-bottom: 8px;
 }
-
 input {
   width: 100%;
   padding: 8px;
   margin-bottom: 16px;
   box-sizing: border-box;
 }
-
 button {
   color: black;
   padding: 10px;
