@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="background-container" id="backgroundContainer"></div>
+    <div id="imageUrlsData" data-image-urls='<%- JSON.stringify(imageUrls) %>'></div>
     
     <main>
         <img src="." alt="Logo">
@@ -18,5 +19,6 @@
         <button><a href="/register">Maak een account aan</a></button>
         <button><a href="/registerArtists">Maak een artiestenaccount aan</a></button>
     </main>
+    <script src="/static/script/addAfbeelding.js" defer></script>
 </body>
 </html>
