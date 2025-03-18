@@ -81,14 +81,14 @@ app.get('/', async (req, res) => {
   try {
     const imageUrls = await fetchUnsplashImages('tattoo', 30);
     console.log('Image URLs being sent to template:', imageUrls.slice(0, 2)); // Log first two items
-    res.render("begin.ejs", { imageUrls: imageUrls }, { pageTitle: 'Beginpagina' });
+    res.render("begin.ejs", { imageUrls: imageUrls });
   } catch (error) {
     console.error("Error in home route:", error);
     res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
   }
 });
 
-app.get('/register', (req, res) => res.render("register.ejs"));
+app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
 
 app.post('/register', async (req, res) => {
   try {
