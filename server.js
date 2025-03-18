@@ -81,7 +81,7 @@ app.get('/', async (req, res) => {
   try {
     const imageUrls = await fetchUnsplashImages('tattoo', 30);
     console.log('Image URLs being sent to template:', imageUrls.slice(0, 2)); // Log first two items
-    res.render("begin.ejs", { imageUrls: imageUrls });
+    res.render("begin.ejs", { imageUrls: imageUrls }, { pageTitle: 'Beginpagina' });
   } catch (error) {
     console.error("Error in home route:", error);
     res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
@@ -149,7 +149,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.get('/log-in', (req, res) => res.render("log-in.ejs"));
+app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
 app.post('/log-in', async (req, res) => {
     try {
@@ -172,31 +172,31 @@ app.post('/log-in', async (req, res) => {
 });
 
 app.get('/profiel', (req, res) => {
-    res.render('profiel.ejs');
+    res.render('profiel.ejs', { pageTitle: 'Profiel' });
   });
   
   app.get('/post', (req, res) => {
-    res.render('post.ejs');
+    res.render('post.ejs', { pageTitle: 'Post' });
   });
   
   app.get('/artiesten', (req, res) => {
-    res.render('artiesten.ejs');
+    res.render('artiesten.ejs', { pageTitle: 'Artiesten' });
   });
   
   app.get('/zie-alle', (req, res) => {
-    res.render('zie-alle.ejs');
+    res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
   });
   
   app.get('/detail/:id', (req, res) => {
-    res.render('detailpagina', { id: req.params.id });
+    res.render('detailpagina', { id: req.params.id }, { pageTitle: 'Detailpagina' });
   });
 
   app.get('/preview', (req, res) => {
-    res.render('preview');
+    res.render('preview', { pageTitle: 'Preview' });
   });
 
   app.get('/index', (req, res) => {
-    res.render('index.ejs');
+    res.render('index.ejs', { pageTitle: 'Home' } );
   });
 
 // 404 handler
