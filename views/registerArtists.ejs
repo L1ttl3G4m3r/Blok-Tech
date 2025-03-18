@@ -41,6 +41,17 @@
         <div class="container">
             <h2>Register</h2>
             <form action="/registerArtists" id="aanmaakform" method="POST">
+    <%- include('partials/head') %>
+</head>
+    <body>
+        <header>
+            <%- include('partials/header') %>
+        </header>
+        <main>
+        <div class="form-container">
+            <h2 class="form-heading">Registeren als artiest</h2>
+            <form action="/registerArtists" id="aanmaakform" method="POST"> 
+            <div class="formgroup">
                 <label for="username">Gebruikersnaam</label>
                 <input type="text" name="username" id="username" required>
 

@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inkspire</title>
-    <link rel="stylesheet" href="/static/begin.css">
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Home</title>
+<link rel="stylesheet" href="/static/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Big+Shoulders:opsz,wght@10..72,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+    <link rel="stylesheet" href="/static/begin.css"> 
 </head>
 <body>
+    <header><%- include('partials/header') %></header>
     <div class="background-container" id="backgroundContainer"></div>
+
+
+
     <div id="imageUrlsData" data-image-urls='<%- JSON.stringify(imageUrls) %>'></div>
     
+
     <main>
-        <img src="." alt="Logo">
-        <h1>Inkspire</h1>
-        <h2>slogan/beschrijving</h2>
-    
-        <button><a href="/log-in">Inloggen</a></button>
-        <button><a href="/register">Maak een account aan</a></button>
-        <button><a href="/registerArtists">Maak een artiestenaccount aan</a></button>
+    <div class="buttoncontainer">
+        <a href="/log-in" class="button-cta">Inloggen</a>
+        <a href="/register" class="button-cta2">Registreren als bezoeker</a>
+        <a href="/registerArtists" class="button-cta2">Registreren als artiest</a>
+    </div>
     </main>
+
+    <footer>
+    </footer>
+
     <script src="/static/script/addAfbeelding.js" defer></script>
+
 </body>
 </html>

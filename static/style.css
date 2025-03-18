@@ -22,6 +22,7 @@
   --color-text: #f3f0dd;
   --color-background: #000000;
   --color-button: #ff5527;
+  --button-hover: #DC3F15;
   --uppercase: uppercase;
   --border-button: 4px; 
   --focus-item: #0035C7;
@@ -45,7 +46,6 @@ body {
   font-optical-sizing: auto;
   font-weight: 500;
   color: var(--color-text);
-  width: 27.5em;
 }
 
 /****************/
@@ -337,28 +337,79 @@ swiper-slide {
   display: block;
 }
 /****************/
-/* form */
+/* Buttons */
 /****************/
-.container {
-  background-color: black;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.button-cta {
+  padding: 1em 9em;
+  border-radius: 4px;
+  background-color: var(--color-button);
+  margin: 1em;
+  font-size: 1em;
+  font-family: var(--main-font);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);    
 }
-label {
-  display: block;
-  margin-bottom: 8px;
+.button-cta2 {
+  border: 2px solid var(--color-text);
+  padding: 1em 6em;
+  background-color: var(--color-background);
+  margin: 1em;
+  font-size: 1em;
+  font-family: var(--main-font);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+  border-radius: 4px;
+}
+.button-cta:hover {
+  background-color: var(--button-hover);
+}
+.button-cta2:hover {
+  background-color: var(--color-text);
+  
+}
+.button-cta2:hover {
+  color: var(--color-background);
+}
+/****************/
+/* forms login/register */
+/****************/
+h2.form-heading {
+  align-self: flex-start;
+  margin-bottom: 1em;
+  font-size: 2em;
+}
+.form-container {
+  max-width: 40em;
+  margin: 0 auto;
+  padding: 2em;
+}
+.formgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 input {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 16px;
-  box-sizing: border-box;
-}
-button {
-  color: black;
-  padding: 10px;
-  border: none;
+  padding: 1em;
+  border: 2px solid var(--color-text);
+  background-color: var(--color-background);
   border-radius: 4px;
-  cursor: pointer;
+  color: var(--color-text);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 20px;
+}
+h4 {
+  color: var(--button-hover);
+  font-size: 0.8em;
+}
+
+div.form-container a {
+  color: var(--button-hover);
 }
