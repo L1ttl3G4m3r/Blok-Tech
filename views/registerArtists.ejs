@@ -3,14 +3,15 @@
 <head>
     <%- include('partials/head') %>
 </head>
-<body>
-    <header>
-        
-    </header>
     <body>
-        <div class="container">
-            <h2>Register</h2>
-            <form action="/registerArtists" id="aanmaakform" method="POST">                
+        <header>
+            <%- include('partials/header') %>
+        </header>
+        <main>
+        <div class="form-container">
+            <h2 class="form-heading">Registeren als artiest</h2>
+            <form action="/registerArtists" id="aanmaakform" method="POST"> 
+            <div class="formgroup">          
                 <label for="username">Gebruikersnaam</label>
                 <input type="text" name="username" id="username" required>
 
@@ -25,14 +26,18 @@
 
                 <label for="studio">Studio</label>
                 <input type="search" name="studio" id="studio" required>
-
-                <button type="submit">Maak gebruiker aan</button>
-                <button type="reset">Begin opnieuw</button>
+            </div>     
+            <div class="button-group">
+                <button class="button-cta" type="submit">Registreren</button>
+                <button class="button-cta2" type="reset">Begin opnieuw</button>
+            </div>
             </form>
         </div>
-    </body>
+    </main>
     <footer>
         
     </footer>
+    </body>
+
 </body>
 </html>

@@ -340,7 +340,7 @@ swiper-slide {
 /* Buttons */
 /****************/
 .button-cta {
-  padding: 1em 8em;
+  padding: 1em 9em;
   border-radius: 4px;
   background-color: var(--color-button);
   margin: 1em;
@@ -352,7 +352,7 @@ swiper-slide {
 }
 .button-cta2 {
   border: 2px solid var(--color-text);
-  padding: 1em 5em;
+  padding: 1em 6em;
   background-color: var(--color-background);
   margin: 1em;
   font-size: 1em;
@@ -373,28 +373,43 @@ swiper-slide {
   color: var(--color-background);
 }
 /****************/
-/* form */
+/* forms login/register */
 /****************/
-.container {
-  background-color: black;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+h2.form-heading {
+  align-self: flex-start;
+  margin-bottom: 1em;
+  font-size: 2em;
 }
-label {
-  display: block;
-  margin-bottom: 8px;
+.form-container {
+  max-width: 40em;
+  margin: 0 auto;
+  padding: 2em;
+}
+.formgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 input {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 16px;
-  box-sizing: border-box;
-}
-button {
-  color: black;
-  padding: 10px;
-  border: none;
+  padding: 1em;
+  border: 2px solid var(--color-text);
+  background-color: var(--color-background);
   border-radius: 4px;
-  cursor: pointer;
+  color: var(--color-text);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 20px;
+}
+h4 {
+  color: var(--button-hover);
+  font-size: 0.8em;
+}
+
+div.form-container a {
+  color: var(--button-hover);
 }

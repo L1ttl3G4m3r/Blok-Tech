@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('partials/head') %>
-</head>
-<body>
-    <header>
-        
-    </header>
-    <body>
-        <div class="container">
-            <h2>Log in</h2>
-            <form action="/log-in" id="log-inform" method="POST">                
-                <label for="e-mail">E-mail</label>
-                <input type="text" name="email" id="email" required>
+  </head>
+  <body>
+    <header><%- include('partials/header') %></header>
+    <main>
+      <div class="form-container">
+        <h2 class="form-heading">Inloggen</h2>
 
-                <label for="wachtwoord">wachtwoord:</label>
-                <input type="password" name="password" id="password" required>
+        <form action="/log-in" id="log-inform" method="POST">
+          <div class="formgroup">
+            <label for="e-mail">E-mail</label>
+            <input type="text" name="email" id="email" required />
 
-                <button type="submit">Log in</button>
-                <button type="reset">Begin opnieuw</button>
-            </form>
-            <a href="/forgot-password">Wachtwoord vergeten?</a>
-        </div>
-    </body>
-    <footer>
-        
-    </footer>
-</body>
+            <label for="wachtwoord">wachtwoord</label>
+            <input type="password" name="password" id="password" required />
+          </div>
+          <div class="button-group">
+            <button class="button-cta" type="submit">Inloggen</button>
+            <button class="button-cta2" type="reset">Begin opnieuw</button>
+          </div>
+          <a href="/forgot-password">Wachtwoord vergeten?</a>
+        </form>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
 </html>
