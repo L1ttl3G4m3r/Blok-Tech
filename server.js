@@ -294,9 +294,48 @@ app.get('/preview', (req, res) => {
     res.render('preview');
 });
 
-app.get('/index', (req, res) => {
-    res.render('index.ejs');
+// Bestaande route voor index.ejs (na login/registratie)
+app.get('/index', async (req, res) => {
+  let carouselImages = [];
+  let gridImages = [];
+
+  try {
+    // Haal algemene tattoo afbeeldingen op voor de grid
+    const gridResponse = await unsplash.search.getPhotos({
+      query: 'tattoo',
+      perPage: 28
+    });
+    gridImages = gridResponse.response.results;
+
+    // TODO: Implementeer vragenlijst en gebruikerstags
+    // if (req.session.userTags) {
+    //   const carouselResponse = await unsplash.search.getPhotos({
+    //     query: `tattoo ${req.session.userTags.join(' ')}`,
+    //     perPage: 10
+    //   });
+    //   carouselImages = carouselResponse.response.results;
+    // }
+
+    res.render('index', {
+      carouselImages: carouselImages,
+      gridImages: gridImages,
+      // userTags: req.session.userTags
+    });
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).send('Er is een fout opgetreden bij het ophalen van afbeeldingen');
+  }
 });
+
+// TODO: Implementeer route voor vragenlijst
+// app.get('/vragenlijst', (req, res) => {
+//   res.render('vragenlijst');
+// });
+
+// app.post('/vragenlijst', (req, res) => {
+//   req.session.userTags = req.body.tags;
+//   res.redirect('/index');
+// });
 
 app.get('/api/studios', async (req, res) => {
     try {
