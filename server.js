@@ -100,7 +100,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/register', (req, res) => res.render("register.ejs"));
+app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
 
 app.post('/register', async (req, res) => {
     try {
@@ -236,7 +236,7 @@ app.post('/registerArtists', async (req, res) => {
     }
 });
 
-app.get('/log-in', (req, res) => res.render("log-in.ejs"));
+app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
 app.post('/log-in', async (req, res) => {
     try {
@@ -260,6 +260,35 @@ app.post('/log-in', async (req, res) => {
         res.status(500).send("Er is een fout opgetreden bij het inloggen");
     }
 });
+
+
+app.get('/profiel', (req, res) => {
+    res.render('profiel.ejs', { pageTitle: 'Profiel' });
+  });
+  
+  app.get('/post', (req, res) => {
+    res.render('post.ejs', { pageTitle: 'Post' });
+  });
+  
+  app.get('/artiesten', (req, res) => {
+    res.render('artiesten.ejs', { pageTitle: 'Artiesten' });
+  });
+  
+  app.get('/zie-alle', (req, res) => {
+    res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
+  });
+  
+  app.get('/detail/:id', (req, res) => {
+    res.render('detailpagina', { id: req.params.id }, { pageTitle: 'Detailpagina' });
+  });
+
+  app.get('/preview', (req, res) => {
+    res.render('preview', { pageTitle: 'Preview' });
+  });
+
+  app.get('/index', (req, res) => {
+    res.render('index.ejs', { pageTitle: 'Home' } );
+  });
 
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
