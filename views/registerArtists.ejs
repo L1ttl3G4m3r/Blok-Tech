@@ -3,38 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">    <title>Register artist</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Register artist</title>
+    <style>
+        #studioSearchContainer {
+            position: relative;
+        }
+
+        #searchResults {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #searchResults li {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        #searchResults li:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
     <header>
-        
     </header>
-    <body>
+    <main>
         <div class="container">
             <h2>Register</h2>
-            <form action="/registerArtists" id="aanmaakform" method="POST">                
+            <form action="/registerArtists" id="aanmaakform" method="POST">
                 <label for="username">Gebruikersnaam</label>
                 <input type="text" name="username" id="username" required>
 
                 <label for="email">E-mail</label>
-                <input type="email" name="email" id="email" required>
+                <input type="text" name="email" id="email" required>
 
                 <label for="password">Wachtwoord</label>
                 <input type="password" name="password" id="password" required>
 
-                <label for="passwordA">Verifieer jouw wachtwoord</label>
-                <input type="passwordA" name="confirmPasswordA" id="passwordA" required>
+                <label for="confirmPassword">Verifieer jouw wachtwoord</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" required>
 
-                <label for="studio">Studio</label>
-                <input type="search" name="studio" id="studio" required>
+                <label for="studioName">Studio Naam</label>
+                <input type="text" name="studioName" id="studioName">
+
+                <label for="studioAddress">Studio Addres</label>
+                <input type="text" name="studioAddress" id="studioAddress">
+
+                <div id="studioSearchContainer">
+                    <label for="studioSearch">Zoek Studio</label>
+                    <input type="search" id="studioSearch" placeholder="Zoek een studio...">
+                    <ul id="searchResults"></ul>
+                </div>
+
+                <input type="hidden" id="studioLat" name="studioLat">
+                <input type="hidden" id="studioLng" name="studioLng">
 
                 <button type="submit">Maak gebruiker aan</button>
                 <button type="reset">Begin opnieuw</button>
             </form>
         </div>
-    </body>
-    <footer>
-        
-    </footer>
+    </main>
+    <script>
+ const mapboxToken = '<%= mapboxToken %>';
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('studioSearch');
+            const searchResults = document.getElementById('searchResults');
+            let sessionToken = generateSessionToken();
+
+            function generateSessionToken() {
+                return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            }
+
+            searchInput.addEventListener('input', async () => {
+                const searchTerm = searchInput.value;
+
+                if (searchTerm.length < 3) {
+                    searchResults.innerHTML = '';
+                    return;
+                }
+
+                try {
+                    const suggestUrl = `https://api.mapbox.com/search/searchbox/v1/suggest?q=${encodeURIComponent(searchTerm)}&language=nl&country=nl&proximity=4.9041,52.3676&types=poi&session_token=${sessionToken}&access_token=${mapboxToken}`;
+
+                    const suggestResponse = await fetch(suggestUrl);
+                    if (!suggestResponse.ok) {
+                        throw new Error(`HTTP error! status: ${suggestResponse.status}`);
+                    }
+                    const suggestData = await suggestResponse.json();
+
+                    searchResults.innerHTML = '';
+                    suggestData.suggestions.forEach(suggestion => {
+                        const li = document.createElement('li');
+                        li.textContent = `${suggestion.name}, ${suggestion.full_address || 'Geen adres beschikbaar'}`;
+                        li.addEventListener('click', async () => {
+                            try {
+                                const retrieveUrl = `https://api.mapbox.com/search/searchbox/v1/retrieve/${suggestion.mapbox_id}?session_token=${sessionToken}&access_token=${mapboxToken}`;
+                                const retrieveResponse = await fetch(retrieveUrl);
+                                if (!retrieveResponse.ok) {
+                                    throw new Error(`HTTP error! status: ${retrieveResponse.status}`);
+                                }
+                                const retrieveData = await retrieveResponse.json();
+
+                                document.getElementById('studioName').value = retrieveData.features[0].properties.name || '';
+                                document.getElementById('studioAddress').value = retrieveData.features[0].properties.full_address || '';
+                                
+                                if (retrieveData.features[0].geometry && retrieveData.features[0].geometry.coordinates) {
+                                    document.getElementById('studioLat').value = retrieveData.features[0].geometry.coordinates[1] || '';
+                                    document.getElementById('studioLng').value = retrieveData.features[0].geometry.coordinates[0] || '';
+                                }
+
+                                searchResults.innerHTML = '';
+                                searchInput.value = ''; // Clear the search input after selection
+
+                            } catch (error) {
+                                console.error('Error retrieving data:', error);
+                            }
+                        });
+                        searchResults.appendChild(li);
+                    });
+                } catch (error) {
+                    console.error('Error fetching suggestions:', error);
+                    searchResults.innerHTML = '<li>Error fetching results</li>';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
