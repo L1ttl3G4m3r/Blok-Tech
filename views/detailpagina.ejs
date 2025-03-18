@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tattoo Detail</title>
+</head>
+<body>
+    <h1>Tattoo Detail</h1>
+    <img id="tattooImage" src="" alt="Tattoo Image" style="max-width: 500px;">
+    <button id="previewButton">Preview</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tattooImage = document.getElementById('tattooImage');
+            const previewButton = document.getElementById('previewButton');
+
+            // Haal de image URL op van de server (voorbeeld)
+            const imageUrl = `/api/image/${window.location.pathname.split('/').pop()}`;
+
+            fetch(imageUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    tattooImage.src = data.url;
+                    previewButton.addEventListener('click', () => {
+                        window.location.href = `/preview?imageUrl=${data.url}`;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching image:', error);
+                    tattooImage.src = 'placeholder-image.jpg'; // Fallback image
+                });
+        });
+    </script>
+</body>
+</html>

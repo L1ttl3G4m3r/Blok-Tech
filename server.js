@@ -309,6 +309,41 @@ app.get('/api/studios', async (req, res) => {
     }
 });
 
+app.get('/detail/:id', async (req, res) => {
+  try {
+      const imageUrls = await fetchUnsplashImages('tattoo', 30);
+      const image = imageUrls[req.params.id % imageUrls.length]; // Get image by ID (modulus to prevent out of bounds)
+      if (image) {
+          res.render('detailpagina', { id: req.params.id });
+      } else {
+          res.status(404).send('Image not found');
+      }
+  } catch (error) {
+      console.error("Error fetching image:", error);
+      res.status(500).send("Failed to load image details");
+  }
+});
+
+app.get('/api/image/:id', async (req, res) => {
+  try {
+      const imageUrls = await fetchUnsplashImages('tattoo', 30);
+      const image = imageUrls[req.params.id % imageUrls.length]; // Get image by ID (modulus to prevent out of bounds)
+      if (image) {
+          res.json(image);
+      } else {
+          res.status(404).send('Image not found');
+      }
+  } catch (error) {
+      console.error("Error fetching image:", error);
+      res.status(500).send("Failed to load image");
+  }
+});
+
+app.get('/preview', (req, res) => {
+  const imageUrl = req.query.imageUrl;
+  res.render('preview', { imageUrl: imageUrl });
+});
+
 app.use((req, res) => {
     res.status(404).send('404 - Pagina niet gevonden');
     console.log(`404 Error: ${req.originalUrl}`);
