@@ -8,8 +8,6 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
 const fetch = require('node-fetch');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 
 const uri = process.env.URI;
 const client = new MongoClient(uri);
@@ -27,62 +25,39 @@ async function hashPassword(password) {
     return await bcrypt.hash(password, saltRounds);
 }
 
-async function fetchUnsplashImages(query, count = 70) {
-    try {
-        const response = await fetch(`https://api.unsplash.com/photos/random?query=${query}&count=${count}`, {
-            headers: { 'Authorization': `Client-ID ${unsplashApiKey}` }
-        });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        return data.map(image => ({
-            url: image.urls.regular,
-            height: image.height,
-            width: image.width
-        }));
-    } catch (error) {
-        console.error('Error fetching Unsplash images:', error);
-        return [];
-    }
-}
-
-
-function isLoggedIn(req, res, next) {
-    if (req.session.user) {
-      next();
-    } else {
-      res.redirect('/log-in');
-    }
-  }
-  
-
-//Sessions
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.URI,
-      dbName: process.env.DB_NAME
-    }),
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-    }
-  }));
-
-app.get('/profiel', isLoggedIn, (req, res) => {
-    res.render('profiel.ejs', { user: req.session.user });
-  });
-
-
-app.get('/log-out', (req, res) => {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error("Error destroying session:", err);
+async function fetchUnsplashImages(query, count = 30) {
+  try {
+    const response = await fetch(
+      `https://api.unsplash.com/photos/random?query=${query}&count=${count}&orientation=landscape`, 
+      {
+        headers: { 
+          'Authorization': `Client-ID ${unsplashApiKey}`,
+          'Accept-Version': 'v1'
+        }
       }
-      res.redirect('/');
-    });
-  });
-  
+    );
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(`Unsplash API Error: ${error.errors.join(', ')}`);
+    }
+    
+    const data = await response.json();
+    console.log('Received data from Unsplash:', data.slice(0, 2)); // Log first two items
+    
+    const imageUrls = data.map(image => ({
+      url: image.urls.regular,
+      width: image.width,
+      height: image.height
+    }));
+    console.log('Processed image URLs:', imageUrls.slice(0, 2)); // Log first two items
+    
+    return imageUrls;
+  } catch (error) {
+    console.error('Error fetching Unsplash images:', error);
+    return [];
+  }
+}
 
 // Connectie
 async function connectToDatabase() {
@@ -103,13 +78,14 @@ app.listen(port, '0.0.0.0', () => {
 
 // Routes
 app.get('/', async (req, res) => {
-    try {
-        const imageUrls = await fetchUnsplashImages('tattoo', 70);
-        res.render("begin.ejs", { imageUrls: imageUrls });
-    } catch (error) {
-        console.error("Error in home route:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-    }
+  try {
+    const imageUrls = await fetchUnsplashImages('tattoo', 30);
+    console.log('Image URLs being sent to template:', imageUrls.slice(0, 2)); // Log first two items
+    res.render("begin.ejs", { imageUrls: imageUrls });
+  } catch (error) {
+    console.error("Error in home route:", error);
+    res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+  }
 });
 
 app.get('/register', (req, res) => res.render("register.ejs"));
@@ -177,31 +153,26 @@ app.get('/log-in', (req, res) => res.render("log-in.ejs"));
 
 app.post('/log-in', async (req, res) => {
     try {
-      const collection = db.collection('users');
-      const { email, password } = req.body;
-      const user = await collection.findOne({ email: email });
-      
-      if (!user) {
-        return res.status(400).send("Gebruiker niet gevonden");
-      }
-      
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (isMatch) {
-        // Store user information in session
-        req.session.user = {
-          id: user._id,
-          username: user.username,
-          email: user.email
-        };
-        res.render("index.ejs", { username: user.username });
-      } else {
-        res.status(400).send("Incorrect wachtwoord");
-      }
+        const collection = db.collection('users');
+        const { email, password } = req.body;
+        const user = await collection.findOne({ email: email });
+        if (!user) {
+            return res.status(400).send("Gebruiker niet gevonden");
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (isMatch) {
+            res.render("index.ejs", { username: user.username });
+        } else {
+            res.status(400).send("Incorrect wachtwoord");
+        }
     } catch (error) {
-      console.error("Login error:", error);
-      res.status(500).send("Er is een fout opgetreden bij het inloggen");
+        console.error("Login error:", error);
+        res.status(500).send("Er is een fout opgetreden bij het inloggen");
     }
-    
+});
+
+app.get('/profiel', (req, res) => {
+    res.render('profiel.ejs');
   });
   
   app.get('/post', (req, res) => {

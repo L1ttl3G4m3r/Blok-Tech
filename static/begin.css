@@ -29,7 +29,7 @@ body, html {
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    background-color: black; /* Zwarte achtergrond alleen voor de container */
+    background-color: black;
 }
 .background-container::after {
     content: '';

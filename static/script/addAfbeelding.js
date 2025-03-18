@@ -1,74 +1,57 @@
+// Wacht tot het DOM geladen is
 document.addEventListener('DOMContentLoaded', function() {
-    const addPostLink = document.getElementById('addPostLink');
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/*';
-    fileInput.style.display = 'none';
-    document.body.appendChild(fileInput);
+    // Lees de imageUrls data uit het HTML-element
+    const serverImageUrls = JSON.parse(document.getElementById('imageUrlsData').dataset.imageUrls);
     
-    addPostLink.addEventListener('click', function(e) {
-        e.preventDefault(); // Voorkom de standaard link-actie
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            showMediaOptions();
-        } else {
-            fileInput.click();
+    console.log('Received image URLs:', serverImageUrls);
+    
+    const container = document.getElementById('backgroundContainer');
+    const imageUrls = serverImageUrls;
+    let columns = window.innerWidth <= 768 ? 2 : 7;
+    
+    function createImageColumns() {
+        container.innerHTML = '';
+        for (let i = 0; i < columns; i++) {
+            const column = document.createElement('div');
+            column.className = 'image-column';
+            container.appendChild(column);
         }
-    });
+    }
     
-    fileInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            uploadImage(file);
-        }
-    });
-    
-    function showMediaOptions() {
-        const options = ['Take Photo', 'Choose from Library'];
-        const optionsHtml = options.map((option, index) => 
-            `<button class="media-option" data-option="${index}">${option}</button>`
-        ).join('');
-        
-        const modal = document.createElement('div');
-        modal.innerHTML = `
-            <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;">
-                <div style="background: white; padding: 20px; border-radius: 10px;">
-                    ${optionsHtml}
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        
-        modal.addEventListener('click', function(e) {
-            if (e.target.classList.contains('media-option')) {
-                const option = e.target.dataset.option;
-                if (option === '0') {
-                    // Take Photo
-                    fileInput.setAttribute('capture', 'camera');
-                } else {
-                    // Choose from Library
-                    fileInput.removeAttribute('capture');
-                }
-                fileInput.click();
-                document.body.removeChild(modal);
-            }
+    function fillColumns() {
+        const columns = container.children;
+        let columnIndex = 0;
+        imageUrls.forEach(img => {
+            const div = document.createElement('div');
+            div.className = 'background-image';
+            div.style.backgroundImage = `url(${img.url})`;
+            const aspectRatio = img.height / img.width;
+            div.style.paddingBottom = `${aspectRatio * 100}%`;
+            columns[columnIndex].appendChild(div);
+            columnIndex = (columnIndex + 1) % columns.length;
         });
     }
     
-    function uploadImage(file) {
-        const formData = new FormData();
-        formData.append('image', file);
-        
-        fetch('/upload', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Upload successful:', data);
-            // You can add code here to display the uploaded image or update the UI
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    function duplicateImages() {
+        const columns = container.children;
+        for (let column of columns) {
+            column.innerHTML += column.innerHTML;
+        }
     }
+    
+    function initializeBackground() {
+        createImageColumns();
+        fillColumns();
+        duplicateImages();
+    }
+    
+    initializeBackground();
+    
+    window.addEventListener('resize', () => {
+        const newColumns = window.innerWidth <= 768 ? 2 : 7;
+        if (newColumns !== columns) {
+            columns = newColumns;
+            initializeBackground();
+        }
+    });
 });

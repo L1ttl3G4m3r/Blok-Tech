@@ -18,8 +18,14 @@
     <link rel="stylesheet" href="/static/begin.css"> 
 </head>
 <body>
-    <div class="background-container" id="backgroundContainer"></div>
     <header><%- include('partials/header') %></header>
+    <div class="background-container" id="backgroundContainer"></div>
+
+
+
+    <div id="imageUrlsData" data-image-urls='<%- JSON.stringify(imageUrls) %>'></div>
+    
+
     <main>
     <div class="buttoncontainer">
         <a href="/log-in" class="button-cta">Inloggen</a>
@@ -27,7 +33,11 @@
         <a href="/registerArtists" class="button-cta2">Registreren als artiest</a>
     </div>
     </main>
+
     <footer>
     </footer>
+
+    <script src="/static/script/addAfbeelding.js" defer></script>
+
 </body>
 </html>
