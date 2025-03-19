@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+<%- include('partials/head') %>
+  </head>
+  <body>
+    <!-- Header -->
+    <header><%- include('partials/header') %></header>
+
+    <main>
+      <!-- Titel -->
+      <section class="intro">
+        <h1>Inspiration for your tattoo</h1>
+      </section>
+
+      <!-- Zoekfunctionaliteit -->
+      <section class="search"><%- include('partials/searchbar') %></section>
+      <section class="filtersorting">
+        <%- include('partials/sorting') %>
+        <%- include('partials/filter') %> 
+      </section>
+
+      <!-- Carousel met unieke ideeën -->
+      <section class="carousel-section">
+
+        <div class="textcontainer">
+          <h2>Aanbevolen</h2>
+        </div>
+
+        <section class="artist-section">
+          <%- include('partials/artistlist') %>
+        </section>
+        <div class="textcontainer">
+            <h2>Studios</h2>
+          </div>
+      </section>
+      <section class="carousel-container">
+       <%- include('partials/carouselvertical') %>
+    </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <%- include('partials/nav') %>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="server.js"></script>
+    <script src="/static/script.js"></script>
+    <script src="/static/script/addAfbeelding.js"></script>
+  </body>
+</html>

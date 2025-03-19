@@ -23,10 +23,10 @@ app.set('view engine', 'ejs').set('views', 'views');
 app.use("/static", express.static("static"));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
 }));
 
 app.use(cors());
@@ -37,36 +37,40 @@ async function hashPassword(password) {
 }
 
 async function fetchUnsplashImages(query, count = 30) {
-    try {
-        const response = await fetch(
-            `https://api.unsplash.com/photos/random?query=${query}&count=${count}&orientation=landscape`,
-            {
-                headers: {
-                    'Authorization': `Client-ID ${unsplashApiKey}`,
-                    'Accept-Version': 'v1'
-                }
-            }
-        );
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(`Unsplash API Error: ${error.errors.join(', ')}`);
+  try {
+    const response = await fetch(
+      `https://api.unsplash.com/photos/random?query=${query}&count=${count}&orientation=landscape`, 
+      {
+        headers: { 
+          'Authorization': `Client-ID ${unsplashApiKey}`,
+          'Accept-Version': 'v1'
         }
-
-        const data = await response.json();
-        const imageUrls = data.map(image => ({
-            url: image.urls.regular,
-            width: image.width,
-            height: image.height
-        }));
-
-        return imageUrls;
-    } catch (error) {
-        console.error('Error fetching Unsplash images:', error);
-        return [];
+      }
+    );
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(`Unsplash API Error: ${error.errors.join(', ')}`);
     }
+    
+    const data = await response.json();
+    console.log('Received data from Unsplash:', data.slice(0, 2)); // Log first two items
+    
+    const imageUrls = data.map(image => ({
+      url: image.urls.regular,
+      width: image.width,
+      height: image.height
+    }));
+    console.log('Processed image URLs:', imageUrls.slice(0, 2)); // Log first two items
+    
+    return imageUrls;
+  } catch (error) {
+    console.error('Error fetching Unsplash images:', error);
+    return [];
+  }
 }
 
+// Connectie
 async function connectToDatabase() {
     try {
         await client.connect();
@@ -80,161 +84,165 @@ async function connectToDatabase() {
 connectToDatabase();
 
 app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running on http://0.0.0.0:${port}`);
+  console.log(`Server running on http://0.0.0.0:${port}`);
 });
 
 function isAuthenticated(req, res, next) {
-    if (req.session.userId) {
-        return next();
-    }
-    res.redirect('/log-in');
+  if (req.session.userId) {
+      return next();
+  }
+  res.redirect('/log-in');
 }
 
 app.get('/', async (req, res) => {
-    try {
-        const imageUrls = await fetchUnsplashImages('tattoo', 30);
-        res.render("begin.ejs", { imageUrls: imageUrls });
-    } catch (error) {
-        console.error("Error in home route:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-    }
+  try {
+    const imageUrls = await fetchUnsplashImages('tattoo', 30);
+    console.log('Image URLs being sent to template:', imageUrls.slice(0, 2)); // Log first two items
+    res.render("begin.ejs", { imageUrls: imageUrls });
+  } catch (error) {
+    console.error("Error in home route:", error);
+    res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+  }
 });
 
 app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
 
 app.post('/register', async (req, res) => {
-    try {
-        const collection = db.collection('users');
-        const { username, email, password, confirmPassword } = req.body;
+  try {
+      console.log("Ontvangen registratiegegevens:", req.body);
+      const collection = db.collection('users');
+      const { username, email, password, confirmPassword } = req.body;
 
-        if (!username || !email || !password || !confirmPassword) {
-            return res.status(400).send("Alle velden zijn verplicht");
-        }
+      if (!username || !email || !password || !confirmPassword) {
+          return res.status(400).send("Alle velden zijn verplicht");
+      }
 
-        if (typeof username !== 'string' ||
-            typeof email !== 'string' ||
-            typeof password !== 'string' ||
-            typeof confirmPassword !== 'string') {
-            return res.status(400).send("Ongeldig formulierformaat");
-        }
+      if (typeof username !== 'string' || 
+          typeof email !== 'string' || 
+          typeof password !== 'string' || 
+          typeof confirmPassword !== 'string') {
+          return res.status(400).send("Ongeldig formulierformaat");
+      }
 
-        if (!validator.isEmail(email)) {
-            return res.status(400).send("Ongeldig e-mailadres");
-        }
+      if (!validator.isEmail(email)) {
+          return res.status(400).send("Ongeldig e-mailadres");
+      }
 
-        if (!validator.isLength(password, { min: 8 })) {
-            return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
-        }
+      if (!validator.isLength(password, { min: 8 })) {
+          return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
+      }
 
-        if (password !== confirmPassword) {
-            return res.status(400).send("Wachtwoorden komen niet overeen");
-        }
+      if (password !== confirmPassword) {
+          return res.status(400).send("Wachtwoorden komen niet overeen");
+      }
 
-        const existingUser = await collection.findOne({ email: email });
-        if (existingUser) {
-            return res.status(400).send("Dit e-mailadres is al in gebruik");
-        }
+      const existingUser = await collection.findOne({ email: email });
+      if (existingUser) {
+          return res.status(400).send("Dit e-mailadres is al in gebruik");
+      }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const sanitizedUsername = xss(username);
-        const newUser = {
-            username: sanitizedUsername.trim(),
-            email: email.trim().toLowerCase(),
-            password: hashedPassword
-        };
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const sanitizedUsername = xss(username);
+      const newUser = { 
+          username: sanitizedUsername.trim(), 
+          email: email.trim().toLowerCase(), 
+          password: hashedPassword 
+      };
 
-        const result = await collection.insertOne(newUser);
+      const result = await collection.insertOne(newUser);
+      console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
+      
+      req.session.userId = result.insertedId;
+      req.session.username = sanitizedUsername;
+      res.render("index.ejs",  { pageTitle: 'Profiel' },{ 
+          username: sanitizedUsername,
+          email: email
+      });
 
-        req.session.userId = result.insertedId;
-        req.session.username = sanitizedUsername;
-
-        res.render("index.ejs", {
-            username: sanitizedUsername,
-            email: email
-        });
-    } catch (error) {
-        console.error("Registratiefout:", error);
-        res.status(500).render("error.ejs", {
-            message: "Registratiefout",
-            error: error.message
-        });
-    }
+  } catch (error) {
+      console.error("Registratiefout:", error);
+      res.status(500).render("error.ejs", {
+          message: "Registratiefout",
+          error: error.message
+      });
+  }
 });
 
 app.get('/registerArtists', (req, res) => {
-    res.render('registerArtists.ejs', { mapboxToken: mapboxToken });
+  res.render('registerArtists.ejs', { mapboxToken: mapboxToken });
 });
 
 app.post('/registerArtists', async (req, res) => {
-    try {
-        const collection = db.collection('artists');
-        const { username, email, password, confirmPassword, studioName, studioAddress, studioLat, studioLng } = req.body;
+  try {
+      const collection = db.collection('artists');
+      const { username, email, password, confirmPassword, studioName, studioAddress, studioLat, studioLng } = req.body;
 
-        if (!username || !email || !password || !confirmPassword) {
-            return res.status(400).send("Alle velden zijn verplicht");
-        }
+      if (!username || !email || !password || !confirmPassword) {
+          return res.status(400).send("Alle velden zijn verplicht");
+      }
 
-        if (typeof username !== 'string' ||
-            typeof email !== 'string' ||
-            typeof password !== 'string' ||
-            typeof confirmPassword !== 'string') {
-            return res.status(400).send("Ongeldig formulierformaat");
-        }
+      if (typeof username !== 'string' ||
+          typeof email !== 'string' ||
+          typeof password !== 'string' ||
+          typeof confirmPassword !== 'string') {
+          return res.status(400).send("Ongeldig formulierformaat");
+      }
 
-        if (!validator.isEmail(email)) {
-            return res.status(400).send("Ongeldig e-mailadres");
-        }
+      if (!validator.isEmail(email)) {
+          return res.status(400).send("Ongeldig e-mailadres");
+      }
 
-        if (!validator.isLength(password, { min: 8 })) {
-            return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
-        }
+      if (!validator.isLength(password, { min: 8 })) {
+          return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
+      }
 
-        if (password !== confirmPassword) {
-            return res.status(400).send("Wachtwoorden komen niet overeen");
-        }
+      if (password !== confirmPassword) {
+          return res.status(400).send("Wachtwoorden komen niet overeen");
+      }
 
-        const existingUser = await collection.findOne({ email: email });
-        if (existingUser) {
-            return res.status(400).send("Dit e-mailadres is al in gebruik");
-        }
+      const existingUser = await collection.findOne({ email: email });
+      if (existingUser) {
+          return res.status(400).send("Dit e-mailadres is al in gebruik");
+      }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const sanitizedUsername = xss(username);
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const sanitizedUsername = xss(username);
 
-        const newArtist = {
-            username: sanitizedUsername.trim(),
-            email: email.trim().toLowerCase(),
-            password: hashedPassword,
-            studio: {
-                name: studioName,
-                address: studioAddress,
-                coordinates: {
-                    lat: parseFloat(studioLat),
-                    lon: parseFloat(studioLng)
-                }
-            }
-        };
+      const newArtist = {
+          username: sanitizedUsername.trim(),
+          email: email.trim().toLowerCase(),
+          password: hashedPassword,
+          studio: {
+              name: studioName,
+              address: studioAddress,
+              coordinates: {
+                  lat: parseFloat(studioLat),
+                  lon: parseFloat(studioLng)
+              }
+          }
+      };
 
-        const result = await collection.insertOne(newArtist);
+      const result = await collection.insertOne(newArtist);
 
-        req.session.userId = result.insertedId;
-        req.session.username = sanitizedUsername;
-        req.session.isArtist = true;
+      req.session.userId = result.insertedId;
+      req.session.username = sanitizedUsername;
+      req.session.isArtist = true;
 
-        res.render("artistProfile.ejs", {
-            username: sanitizedUsername,
-            email: email,
-            studioName: studioName
+      res.render("artistProfile.ejs", {
+          username: sanitizedUsername,
+          email: email,
+          studioName: studioName
+      });
+
+  } catch (error) {
+      console.error("Registratiefout voor artiest:", error);
+      res.status(500).render("error.ejs", {
+          message: "Registratiefout voor artiest",
+          error: error.message
         });
-
-    } catch (error) {
-        console.error("Registratiefout voor artiest:", error);
-        res.status(500).render("error.ejs", {
-            message: "Registratiefout voor artiest",
-            error: error.message
-        });
-    }
+      }
 });
+ 
 
 app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
@@ -248,10 +256,9 @@ app.post('/log-in', async (req, res) => {
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch) {
-            req.session.userId = user._id;
-            req.session.username = user.username;
-
-            res.render("index.ejs", { username: user.username });
+          req.session.userId = user._id;
+          req.session.username = user.username;         
+ res.render("index.ejs", { username: user.username },  { pageTitle: 'Profiel' });
         } else {
             res.status(400).send("Incorrect wachtwoord");
         }
@@ -260,7 +267,6 @@ app.post('/log-in', async (req, res) => {
         res.status(500).send("Er is een fout opgetreden bij het inloggen");
     }
 });
-
 
 app.get('/profiel', (req, res) => {
     res.render('profiel.ejs', { pageTitle: 'Profiel' });
@@ -290,7 +296,8 @@ app.get('/profiel', (req, res) => {
     res.render('index.ejs', { pageTitle: 'Home' } );
   });
 
-app.get('/logout', (req, res) => {
+
+  app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             return console.log(err);
@@ -337,16 +344,16 @@ app.get('/api/studios', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
 app.use((req, res) => {
     res.status(404).send('404 - Pagina niet gevonden');
     console.log(`404 Error: ${req.originalUrl}`);
 });
 
+// Algemene error handler
 app.use((err, req, res, next) => {
-    console.error("Unexpected error:", err);
-    res.status(500).render("error.ejs", {
-        message: "Serverfout",
-        error: err.message
-    });
+  console.error("Unexpected error:", err);
+  res.status(500).render("error.ejs", {
+      message: "Serverfout",
+      error: err.message
+  });
 });
