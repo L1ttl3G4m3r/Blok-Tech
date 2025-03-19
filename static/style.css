@@ -250,9 +250,6 @@ select {
   cursor: pointer;
   color: var(--color-text);
 }
-option {
-
-}
 select:hover {
   border-color: #888;
 }
