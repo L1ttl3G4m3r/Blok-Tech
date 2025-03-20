@@ -155,9 +155,9 @@ app.post('/register', async (req, res) => {
           return res.status(400).send("Alle velden zijn verplicht");
       }
 
-      if (typeof username !== 'string' || 
-          typeof email !== 'string' || 
-          typeof password !== 'string' || 
+      if (typeof username !== 'string' ||
+          typeof email !== 'string' ||
+          typeof password !== 'string' ||
           typeof confirmPassword !== 'string') {
           return res.status(400).send("Ongeldig formulierformaat");
       }
@@ -181,21 +181,33 @@ app.post('/register', async (req, res) => {
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const sanitizedUsername = xss(username);
-      const newUser = { 
-          username: sanitizedUsername.trim(), 
-          email: email.trim().toLowerCase(), 
-          password: hashedPassword 
+      const newUser = {
+          username: sanitizedUsername.trim(),
+          email: email.trim().toLowerCase(),
+          password: hashedPassword
       };
 
       const result = await collection.insertOne(newUser);
       console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
-      
+
       req.session.userId = result.insertedId;
       req.session.username = sanitizedUsername;
-      res.render("index.ejs",  { pageTitle: 'Profiel' },{ 
+
+      // Fetch images after registration
+      let gridImages = [];
+      try {
+          const gridResponse = await fetchUnsplashImages('tattoo', 28);
+          gridImages = gridResponse;
+      } catch (error) {
+          console.error('Error fetching images after registration:', error);
+          // Handle the error as needed, perhaps setting gridImages to an empty array
+      }
+
+      res.render("index.ejs", {
+          pageTitle: 'Profiel',
           username: sanitizedUsername,
           email: email,
-          gridImages: gridImages // Pass gridImages
+          gridImages: gridImages
       });
 
   } catch (error) {
@@ -282,48 +294,47 @@ app.post('/registerArtists', async (req, res) => {
     }
 });
 
-
 app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
 app.post('/log-in', async (req, res) => {
-  try {
-      const collection = db.collection('users');
-      const { email, password } = req.body;
+    try {
+        const collection = db.collection('users');
+        const { email, password } = req.body;
 
-      const user = await collection.findOne({ email: email });
-      if (!user) {
-          return res.status(400).send("Gebruiker niet gevonden");
-      }
+        const user = await collection.findOne({ email: email });
+        if (!user) {
+            return res.status(400).send("Gebruiker niet gevonden");
+        }
 
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (isMatch) {
-          req.session.userId = user._id;
-          req.session.username = user.username;
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (isMatch) {
+            req.session.userId = user._id;
+            req.session.username = user.username;
 
-          // Fetch images *here*, before rendering
-          try {
-              const gridResponse = await fetchUnsplashImages('tattoo', 28);
-              gridImages = gridResponse;
+            // Fetch images *here*, before rendering
+            let gridImages = [];
+            try {
+                const gridResponse = await fetchUnsplashImages('tattoo', 28);
+                gridImages = gridResponse;
+            } catch (error) {
+                console.error('Error fetching images after login:', error);
+                res.status(500).send("Er is een fout opgetreden bij het inloggen en het ophalen van afbeeldingen");
+            }
 
-              res.render("index.ejs", {
-                  username: user.username,
-                  pageTitle: 'Profiel',
-                  gridImages: gridImages  // Pass gridImages
-              });
-          } catch (error) {
-              console.error('Error fetching images after login:', error);
-              res.status(500).send("Er is een fout opgetreden bij het inloggen en het ophalen van afbeeldingen");
-          }
+            res.render("index.ejs", {
+                pageTitle: 'Profiel',
+                username: user.username,
+                gridImages: gridImages  // Pass gridImages
+            });
 
-      } else {
-          res.status(400).send("Incorrect wachtwoord");
-      }
-  } catch (error) {
-      console.error("Login error:", error);
-      res.status(500).send("Er is een fout opgetreden bij het inloggen");
-  }
+        } else {
+            res.status(400).send("Incorrect wachtwoord");
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        res.status(500).send("Er is een fout opgetreden bij het inloggen");
+    }
 });
-
 
 app.get('/profiel', (req, res) => {
     res.render('profiel.ejs', { pageTitle: 'Profiel' });
@@ -349,66 +360,51 @@ app.get('/preview', (req, res) => {
     res.render('preview', { pageTitle: 'Preview' });
 });
 
-app.get('/index', (req, res) => {
-    res.render('index.ejs', { pageTitle: 'Home' });
-});
+// Use the same logic for the /index route as you do for /
+app.get('/index', async (req, res) => {
+    try {
+        const sortBy = req.query.sort_by || 'relevant';
+        const styles = req.query.styles ? req.query.styles.split(',') : [];
+        const colors = req.query.colors || '';
 
+        let query = 'tattoo';
 
-app.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return console.log(err);
+        if (styles.length > 0) {
+            const styleQueries = styles.map(style => {
+                switch (style) {
+                    case 'classic':
+                        return 'classic tattoo';
+                    case 'realistic':
+                        return 'realistic tattoo';
+                    case 'modern':
+                        return 'modern tattoo';
+                    case 'minimalistic':
+                        return 'minimalistic tattoo';
+                    case 'cultural':
+                        return 'cultural tattoo';
+                    case 'cartoon':
+                        return 'cartoon tattoo';
+                    case 'old':
+                        return 'old tattoo';
+                    default:
+                        return 'tattoo';
+                }
+            });
+            query = styleQueries.join(' ');
         }
-        res.redirect('/');
-    });
-});
 
+        if (colors === 'black_and_white') {
+            query += ' black and white tattoo';
+        } else if (colors === 'color') {
+            query += ' colorful tattoo';
+        }
 
-// Bestaande route voor index.ejs (na login/registratie)
-
-    // TODO: Implementeer vragenlijst en gebruikerstags
-    // if (req.session.userTags) {
-    //   const carouselResponse = await unsplash.search.getPhotos({
-    //     query: `tattoo ${req.session.userTags.join(' ')}`,
-    //     perPage: 10
-    //   });
-    //   carouselImages = carouselResponse.response.results;
-    // }
-
-    app.get('/index', async (req, res) => {
-      let carouselImages = [];
-      let gridImages = [];
-  
-      try {
-          // Haal algemene tattoo afbeeldingen op voor de grid
-          const gridResponse = await fetchUnsplashImages('tattoo', 28);  //Use the function you defined.
-  
-          gridImages = gridResponse;
-  
-          console.log("Grid Images:", gridImages);  // Check if images are being fetched
-  
-          res.render('index.ejs', {  // Corrected render statement
-              carouselImages: carouselImages,
-              gridImages: gridImages
-          });
-      } catch (error) {
-          console.error('Error fetching images:', error);
-          res.status(500).send('Er is een fout opgetreden bij het ophalen van afbeeldingen');
-      }
-  });
-  
-// TODO: Implementeer route voor vragenlijst
-// app.get('/vragenlijst', (req, res) => {
-//   res.render('vragenlijst');
-// });
-
-        res.render('index', {
-            carouselImages: carouselImages,
-            gridImages: gridImages,
-        });
+        const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
+        console.log('Image URLs being sent to template:', imageUrls.slice(0, 2));
+        res.render("index.ejs", { imageUrls: imageUrls, currentSort: sortBy });
     } catch (error) {
-        console.error('Error fetching images:', error);
-        res.status(500).send('Er is een fout opgetreden bij het ophalen van afbeeldingen');
+        console.error("Error in home route:", error);
+        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
     }
 });
 
