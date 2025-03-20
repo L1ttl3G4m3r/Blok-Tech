@@ -16,7 +16,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "stylelint": "npm init stylelint"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
