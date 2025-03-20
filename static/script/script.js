@@ -14,52 +14,71 @@ filterButton.addEventListener('click', () => {
 closeButton.addEventListener('click', () => {
     filterSidebar.style.width = '0';
 });
-// code bron: perplexity.ai //
-let currentSort = null;
 
-document.querySelector('.dropbtn').addEventListener('click', function() {
-  document.querySelector('.dropdown-content').classList.toggle('show');
-});
+document.addEventListener('DOMContentLoaded', function() {
+  const sortSelect = document.getElementById('sort-select');
+  const filterButton = document.getElementById('filterButton');
+  const filterSidebar = document.getElementById('filterSidebar');
+  const closeButton = document.getElementById('closeSidebar');
+  const applyFiltersButton = document.getElementById('applyFiltersButton');
+  const clearStylesButton = document.getElementById('clearStyles');
+  const clearColorsButton = document.getElementById('clearColors');
 
-document.querySelectorAll('.dropdown-content a').forEach(function(item) {
-  item.addEventListener('click', function(e) {
-    e.preventDefault();
-    const sortType = this.dataset.sort;
-
-    if (currentSort === sortType) {
-      // Sortering ongedaan maken
-      currentSort = null;
-      document.querySelector('.dropbtn').textContent = 'Sorteren';
-      this.classList.remove('selected');
-    } else {
-      // Nieuwe sortering toepassen
-      currentSort = sortType;
-      document.querySelector('.dropbtn').textContent = this.textContent;
-      document.querySelectorAll('.dropdown-content a').forEach(function(link) {
-        link.classList.remove('selected');
-      });
-      this.classList.add('selected');
-    }
-
-    // Hier kun je de sorteerlogica toevoegen
-    console.log('Huidige sortering: ' + (currentSort || 'geen'));
+  // Sorteren functionaliteit
+  sortSelect.addEventListener('change', function() {
+    const selectedValue = this.value;
+    window.location.href = `/?sort_by=${selectedValue}`;
   });
-});
 
-window.addEventListener('click', function(e) {
-  if (!e.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName('dropdown-content');
-    for (var i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
+  // Filter Sidebar functionaliteit
+  filterButton.addEventListener('click', () => {
+    if (filterSidebar.style.width === '340px') {
+      filterSidebar.style.width = '0';
+    } else {
+      filterSidebar.style.width = '340px';
     }
-  }
-});
-// Icons opslaan bij foto's
-document.querySelectorAll('.icon-box').forEach(box => {
-    box.addEventListener('click', function() {
-      this.classList.toggle('active');
+  });
+
+  closeButton.addEventListener('click', () => {
+    filterSidebar.style.width = '0';
+  });
+
+  // Clear filters functionaliteit
+  clearStylesButton.addEventListener('click', function() {
+    document.querySelectorAll('input[name="styles"]').forEach(checkbox => {
+      checkbox.checked = false;
     });
   });
+
+  clearColorsButton.addEventListener('click', function() {
+    document.querySelectorAll('input[name="colors"]').forEach(radio => {
+      radio.checked = false;
+    });
+  });
+
+  // Apply filters functionaliteit
+  applyFiltersButton.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    const selectedStyles = Array.from(document.querySelectorAll('input[name="styles"]:checked'))
+      .map(checkbox => checkbox.value);
+    const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
+
+    let url = '/?';
+    if (sortSelect.value !== 'relevant') {
+      url += 'sort_by=' + sortSelect.value + '&';
+    }
+    if (selectedStyles.length > 0) {
+      url += 'styles=' + selectedStyles.join(',') + '&';
+    }
+    if (selectedColor) {
+      url += 'colors=' + selectedColor + '&';
+    }
+
+    if (url.endsWith('&')) {
+      url = url.slice(0, -1);
+    }
+
+    window.location.href = url;
+  });
+});

@@ -1,8 +1,10 @@
-<div class="dropdown">
-  <button class="dropbtn">Sorteren</button>
-  <div class="dropdown-content">
-    <a href="#">Nieuw - oud</a>
-    <a href="#">Populair</a>
-  </div>
+<div class="sort-container">
+  <select id="sort-select" name="sort">
+    <option value="latest" <%= currentSort === 'latest' ? 'selected' : '' %>>Nieuwste</option>
+    <option value="oldest" <%= currentSort === 'oldest' ? 'selected' : '' %>>Oudste</option>
+    <option value="popular" <%= currentSort === 'popular' ? 'selected' : '' %>>Populair</option>
+    <option value="least_popular" <%= currentSort === 'least_popular' ? 'selected' : '' %>>Minst populair</option>
+  </select>
 </div>
-  
+
+<div id="result"></div>
