@@ -72,8 +72,9 @@
 
       <section class="tattoo-grid" id="tattoo-grid">
         <% gridImages.forEach(image => { %>
-          <img src="<%= image.urls.small %>" alt="<%= image.alt_description %>" data-id="<%= image.id %>">
+          <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
         <% }) %>
+        
       </section>
     </main>
 
