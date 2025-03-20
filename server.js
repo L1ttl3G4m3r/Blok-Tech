@@ -287,6 +287,10 @@ app.post('/log-in', async (req, res) => {
 });
 
 
+app.get('/artistProfile', (req, res) => {
+    res.render('artistProfile.ejs', { pageTitle: 'Artiest Profiel'})
+});
+
 app.get('/profiel', (req, res) => {
     res.render('profiel.ejs', { pageTitle: 'Profiel' });
   });
