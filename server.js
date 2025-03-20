@@ -408,6 +408,29 @@ app.get('/api/studios', async (req, res) => {
     }
 });
 
+app.get('/search', async (req, res) => {
+  try {
+      const query = req.query.q || 'tattoo'; // Standaard zoekterm als er geen zoekterm is opgegeven
+      const imageUrls = await fetchUnsplashImages(query, 30);
+
+      // Voeg de huidige filters en sorteeropties toe aan de gerenderde pagina
+      const sortBy = req.query.sort_by || 'relevant';
+      const styles = req.query.styles ? req.query.styles.split(',') : [];
+      const colors = req.query.colors || '';
+      res.render("index.ejs", {
+          gridImages: imageUrls,
+          username: req.session.username,
+          pageTitle: 'Home',
+          styles: styles,
+          colors: colors,
+          currentSort: sortBy
+      });
+  } catch (error) {
+      console.error("Error in search route:", error);
+      res.status(500).send("Er is een fout opgetreden bij het uitvoeren van de zoekopdracht");
+  }
+});
+
 app.use((req, res) => {
     res.status(404).send('404 - Pagina niet gevonden');
     console.log(`404 Error: ${req.originalUrl}`);
