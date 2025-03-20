@@ -1,52 +1,94 @@
 <!DOCTYPE html>
 <html lang="nl">
   <head>
-<%- include('partials/head') %>
+    <%- include('partials/head') %>
+    <style>
+      .tattoo-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      @media (min-width: 1024px) {
+        .tattoo-grid {
+          grid-template-columns: repeat(7, 1fr);
+        }
+      }
+
+      .tattoo-grid img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        cursor: pointer;
+      }
+
+      .zero-state {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .zero-state .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+    </style>
   </head>
   <body>
-    <!-- Header -->
     <header><%- include('partials/header') %></header>
 
     <main>
-      <!-- Titel -->
       <section class="intro">
         <h1>Inspiration for your tattoo</h1>
       </section>
 
-      <!-- Zoekfunctionaliteit -->
       <section class="search"><%- include('partials/searchbar') %></section>
       <section class="filtersorting">
         <%- include('partials/sorting') %>
         <%- include('partials/filter') %> 
       </section>
 
-      <!-- Carousel met unieke ideeën -->
       <section class="carousel-section">
-
         <div class="textcontainer">
           <h2>Unieke ideeën</h2>
           <a href="" alt="">Zie alle</a>
         </div>
 
-        <section class="carousel">
-          <%- include('partials/carousel') %>
+        <section class="carousel" id="tattoo-carousel">
+          <% if (!locals.userTags) { %>
+            <div class="zero-state">
+              <p>Geen gepersonaliseerde tattoo's gevonden. Vul de vragenlijst in voor suggesties.</p>
+              <a href="/vragenlijst" class="button">Naar vragenlijst</a>
+            </div>
+          <% } else { %>
+            <%- include('partials/carousel') %>
+          <% } %>
         </section>
-
       </section>
 
-      <section class="carousel-container">
-       <%- include('partials/carouselvertical') %>
-    </section>
-
+      <section class="tattoo-grid" id="tattoo-grid">
+        <% gridImages.forEach(image => { %>
+          <img src="<%= image.urls.small %>" alt="<%= image.alt_description %>" data-id="<%= image.id %>">
+        <% }) %>
+      </section>
     </main>
 
-    <!-- Footer -->
     <footer>
       <%- include('partials/nav') %>
     </footer>
 
-    <!-- Scripts -->
     <script src="/server.js"></script>
-    <script src="/static/script/script.js"></script>
+    <script src="/static/script.js"></script>
+    <script>
+      document.querySelectorAll('#tattoo-grid img').forEach(img => {
+        img.addEventListener('click', function() {
+          window.location.href = `/detailpagina/${this.dataset.id}`;
+        });
+      });
+    </script>
   </body>
 </html>
