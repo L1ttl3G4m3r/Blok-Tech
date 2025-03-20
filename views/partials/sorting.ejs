@@ -1,8 +1,7 @@
 <div class="sort-container">
-  <select id="sortSelect" name="sort">
-    <option value="default">Sorteren</option>
-    <option value="date-asc">Datum (oud naar nieuw)</option>
-    <option value="date-desc">Datum (nieuw naar oud)</option>
+  <select id="sort-select" name="sort">
+    <option value="relevant" <%= currentSort === 'relevant' ? 'selected' : '' %>>Relevant</option>
+    <option value="latest" <%= currentSort === 'latest' ? 'selected' : '' %>>Nieuwste</option>
   </select>
 </div>
 

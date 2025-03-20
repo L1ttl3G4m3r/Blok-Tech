@@ -36,7 +36,7 @@ async function hashPassword(password) {
     return await bcrypt.hash(password, saltRounds);
 }
 
-async function fetchUnsplashImages(query, count = 30) {
+async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
   try {
     const response = await fetch(
       `https://api.unsplash.com/photos/random?query=${query}&count=${count}&orientation=landscape`, 
@@ -96,9 +96,9 @@ function isAuthenticated(req, res, next) {
 
 app.get('/', async (req, res) => {
   try {
-    const imageUrls = await fetchUnsplashImages('tattoo', 30);
-    console.log('Image URLs being sent to template:', imageUrls.slice(0, 2)); // Log first two items
-    res.render("begin.ejs", { imageUrls: imageUrls });
+    const sortBy = req.query.sort_by || 'relevant'; // Default to 'relevant' if not specified
+    const imageUrls = await fetchUnsplashImages('tattoo', 30, sortBy);
+    res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy });
   } catch (error) {
     console.error("Error in home route:", error);
     res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");

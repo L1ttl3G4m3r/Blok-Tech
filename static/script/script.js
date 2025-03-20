@@ -14,26 +14,12 @@ filterButton.addEventListener('click', () => {
 closeButton.addEventListener('click', () => {
     filterSidebar.style.width = '0';
 });
-// code bron: perplexity.ai //
+
 document.addEventListener('DOMContentLoaded', function() {
   const sortSelect = document.getElementById('sort-select');
-  const resultDiv = document.getElementById('result');
 
   sortSelect.addEventListener('change', function() {
-    const selectedOption = this.options[this.selectedIndex];
-    const selectedValue = selectedOption.value;
-    const selectedText = selectedOption.text;
-
-    resultDiv.textContent = `Je hebt gekozen om te sorteren op: ${selectedText} (waarde: ${selectedValue})`;
-
-    // Hier kun je de logica toevoegen om daadwerkelijk te sorteren
-    // bijvoorbeeld:
-    // sortItems(selectedValue);
+    const selectedValue = this.value;
+    window.location.href = `/?sort_by=${selectedValue}`;
   });
 });
-
-// Voorbeeld sorteerfunctie (niet geïmplementeerd)
-function sortItems(sortMethod) {
-  // Implementeer hier je sorteerlogica
-  console.log(`Sorteren met methode: ${sortMethod}`);
-}
