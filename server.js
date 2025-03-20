@@ -146,64 +146,65 @@ app.get('/', async (req, res) => {
 app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
 
 app.post('/register', async (req, res) => {
-    try {
-        console.log("Ontvangen registratiegegevens:", req.body);
-        const collection = db.collection('users');
-        const { username, email, password, confirmPassword } = req.body;
+  try {
+      console.log("Ontvangen registratiegegevens:", req.body);
+      const collection = db.collection('users');
+      const { username, email, password, confirmPassword } = req.body;
 
-        if (!username || !email || !password || !confirmPassword) {
-            return res.status(400).send("Alle velden zijn verplicht");
-        }
+      if (!username || !email || !password || !confirmPassword) {
+          return res.status(400).send("Alle velden zijn verplicht");
+      }
 
-        if (typeof username !== 'string' ||
-            typeof email !== 'string' ||
-            typeof password !== 'string' ||
-            typeof confirmPassword !== 'string') {
-            return res.status(400).send("Ongeldig formulierformaat");
-        }
+      if (typeof username !== 'string' || 
+          typeof email !== 'string' || 
+          typeof password !== 'string' || 
+          typeof confirmPassword !== 'string') {
+          return res.status(400).send("Ongeldig formulierformaat");
+      }
 
-        if (!validator.isEmail(email)) {
-            return res.status(400).send("Ongeldig e-mailadres");
-        }
+      if (!validator.isEmail(email)) {
+          return res.status(400).send("Ongeldig e-mailadres");
+      }
 
-        if (!validator.isLength(password, { min: 8 })) {
-            return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
-        }
+      if (!validator.isLength(password, { min: 8 })) {
+          return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
+      }
 
-        if (password !== confirmPassword) {
-            return res.status(400).send("Wachtwoorden komen niet overeen");
-        }
+      if (password !== confirmPassword) {
+          return res.status(400).send("Wachtwoorden komen niet overeen");
+      }
 
-        const existingUser = await collection.findOne({ email: email });
-        if (existingUser) {
-            return res.status(400).send("Dit e-mailadres is al in gebruik");
-        }
+      const existingUser = await collection.findOne({ email: email });
+      if (existingUser) {
+          return res.status(400).send("Dit e-mailadres is al in gebruik");
+      }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const sanitizedUsername = xss(username);
-        const newUser = {
-            username: sanitizedUsername.trim(),
-            email: email.trim().toLowerCase(),
-            password: hashedPassword
-        };
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const sanitizedUsername = xss(username);
+      const newUser = { 
+          username: sanitizedUsername.trim(), 
+          email: email.trim().toLowerCase(), 
+          password: hashedPassword 
+      };
 
-        const result = await collection.insertOne(newUser);
-        console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
+      const result = await collection.insertOne(newUser);
+      console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
+      
+      req.session.userId = result.insertedId;
+      req.session.username = sanitizedUsername;
+      res.render("index.ejs",  { pageTitle: 'Profiel' },{ 
+          username: sanitizedUsername,
+          email: email,
+          gridImages: gridImages // Pass gridImages
+      });
 
-        req.session.userId = result.insertedId;
-        req.session.username = sanitizedUsername;
-        res.render("index.ejs", { pageTitle: 'Profiel' }, {
-            username: sanitizedUsername,
-            email: email
-        });
-
-    } catch (error) {
-        console.error("Registratiefout:", error);
-        res.status(500).render("error.ejs", {
-            message: "Registratiefout",
-            error: error.message
-        });
-    }
+  } catch (error) {
+      console.error("Registratiefout:", error);
+      res.status(500).render("error.ejs", {
+          message: "Registratiefout",
+          error: error.message
+      });
+  }
 });
 
 app.get('/registerArtists', (req, res) => {
@@ -285,26 +286,44 @@ app.post('/registerArtists', async (req, res) => {
 app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
 app.post('/log-in', async (req, res) => {
-    try {
-        const collection = db.collection('users');
-        const { email, password } = req.body;
-        const user = await collection.findOne({ email: email });
-        if (!user) {
-            return res.status(400).send("Gebruiker niet gevonden");
-        }
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch) {
-            req.session.userId = user._id;
-            req.session.username = user.username;
-            res.render("index.ejs", { username: user.username }, { pageTitle: 'Profiel' });
-        } else {
-            res.status(400).send("Incorrect wachtwoord");
-        }
-    } catch (error) {
-        console.error("Login error:", error);
-        res.status(500).send("Er is een fout opgetreden bij het inloggen");
-    }
+  try {
+      const collection = db.collection('users');
+      const { email, password } = req.body;
+
+      const user = await collection.findOne({ email: email });
+      if (!user) {
+          return res.status(400).send("Gebruiker niet gevonden");
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+          req.session.userId = user._id;
+          req.session.username = user.username;
+
+          // Fetch images *here*, before rendering
+          try {
+              const gridResponse = await fetchUnsplashImages('tattoo', 28);
+              gridImages = gridResponse;
+
+              res.render("index.ejs", {
+                  username: user.username,
+                  pageTitle: 'Profiel',
+                  gridImages: gridImages  // Pass gridImages
+              });
+          } catch (error) {
+              console.error('Error fetching images after login:', error);
+              res.status(500).send("Er is een fout opgetreden bij het inloggen en het ophalen van afbeeldingen");
+          }
+
+      } else {
+          res.status(400).send("Incorrect wachtwoord");
+      }
+  } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).send("Er is een fout opgetreden bij het inloggen");
+  }
 });
+
 
 app.get('/profiel', (req, res) => {
     res.render('profiel.ejs', { pageTitle: 'Profiel' });
@@ -344,39 +363,44 @@ app.get('/logout', (req, res) => {
     });
 });
 
-app.get('/profiel', isAuthenticated, (req, res) => {
-    res.render('profiel.ejs', { username: req.session.username });
-});
-
-app.get('/post', isAuthenticated, (req, res) => {
-    res.render('post.ejs');
-});
-
-app.get('/artiesten', (req, res) => {
-    res.render('artiesten.ejs');
-});
-
-app.get('/zie-alle', (req, res) => {
-    res.render('zie-alle.ejs');
-});
-
-app.get('/detail/:id', (req, res) => {
-    res.render('detailpagina', { id: req.params.id });
-});
-
-app.get('/preview', (req, res) => {
-    res.render('preview');
-});
 
 // Bestaande route voor index.ejs (na login/registratie)
-app.get('/index', async (req, res) => {
-    let carouselImages = [];
-    let gridImages = [];
 
-    try {
-        // Haal algemene tattoo afbeeldingen op voor de grid
-        const gridResponse = await fetchUnsplashImages('tattoo', 28);
-        gridImages = gridResponse;
+    // TODO: Implementeer vragenlijst en gebruikerstags
+    // if (req.session.userTags) {
+    //   const carouselResponse = await unsplash.search.getPhotos({
+    //     query: `tattoo ${req.session.userTags.join(' ')}`,
+    //     perPage: 10
+    //   });
+    //   carouselImages = carouselResponse.response.results;
+    // }
+
+    app.get('/index', async (req, res) => {
+      let carouselImages = [];
+      let gridImages = [];
+  
+      try {
+          // Haal algemene tattoo afbeeldingen op voor de grid
+          const gridResponse = await fetchUnsplashImages('tattoo', 28);  //Use the function you defined.
+  
+          gridImages = gridResponse;
+  
+          console.log("Grid Images:", gridImages);  // Check if images are being fetched
+  
+          res.render('index.ejs', {  // Corrected render statement
+              carouselImages: carouselImages,
+              gridImages: gridImages
+          });
+      } catch (error) {
+          console.error('Error fetching images:', error);
+          res.status(500).send('Er is een fout opgetreden bij het ophalen van afbeeldingen');
+      }
+  });
+  
+// TODO: Implementeer route voor vragenlijst
+// app.get('/vragenlijst', (req, res) => {
+//   res.render('vragenlijst');
+// });
 
         res.render('index', {
             carouselImages: carouselImages,
