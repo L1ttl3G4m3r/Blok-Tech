@@ -14,26 +14,71 @@ filterButton.addEventListener('click', () => {
 closeButton.addEventListener('click', () => {
     filterSidebar.style.width = '0';
 });
-// code bron: perplexity.ai //
+
 document.addEventListener('DOMContentLoaded', function() {
   const sortSelect = document.getElementById('sort-select');
-  const resultDiv = document.getElementById('result');
+  const filterButton = document.getElementById('filterButton');
+  const filterSidebar = document.getElementById('filterSidebar');
+  const closeButton = document.getElementById('closeSidebar');
+  const applyFiltersButton = document.getElementById('applyFiltersButton');
+  const clearStylesButton = document.getElementById('clearStyles');
+  const clearColorsButton = document.getElementById('clearColors');
 
+  // Sorteren functionaliteit
   sortSelect.addEventListener('change', function() {
-    const selectedOption = this.options[this.selectedIndex];
-    const selectedValue = selectedOption.value;
-    const selectedText = selectedOption.text;
+    const selectedValue = this.value;
+    window.location.href = `/?sort_by=${selectedValue}`;
+  });
 
-    resultDiv.textContent = `Je hebt gekozen om te sorteren op: ${selectedText} (waarde: ${selectedValue})`;
+  // Filter Sidebar functionaliteit
+  filterButton.addEventListener('click', () => {
+    if (filterSidebar.style.width === '340px') {
+      filterSidebar.style.width = '0';
+    } else {
+      filterSidebar.style.width = '340px';
+    }
+  });
 
-    // Hier kun je de logica toevoegen om daadwerkelijk te sorteren
-    // bijvoorbeeld:
-    // sortItems(selectedValue);
+  closeButton.addEventListener('click', () => {
+    filterSidebar.style.width = '0';
+  });
+
+  // Clear filters functionaliteit
+  clearStylesButton.addEventListener('click', function() {
+    document.querySelectorAll('input[name="styles"]').forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  });
+
+  clearColorsButton.addEventListener('click', function() {
+    document.querySelectorAll('input[name="colors"]').forEach(radio => {
+      radio.checked = false;
+    });
+  });
+
+  // Apply filters functionaliteit
+  applyFiltersButton.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    const selectedStyles = Array.from(document.querySelectorAll('input[name="styles"]:checked'))
+      .map(checkbox => checkbox.value);
+    const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
+
+    let url = '/?';
+    if (sortSelect.value !== 'relevant') {
+      url += 'sort_by=' + sortSelect.value + '&';
+    }
+    if (selectedStyles.length > 0) {
+      url += 'styles=' + selectedStyles.join(',') + '&';
+    }
+    if (selectedColor) {
+      url += 'colors=' + selectedColor + '&';
+    }
+
+    if (url.endsWith('&')) {
+      url = url.slice(0, -1);
+    }
+
+    window.location.href = url;
   });
 });
-
-// Voorbeeld sorteerfunctie (niet geïmplementeerd)
-function sortItems(sortMethod) {
-  // Implementeer hier je sorteerlogica
-  console.log(`Sorteren met methode: ${sortMethod}`);
-}
