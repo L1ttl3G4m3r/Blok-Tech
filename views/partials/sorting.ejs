@@ -1,7 +1,9 @@
-<div class="dropdown">
-  <button class="dropbtn">Sorteren</button>
-  <div class="dropdown-content">
-    <a href="#">Nieuw - oud</a>
-    <a href="#">Populair</a>
-  </div>
+<div class="sort-container">
+  <select id="sortSelect" name="sort">
+    <option value="default">Sorteren</option>
+    <option value="date-asc">Datum (oud naar nieuw)</option>
+    <option value="date-desc">Datum (nieuw naar oud)</option>
+  </select>
 </div>
+
+<div id="result"></div>

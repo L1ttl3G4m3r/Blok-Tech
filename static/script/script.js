@@ -15,51 +15,25 @@ closeButton.addEventListener('click', () => {
     filterSidebar.style.width = '0';
 });
 // code bron: perplexity.ai //
-let currentSort = null;
+document.addEventListener('DOMContentLoaded', function() {
+  const sortSelect = document.getElementById('sort-select');
+  const resultDiv = document.getElementById('result');
 
-document.querySelector('.dropbtn').addEventListener('click', function() {
-  document.querySelector('.dropdown-content').classList.toggle('show');
-});
+  sortSelect.addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const selectedValue = selectedOption.value;
+    const selectedText = selectedOption.text;
 
-document.querySelectorAll('.dropdown-content a').forEach(function(item) {
-  item.addEventListener('click', function(e) {
-    e.preventDefault();
-    const sortType = this.dataset.sort;
+    resultDiv.textContent = `Je hebt gekozen om te sorteren op: ${selectedText} (waarde: ${selectedValue})`;
 
-    if (currentSort === sortType) {
-      // Sortering ongedaan maken
-      currentSort = null;
-      document.querySelector('.dropbtn').textContent = 'Sorteren';
-      this.classList.remove('selected');
-    } else {
-      // Nieuwe sortering toepassen
-      currentSort = sortType;
-      document.querySelector('.dropbtn').textContent = this.textContent;
-      document.querySelectorAll('.dropdown-content a').forEach(function(link) {
-        link.classList.remove('selected');
-      });
-      this.classList.add('selected');
-    }
-
-    // Hier kun je de sorteerlogica toevoegen
-    console.log('Huidige sortering: ' + (currentSort || 'geen'));
+    // Hier kun je de logica toevoegen om daadwerkelijk te sorteren
+    // bijvoorbeeld:
+    // sortItems(selectedValue);
   });
 });
 
-window.addEventListener('click', function(e) {
-  if (!e.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName('dropdown-content');
-    for (var i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-});
-// Icons opslaan bij foto's
-document.querySelectorAll('.icon-box').forEach(box => {
-    box.addEventListener('click', function() {
-      this.classList.toggle('active');
-    });
-  });
+// Voorbeeld sorteerfunctie (niet geïmplementeerd)
+function sortItems(sortMethod) {
+  // Implementeer hier je sorteerlogica
+  console.log(`Sorteren met methode: ${sortMethod}`);
+}
