@@ -1,8 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const session = require('express-session');
-const cors = require('cors');
 const app = express();
 const port = 9000;
 const xss = require('xss');
@@ -15,22 +13,13 @@ const uri = process.env.URI;
 const client = new MongoClient(uri);
 const db = client.db(process.env.DB_NAME);
 const unsplashApiKey = process.env.UNSPLASH_API_KEY;
-const mapboxToken = process.env.MAPBOX_TOKEN;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs').set('views', 'views');
 app.use("/static", express.static("static"));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}));
-
-app.use(cors());
-
+// Hulpfuncties
 async function hashPassword(password) {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
@@ -87,13 +76,7 @@ app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on http://0.0.0.0:${port}`);
 });
 
-function isAuthenticated(req, res, next) {
-  if (req.session.userId) {
-      return next();
-  }
-  res.redirect('/log-in');
-}
-
+// Routes
 app.get('/', async (req, res) => {
   try {
     const imageUrls = await fetchUnsplashImages('tattoo', 30);
@@ -151,10 +134,8 @@ app.post('/register', async (req, res) => {
 
       const result = await collection.insertOne(newUser);
       console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
-      
-      req.session.userId = result.insertedId;
-      req.session.username = sanitizedUsername;
-      res.render("index.ejs",  { pageTitle: 'Profiel' },{ 
+
+      res.render("index.ejs", { 
           username: sanitizedUsername,
           email: email
       });
@@ -168,82 +149,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.get('/registerArtists', (req, res) => {
-  res.render('registerArtists.ejs', { mapboxToken: mapboxToken });
-});
-
-app.post('/registerArtists', async (req, res) => {
-  try {
-      const collection = db.collection('artists');
-      const { username, email, password, confirmPassword, studioName, studioAddress, studioLat, studioLng } = req.body;
-
-      if (!username || !email || !password || !confirmPassword) {
-          return res.status(400).send("Alle velden zijn verplicht");
-      }
-
-      if (typeof username !== 'string' ||
-          typeof email !== 'string' ||
-          typeof password !== 'string' ||
-          typeof confirmPassword !== 'string') {
-          return res.status(400).send("Ongeldig formulierformaat");
-      }
-
-      if (!validator.isEmail(email)) {
-          return res.status(400).send("Ongeldig e-mailadres");
-      }
-
-      if (!validator.isLength(password, { min: 8 })) {
-          return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
-      }
-
-      if (password !== confirmPassword) {
-          return res.status(400).send("Wachtwoorden komen niet overeen");
-      }
-
-      const existingUser = await collection.findOne({ email: email });
-      if (existingUser) {
-          return res.status(400).send("Dit e-mailadres is al in gebruik");
-      }
-
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const sanitizedUsername = xss(username);
-
-      const newArtist = {
-          username: sanitizedUsername.trim(),
-          email: email.trim().toLowerCase(),
-          password: hashedPassword,
-          studio: {
-              name: studioName,
-              address: studioAddress,
-              coordinates: {
-                  lat: parseFloat(studioLat),
-                  lon: parseFloat(studioLng)
-              }
-          }
-      };
-
-      const result = await collection.insertOne(newArtist);
-
-      req.session.userId = result.insertedId;
-      req.session.username = sanitizedUsername;
-      req.session.isArtist = true;
-
-      res.render("artistProfile.ejs", {
-          username: sanitizedUsername,
-          email: email,
-          studioName: studioName
-      });
-
-  } catch (error) {
-      console.error("Registratiefout voor artiest:", error);
-      res.status(500).render("error.ejs", {
-          message: "Registratiefout voor artiest",
-          error: error.message
-        });
-      }
-});
- 
-
 app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
 app.post('/log-in', async (req, res) => {
@@ -256,9 +161,7 @@ app.post('/log-in', async (req, res) => {
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch) {
-          req.session.userId = user._id;
-          req.session.username = user.username;         
- res.render("index.ejs", { username: user.username },  { pageTitle: 'Profiel' });
+            res.render("index.ejs", { username: user.username });
         } else {
             res.status(400).send("Incorrect wachtwoord");
         }
@@ -296,54 +199,7 @@ app.get('/profiel', (req, res) => {
     res.render('index.ejs', { pageTitle: 'Home' } );
   });
 
-
-  app.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return console.log(err);
-        }
-        res.redirect('/');
-    });
-});
-
-app.get('/profiel', isAuthenticated, (req, res) => {
-    res.render('profiel.ejs', { username: req.session.username });
-});
-
-app.get('/post', isAuthenticated, (req, res) => {
-    res.render('post.ejs');
-});
-
-app.get('/artiesten', (req, res) => {
-    res.render('artiesten.ejs');
-});
-
-app.get('/zie-alle', (req, res) => {
-    res.render('zie-alle.ejs');
-});
-
-app.get('/detail/:id', (req, res) => {
-    res.render('detailpagina', { id: req.params.id });
-});
-
-app.get('/preview', (req, res) => {
-    res.render('preview');
-});
-
-app.get('/index', (req, res) => {
-    res.render('index.ejs');
-});
-
-app.get('/api/studios', async (req, res) => {
-    try {
-        const collection = db.collection('tattoo_shops');
-        const studios = await collection.find({}).toArray();
-        res.json(studios);
-    } catch (error) {
-        console.error('Error fetching studios:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
+// 404 handler
 app.use((req, res) => {
     res.status(404).send('404 - Pagina niet gevonden');
     console.log(`404 Error: ${req.originalUrl}`);
