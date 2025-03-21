@@ -20,6 +20,15 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs').set('views', 'views');
 app.use("/static", express.static("static"));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
+app.use(cors());
+
 // Hulpfuncties
 async function hashPassword(password) {
     const saltRounds = 10;
@@ -29,30 +38,30 @@ async function hashPassword(password) {
 async function fetchUnsplashImages(query, count = 30) {
   try {
     const response = await fetch(
-      `https://api.unsplash.com/photos/random?query=${query}&count=${count}&orientation=landscape`, 
+      `https://api.unsplash.com/photos/random?query=${query}&count=${count}&orientation=landscape`,
       {
-        headers: { 
+        headers: {
           'Authorization': `Client-ID ${unsplashApiKey}`,
           'Accept-Version': 'v1'
         }
       }
     );
-    
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(`Unsplash API Error: ${error.errors.join(', ')}`);
     }
-    
+
     const data = await response.json();
     console.log('Received data from Unsplash:', data.slice(0, 2)); // Log first two items
-    
+
     const imageUrls = data.map(image => ({
       url: image.urls.regular,
       width: image.width,
       height: image.height
     }));
     console.log('Processed image URLs:', imageUrls.slice(0, 2)); // Log first two items
-    
+
     return imageUrls;
   } catch (error) {
     console.error('Error fetching Unsplash images:', error);
@@ -101,9 +110,9 @@ app.post('/register', async (req, res) => {
           return res.status(400).send("Alle velden zijn verplicht");
       }
 
-      if (typeof username !== 'string' || 
-          typeof email !== 'string' || 
-          typeof password !== 'string' || 
+      if (typeof username !== 'string' ||
+          typeof email !== 'string' ||
+          typeof password !== 'string' ||
           typeof confirmPassword !== 'string') {
           return res.status(400).send("Ongeldig formulierformaat");
       }
@@ -127,16 +136,16 @@ app.post('/register', async (req, res) => {
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const sanitizedUsername = xss(username);
-      const newUser = { 
-          username: sanitizedUsername.trim(), 
-          email: email.trim().toLowerCase(), 
-          password: hashedPassword 
+      const newUser = {
+          username: sanitizedUsername.trim(),
+          email: email.trim().toLowerCase(),
+          password: hashedPassword
       };
 
       const result = await collection.insertOne(newUser);
       console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
 
-      res.render("index.ejs", { 
+      res.render("index.ejs", {
           username: sanitizedUsername,
           email: email
       });
@@ -175,19 +184,19 @@ app.post('/log-in', async (req, res) => {
 app.get('/profiel', (req, res) => {
     res.render('profiel.ejs', { pageTitle: 'Profiel' });
   });
-  
+
   app.get('/post', (req, res) => {
     res.render('post.ejs', { pageTitle: 'Post' });
   });
-  
+
   app.get('/artiesten', (req, res) => {
     res.render('artiesten.ejs', { pageTitle: 'Artiesten' });
   });
-  
+
   app.get('/zie-alle', (req, res) => {
     res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
   });
-  
+
   app.get('/detail/:id', (req, res) => {
     res.render('detailpagina', { id: req.params.id }, { pageTitle: 'Detailpagina' });
   });
@@ -214,39 +223,10 @@ app.use((err, req, res, next) => {
       error: err.message
   });
 });
-=======
-require('dotenv').config();
 
-const express = require('express');
-const session = require('express-session');
-const cors = require('cors');
-const app = express();
-const port = 9000;
-const xss = require('xss');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const { MongoClient } = require('mongodb');
-const fetch = require('node-fetch');
 
-const uri = process.env.URI;
-const client = new MongoClient(uri);
-const db = client.db(process.env.DB_NAME);
-const unsplashApiKey = process.env.UNSPLASH_API_KEY;
-const mapboxToken = process.env.MAPBOX_TOKEN;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.set('view engine', 'ejs').set('views', 'views');
-app.use("/static", express.static("static"));
 
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
-
-app.use(cors());
 
 async function hashPassword(password) {
     const saltRounds = 10;
@@ -561,7 +541,7 @@ app.post('/log-in', async (req, res) => {
 
 
 app.get('/artistProfile', (req, res) => {
-    res.render('artistProfile.ejs', { pageTitle: 'Artiest Profiel'})
+    res.render('artistProfile.ejs', { pageTitle: 'Artiest Profiel'});
 });
 
 app.get('/profiel', isAuthenticated, (req, res) => {
