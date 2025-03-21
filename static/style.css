@@ -9,7 +9,7 @@
 * {
   margin: 0;
   padding: 0;
-  
+
 }
 *:focus {
   outline: 2px solid var(--focus-item);
@@ -24,7 +24,7 @@
   --color-button: #ff5527;
   --button-hover: #DC3F15;
   --uppercase: uppercase;
-  --border-button: 4px; 
+  --border-button: 4px;
   --focus-item: #0035C7;
 }
 /****************/
@@ -140,7 +140,7 @@ input[type="search"] {
 /****************/
 /* Filter function */
 /****************/
-section.filtersorting {
+section.filter-sorting {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -264,13 +264,13 @@ select:focus {
 section.carousel-section {
   margin-top: 2em;
 }
-.textcontainer {
+.text-container {
   display: flex;
   justify-content: space-between;
   margin: 1em 2em;
   align-items: center;
 }
-.textcontainer a {
+.text-container a {
   color: var(--color-text);
 }
 swiper-container {
@@ -394,7 +394,7 @@ li.artist-item {
   font-family: var(--main-font);
   font-weight: 500;
   text-decoration: none;
-  color: var(--color-text);    
+  color: var(--color-text);
 }
 .button-cta2,
 .button-reset {

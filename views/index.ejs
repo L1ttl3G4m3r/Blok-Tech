@@ -47,13 +47,13 @@
       </section>
 
       <section class="search"><%- include('partials/searchbar') %></section>
-      <section class="filtersorting">
+      <section class="filter-sorting">
         <%- include('partials/sorting') %>
-        <%- include('partials/filter') %> 
+        <%- include('partials/filter') %>
       </section>
 
       <section class="carousel-section">
-        <div class="textcontainer">
+        <div class="text-container">
           <h2>Unieke ideeën</h2>
           <a href="" alt="">Zie alle</a>
         </div>
@@ -74,7 +74,7 @@
         <% gridImages.forEach(image => { %>
           <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
         <% }) %>
-        
+
       </section>
     </main>
 

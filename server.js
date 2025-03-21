@@ -2,6 +2,8 @@
 require('dotenv').config();
 
 const express = require('express');
+const session = require('express-session');
+const cors = require('cors');
 const app = express();
 const port = 9000;
 const xss = require('xss');
@@ -19,12 +21,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs').set('views', 'views');
 app.use("/static", express.static("static"));
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}));
 
 app.use(cors());
 // Hulpfuncties
@@ -157,9 +153,9 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
+app.get('/login', (req, res) => res.render("login.ejs", { pageTitle: 'Inloggen' }));
 
-app.post('/log-in', async (req, res) => {
+app.post('/login', async (req, res) => {
     try {
         const collection = db.collection('users');
         const { email, password } = req.body;
@@ -179,7 +175,7 @@ app.post('/log-in', async (req, res) => {
     }
 });
 
-app.get('/profiel', (req, res) => {
+app.get('/profile', (req, res) => {
     res.render('profiel.ejs', { pageTitle: 'Profiel' });
   });
 
@@ -187,16 +183,16 @@ app.get('/profiel', (req, res) => {
     res.render('post.ejs', { pageTitle: 'Post' });
   });
 
-  app.get('/artiesten', (req, res) => {
-    res.render('artiesten.ejs', { pageTitle: 'Artiesten' });
+  app.get('/artists-page', (req, res) => {
+    res.render('artists-page.ejs', { pageTitle: 'Artiesten' });
   });
 
-  app.get('/zie-alle', (req, res) => {
-    res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
+  app.get('/overview', (req, res) => {
+    res.render('overview.ejs', { pageTitle: 'Overzicht' });
   });
 
   app.get('/detail/:id', (req, res) => {
-    res.render('detailpagina', { id: req.params.id }, { pageTitle: 'Detailpagina' });
+    res.render('detail-page', { id: req.params.id }, { pageTitle: 'Detailpagina' });
   });
 
   app.get('/preview', (req, res) => {
@@ -412,11 +408,11 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.get('/registerArtists', (req, res) => {
-    res.render('registerArtists.ejs', { mapboxToken: mapboxToken });
+app.get('/register-artists', (req, res) => {
+    res.render('register-artists.ejs', { mapboxToken: mapboxToken });
 });
 
-app.post('/registerArtists', async (req, res) => {
+app.post('/register-artists', async (req, res) => {
     try {
         const collection = db.collection('artists');
         const { username, email, password, confirmPassword, studioName, studioAddress, studioLat, studioLng } = req.body;
@@ -472,7 +468,7 @@ app.post('/registerArtists', async (req, res) => {
         req.session.username = sanitizedUsername;
         req.session.isArtist = true;
 
-        res.render("artistProfile.ejs", {
+        res.render("artist-profile.ejs", {
             username: sanitizedUsername,
             email: email,
             studioName: studioName
@@ -487,9 +483,9 @@ app.post('/registerArtists', async (req, res) => {
     }
 });
 
-app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
+app.get('/login', (req, res) => res.render("login.ejs", { pageTitle: 'Inloggen' }));
 
-app.post('/log-in', async (req, res) => {
+app.post('/login', async (req, res) => {
     try {
         const collection = db.collection('users');
         const { email, password } = req.body;
@@ -533,20 +529,20 @@ app.post('/log-in', async (req, res) => {
 });
 
 
-app.get('/artistProfile', (req, res) => {
-    res.render('artistProfile.ejs', { pageTitle: 'Artiest Profiel'})
+app.get('/artist-profile', (req, res) => {
+    res.render('artist-profile.ejs', { pageTitle: 'Artiest Profiel'})
 });
 
-app.get('/profiel', isAuthenticated, (req, res) => {
-    res.render('profiel.ejs', { pageTitle: 'Profiel' });
+app.get('/profile', isAuthenticated, (req, res) => {
+    res.render('profile.ejs', { pageTitle: 'Profiel' });
 });
 
 app.get('/post', (req, res) => {
     res.render('post.ejs', { pageTitle: 'Post' });
 });
 
-app.get('/artiesten', (req, res) => {
-    res.render('artiesten.ejs', { pageTitle: 'Artiesten' });
+app.get('/artists', (req, res) => {
+    res.render('artists-page.ejs', { pageTitle: 'Artiesten' });
 });
 
 app.get('/zie-alle', (req, res) => {
