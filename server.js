@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs').set('views', 'views');
 app.use("/static", express.static("static"));
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -27,6 +28,7 @@ app.use(session({
 }));
 
 app.use(cors());
+
 // Hulpfuncties
 async function hashPassword(password) {
     const saltRounds = 10;
@@ -221,9 +223,6 @@ app.use((err, req, res, next) => {
       error: err.message
   });
 });
-
-
-
 
 
 async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
