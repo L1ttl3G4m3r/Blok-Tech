@@ -176,7 +176,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-    res.render('profiel.ejs', { pageTitle: 'Profiel' });
+    res.render('profile.ejs', { pageTitle: 'Profiel' });
   });
 
   app.get('/post', (req, res) => {
