@@ -225,14 +225,6 @@ app.use((err, req, res, next) => {
 });
 
 
-
-
-
-async function hashPassword(password) {
-    const saltRounds = 10;
-    return await bcrypt.hash(password, saltRounds);
-}
-
 async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
     try {
         let apiUrl = `https://api.unsplash.com/photos/random?query=${query}&count=${count}&orientation=landscape`;
@@ -541,7 +533,7 @@ app.post('/log-in', async (req, res) => {
 
 
 app.get('/artistProfile', (req, res) => {
-    res.render('artistProfile.ejs', { pageTitle: 'Artiest Profiel'});
+    res.render('artistProfile.ejs', { pageTitle: 'Artiest Profiel'})
 });
 
 app.get('/profiel', isAuthenticated, (req, res) => {
