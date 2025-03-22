@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = 9000;
 const xss = require('xss');
@@ -9,6 +10,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
 const fetch = require('node-fetch');
+const session = require('express-session');
 
 const uri = process.env.URI;
 const client = new MongoClient(uri);
@@ -23,7 +25,7 @@ app.use("/static", express.static("static"));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false }
 }));
 
@@ -142,43 +144,54 @@ app.post('/register', async (req, res) => {
           password: hashedPassword
       };
 
-      const result = await collection.insertOne(newUser);
-      console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
+          const result = await collection.insertOne(newUser);
+          console.log("Nieuwe gebruiker aangemaakt met ID:", result.insertedId);
 
-      res.render("index.ejs", {
-          username: sanitizedUsername,
-          email: email
-      });
+          // Sessie instellen na succesvolle registratie
+          req.session.userId = result.insertedId;
+          req.session.username = sanitizedUsername;
+          req.session.email = email;
 
-  } catch (error) {
-      console.error("Registratiefout:", error);
-      res.status(500).render("error.ejs", {
-          message: "Registratiefout",
-          error: error.message
+          // Redirect naar index.ejs na succesvolle registratie
+          res.redirect('/index');
+        } catch (error) {
+          console.error("Registratiefout:", error);
+          res.status(500).render("error.ejs", {
+            message: "Registratiefout",
+            error: error.message
+          });
+        }
       });
-  }
-});
 
 app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
 app.post('/log-in', async (req, res) => {
-    try {
-        const collection = db.collection('users');
-        const { email, password } = req.body;
-        const user = await collection.findOne({ email: email });
-        if (!user) {
-            return res.status(400).send("Gebruiker niet gevonden");
-        }
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch) {
-            res.render("index.ejs", { username: user.username });
-        } else {
-            res.status(400).send("Incorrect wachtwoord");
-        }
-    } catch (error) {
-        console.error("Login error:", error);
-        res.status(500).send("Er is een fout opgetreden bij het inloggen");
+  try {
+    const collection = db.collection('users');
+    const { email, password } = req.body;
+    const user = await collection.findOne({ email: email });
+
+    if (!user) {
+      return res.status(400).send("Gebruiker niet gevonden");
     }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+      // Sessie instellen na succesvol inloggen
+      req.session.userId = user._id;
+      req.session.username = user.username;
+      req.session.email = user.email;
+
+      // Redirect naar index.ejs na succesvol inloggen
+      res.redirect('/index');
+    } else {
+      res.status(400).send("Incorrect wachtwoord");
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).send("Er is een fout opgetreden bij het inloggen");
+  }
 });
 
 app.get('/profiel', (req, res) => {
@@ -205,8 +218,22 @@ app.get('/profiel', (req, res) => {
     res.render('preview', { pageTitle: 'Preview' });
   });
 
-  app.get('/index', (req, res) => {
-    res.render('index.ejs', { pageTitle: 'Home' } );
+  app.get('/index', async (req, res) => {
+    if (!req.session.userId) {
+      return res.redirect('/log-in');
+    }
+
+    try {
+      const imageUrls = await fetchUnsplashImages('tattoo', 28);
+      res.render('index.ejs', {
+        pageTitle: 'Home',
+        username: req.session.username,
+        gridImages: imageUrls
+      });
+    } catch (error) {
+      console.error("Error fetching images for index:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
+    }
   });
 
 // 404 handler
