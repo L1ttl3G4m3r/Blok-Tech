@@ -49,7 +49,7 @@
       <section class="search"><%- include('partials/searchbar') %></section>
       <section class="filtersorting">
         <%- include('partials/sorting') %>
-        <%- include('partials/filter') %> 
+        <%- include('partials/filter') %>
       </section>
 
       <section class="carousel-section">
@@ -74,7 +74,7 @@
         <% gridImages.forEach(image => { %>
           <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
         <% }) %>
-        
+
       </section>
     </main>
 
@@ -84,6 +84,7 @@
 
     <script src="/server.js"></script>
     <script src="/static/script.js"></script>
+    <script src="/config.js"></script>
     <script>
       document.querySelectorAll('#tattoo-grid img').forEach(img => {
         img.addEventListener('click', function() {
