@@ -12,9 +12,6 @@ const fetch = require('node-fetch');
 const session = require('express-session');
 const { register } = require('swiper/element');
 
-const app = express();
-const port = process.env.PORT || 9000;
-
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
