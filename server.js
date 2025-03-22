@@ -57,39 +57,40 @@ async function hashPassword(password) {
 }
 
 async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
-    try {
-        const unsplashApiKey = process.env.UNSPLASH_API_KEY;
-        let apiUrl = `https://api.unsplash.com/photos/random?query=${query}&count=${count}&orientation=landscape`;
+  try {
+      const unsplashApiKey = process.env.UNSPLASH_API_KEY;
+      let apiUrl = `https://api.unsplash.com/search/photos?query=${query}&per_page=${count}&orientation=landscape`;
 
-        if (sortBy !== 'relevant') {
-            apiUrl += `&order_by=${sortBy}`;
-        }
+      if (sortBy !== 'relevant') {
+          apiUrl += `&order_by=${sortBy}`;
+      }
 
-        const response = await fetch(apiUrl, {
-            headers: {
-                'Authorization': `Client-ID ${unsplashApiKey}`,
-                'Accept-Version': 'v1'
-            }
-        });
+      const response = await fetch(apiUrl, {
+          headers: {
+              'Authorization': `Client-ID ${unsplashApiKey}`,
+              'Accept-Version': 'v1'
+          }
+      });
 
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(`Unsplash API Error: ${error.errors.join(', ')}`);
-        }
+      if (!response.ok) {
+          const error = await response.json();
+          throw new Error(`Unsplash API Error: ${error.errors.join(', ')}`);
+      }
 
-        const data = await response.json();
+      const data = await response.json();
 
-        const imageUrls = data.map(image => ({
-            url: image.urls.regular,
-            width: image.width,
-            height: image.height
-        }));
+      // Let op: de structuur van de data is anders bij de Search API
+      const imageUrls = data.results.map(image => ({
+          url: image.urls.regular,
+          width: image.width,
+          height: image.height
+      }));
 
-        return imageUrls;
-    } catch (error) {
-        console.error('Error fetching Unsplash images:', error);
-        return [];
-    }
+      return imageUrls;
+  } catch (error) {
+      console.error('Error fetching Unsplash images:', error);
+      return [];
+  }
 }
 
 // Routes
@@ -261,19 +262,19 @@ app.get('/preview', isAuthenticated, (req, res) => {
 });
 
 app.get('/index', isAuthenticated, async (req, res) => {
-    try {
-        const sortBy = req.query.sort_by || 'relevant';
-        const imageUrls = await fetchUnsplashImages('tattoo', 28, sortBy);
-        res.render('index.ejs', {
-            pageTitle: 'Home',
-            username: req.session.username,
-            gridImages: imageUrls,
-            currentSort: sortBy // Pass currentSort to index.ejs
-        });
-    } catch (error) {
-        console.error("Error fetching images for index:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
-    }
+  try {
+      const sortBy = req.query.sort_by || 'relevant';
+      const imageUrls = await fetchUnsplashImages('tattoo', 28, sortBy);
+      res.render('index.ejs', {
+          pageTitle: 'Home',
+          username: req.session.username,
+          gridImages: imageUrls,
+          currentSort: sortBy
+      });
+  } catch (error) {
+      console.error("Error fetching images for index:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
+  }
 });
 
 // Error Handling
