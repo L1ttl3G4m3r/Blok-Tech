@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = 9000;
 const xss = require('xss');
@@ -9,6 +10,8 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
 const fetch = require('node-fetch');
+const session = require('express-session');
+const { register } = require('swiper/element');
 
 const uri = process.env.URI;
 const client = new MongoClient(uri);
