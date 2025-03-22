@@ -71,6 +71,13 @@
       </section>
 
       <section class="tattoo-grid" id="tattoo-grid">
+
+        <% gridImages.forEach(image => { %>
+          <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
+        <% }) %>
+
+      </section>
+
         <% if (gridImages && gridImages.length > 0) { %>
             <% gridImages.forEach(image => { %>
                 <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
@@ -79,6 +86,7 @@
             <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
         <% } %>
     </section>
+
     </main>
 
     <footer>

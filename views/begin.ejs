@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Home</title>
-<link rel="stylesheet" href="/static/style.css" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Big+Shoulders:opsz,wght@10..72,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap"
-  rel="stylesheet"
-/>
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
-    <link rel="stylesheet" href="/static/begin.css">
-</head>
-<body>
-  <header><%- include('partials/header') %></header>
-  <div class="background-container" id="backgroundContainer">
-      <% for(let i = 0; i < 7; i++) { %>
-          <div class="image-column">
-              <% imageUrls.slice(i*2, i*2+2).forEach(image => { %>
-                  <div class="background-image" style="background-image: url('<%= image.url %>');"></div>
-              <% }) %>
-          </div>
-      <% } %>
-  </div>
+  <head>
+    <%- include('partials/head') %>
+    <link rel="stylesheet" href="/static/begin.css" />
+  </head>
 
-  <main>
-      <div class="buttoncontainer">
-          <a href="/log-in" class="button-cta">Inloggen</a>
-          <a href="/register" class="button-cta2">Registreren als bezoeker</a>
-          <a href="/registerArtists" class="button-cta2">Registreren als artiest</a>
+  <body>
+    <header><%- include('partials/header') %></header>
+    <div class="background-container" id="backgroundContainer">
+      <% for(let i = 0; i < 7; i++) { %>
+      <div class="image-column">
+        <% imageUrls.slice(i*2, i*2+2).forEach(image => { %>
+        <div
+          class="background-image"
+          style="background-image: url('<%= image.url %>')"
+        ></div>
+        <% }) %>
       </div>
-  </main>
-  <script src="/static/script/beginBackground.js"></script>
-  <div id="imageUrlsContainer" data-image-urls="<%= encodeURIComponent(JSON.stringify(imageUrls)) %>"></div>
-  <script>
-      window.imageUrls = JSON.parse(decodeURIComponent(document.getElementById('imageUrlsContainer').dataset.imageUrls));
-  </script>
-</body>
+      <% } %>
+    </div>
+    <main>
+      <div class="buttoncontainer">
+        <a href="/log-in" class="button-cta">Inloggen</a>
+        <a href="/register" class="button-cta2">Registreren als bezoeker</a>
+        <a href="/registerArtists" class="button-cta2"
+          >Registreren als artiest</a
+        >
+      </div>
+    </main>
+    <script src="/static/script/beginBackground.js"></script>
+    <div
+      id="imageUrlsContainer"
+      data-image-urls="<%= encodeURIComponent(JSON.stringify(imageUrls)) %>"
+    ></div>
+    <script>
+      window.imageUrls = JSON.parse(
+        decodeURIComponent(
+          document.getElementById("imageUrlsContainer").dataset.imageUrls
+        )
+      );
+    </script>
+  </body>
 </html>

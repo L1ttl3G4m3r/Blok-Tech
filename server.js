@@ -3,13 +3,13 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const session = require('express-session');
 const port = 9000;
 const xss = require('xss');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
 const fetch = require('node-fetch');
-const session = require('express-session');
 const { register } = require('swiper/element');
 
 // Middleware
@@ -47,8 +47,26 @@ function isAuthenticated(req, res, next) {
     if (req.session.userId) {
         return next();
     }
+
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).send('404 - Pagina niet gevonden');
+    console.log(`404 Error: ${req.originalUrl}`);
+});
+
+// Algemene error handler
+app.use((err, req, res, next) => {
+  console.error("Unexpected error:", err);
+  res.status(500).render("error.ejs", {
+      message: "Serverfout",
+      error: err.message
+  });
+});
+
     res.redirect('/log-in');
-}
+
+
 
 // Helper Functions
 async function hashPassword(password) {
@@ -93,7 +111,7 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
   }
 }
 
-// Routes
+
 app.get('/', async (req, res) => {
   try {
       const sortBy = req.query.sort_by || 'relevant';
@@ -344,3 +362,4 @@ app.use((err, req, res, next) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on http://0.0.0.0:${port}`);
 });
+}
