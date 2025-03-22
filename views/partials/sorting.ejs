@@ -1,10 +1,15 @@
 <div class="sort-container">
-  <select id="sort-select" name="sort">
-    <option value="latest" <%= currentSort === 'latest' ? 'selected' : '' %>>Nieuwste</option>
-    <option value="oldest" <%= currentSort === 'oldest' ? 'selected' : '' %>>Oudste</option>
-    <option value="popular" <%= currentSort === 'popular' ? 'selected' : '' %>>Populair</option>
-    <option value="least_popular" <%= currentSort === 'least_popular' ? 'selected' : '' %>>Minst populair</option>
-  </select>
+  <form id="sort-form" action="/index" method="GET">
+    <select id="sort-select" name="sort_by">
+      <option value="relevant" <%= currentSort === 'relevant' ? 'selected' : '' %>>Relevantie</option>
+      <option value="latest" <%= currentSort === 'latest' ? 'selected' : '' %>>Nieuwste</option>
+    </select>
+    <noscript><input type="submit" value="Sorteer"></noscript>
+  </form>
 </div>
 
-<div id="result"></div>
+<script>
+  document.getElementById('sort-select').addEventListener('change', function() {
+    document.getElementById('sort-form').submit();
+  });
+</script>

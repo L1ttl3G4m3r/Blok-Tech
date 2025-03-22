@@ -9,7 +9,7 @@
 * {
   margin: 0;
   padding: 0;
-  
+
 }
 *:focus {
   outline: 2px solid var(--focus-item);
@@ -24,7 +24,7 @@
   --color-button: #ff5527;
   --button-hover: #DC3F15;
   --uppercase: uppercase;
-  --border-button: 4px; 
+  --border-button: 4px;
   --focus-item: #0035C7;
 }
 /****************/
@@ -175,6 +175,26 @@ nav {
   overflow-x: hidden;
   transition: 0.5s;
 }
+
+/* Media query voor mobiele schermen */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 50%; /* Sidebar neemt 50% van het scherm in beslag */
+  }
+}
+
+.sidebar.show {
+  width: 300px;
+
+}
+
+/* Media query voor mobiele schermen */
+@media (max-width: 768px) {
+  .sidebar.show {
+    width: 50%; /* Sidebar neemt 50% van het scherm in beslag */
+  }
+}
+
 .sidebar-header {
   display: flex;
   justify-content: space-between;
@@ -229,6 +249,7 @@ nav {
   font-family: var(--main-font);
   font-size: 1em;
 }
+
 /****************/
 /* Sorting function */
 /****************/
@@ -394,7 +415,7 @@ li.artist-item {
   font-family: var(--main-font);
   font-weight: 500;
   text-decoration: none;
-  color: var(--color-text);    
+  color: var(--color-text);
 }
 .button-cta2,
 .button-reset {
@@ -472,4 +493,136 @@ h4 {
 
 div.form-container a {
   color: var(--button-hover);
+}
+
+
+/****************************/
+/* Vragenlijst (codepen.io) */
+/****************************/ 
+.swiper {
+  width: 100%;
+  margin: 0 auto;
+  overflow: scroll;
+}
+
+.swiper-wrapper {
+  height: 100%;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.swiper-slide {
+  height:100%;
+  
+  /* !important is nodig omdat swiper.js display:block; aan de li toevoegt - en daardoor zou de lay-out van de kaart misgaan */
+  display:flex !important; 
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.swiper-slide h2, 
+.swiper-slide h3, 
+.swiper-slide h4 {
+  text-align: center;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+ 
+.image-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  margin: 2em;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none; 
+
+  width: 1.5em;
+  height: 1.5em;
+  border: 2px solid var(--color-button); 
+  background-color: var(--color-background); 
+  border-radius: 4px; 
+
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  border-radius: 50%;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background-color: var(--color-button);
+  border: 2px solid var(--color-button);
+}
+
+input[type="checkbox"]:checked::before {
+  content: "✔"; /* Unicode voor vinkje van ChatGPT*/
+  color: white;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+input[type="radio"]:checked::before {
+  content: "•";
+  font-size: 3.5em;
+  color: white;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after,
+.swiper-pagination {
+  /* het lukt me alleen met fixed */
+  position: fixed !important;
+  bottom: .5em !important;
+
+  border:none;
+  background:none;
+  color: var(--color-button);
+}
+
+/* section.containerNavSwiper {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+  background-color: #F3F0DD;
+} */
+
+/* .swiper-slide input[type="search"] {
+  width: 22em;
+  padding: 1em;
+  border-radius: .5em;
+  margin-top: 2em;
+} */
+
+/* .swiper-slide input[type="search"]:focus {
+  outline-color: var(--focus);
+} */
+
+.swiper-slide input[type="submit"] {
+  background-color: var(--color-button);
+  color: var(--color-text);
+  border: none;
+  width: 22em;
+  padding: 1em;
+  padding: 1em;
+  border-radius: .5em;
+  margin-top: 6em;
 }
