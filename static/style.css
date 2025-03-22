@@ -9,7 +9,7 @@
 * {
   margin: 0;
   padding: 0;
-  
+
 }
 *:focus {
   outline: 2px solid var(--focus-item);
@@ -24,7 +24,7 @@
   --color-button: #ff5527;
   --button-hover: #DC3F15;
   --uppercase: uppercase;
-  --border-button: 4px; 
+  --border-button: 4px;
   --focus-item: #0035C7;
 }
 /****************/
@@ -175,6 +175,26 @@ nav {
   overflow-x: hidden;
   transition: 0.5s;
 }
+
+/* Media query voor mobiele schermen */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 50%; /* Sidebar neemt 50% van het scherm in beslag */
+  }
+}
+
+.sidebar.show {
+  width: 300px;
+
+}
+
+/* Media query voor mobiele schermen */
+@media (max-width: 768px) {
+  .sidebar.show {
+    width: 50%; /* Sidebar neemt 50% van het scherm in beslag */
+  }
+}
+
 .sidebar-header {
   display: flex;
   justify-content: space-between;
@@ -229,6 +249,7 @@ nav {
   font-family: var(--main-font);
   font-size: 1em;
 }
+
 /****************/
 /* Sorting function */
 /****************/
@@ -394,7 +415,7 @@ li.artist-item {
   font-family: var(--main-font);
   font-weight: 500;
   text-decoration: none;
-  color: var(--color-text);    
+  color: var(--color-text);
 }
 .button-cta2,
 .button-reset {
