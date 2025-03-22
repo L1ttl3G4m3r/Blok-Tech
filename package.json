@@ -16,7 +16,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "stylelint": "npx stylelint **/*.css",
+    "eslint": "npx eslint **/*.js",
+    "lint": "concurrently \"npm run eslint\" \"npm run stylelint\"",
+    "lintfix": "eslint --fix **/*.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
