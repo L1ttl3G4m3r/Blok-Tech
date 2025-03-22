@@ -263,22 +263,6 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
     }
 }
 
-// Connectie
-async function connectToDatabase() {
-    try {
-        await client.connect();
-        console.log("Connected to database");
-    } catch (error) {
-        console.error("Database connection error:", error);
-        process.exit(1);
-    }
-}
-
-connectToDatabase();
-
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running on http://0.0.0.0:${port}`);
-});
 
 function isAuthenticated(req, res, next) {
     if (req.session.userId) {
