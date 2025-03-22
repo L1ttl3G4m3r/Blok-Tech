@@ -47,24 +47,7 @@ function isAuthenticated(req, res, next) {
     if (req.session.userId) {
         return next();
     }
-
-
-// 404 handler
-app.use((req, res) => {
-    res.status(404).send('404 - Pagina niet gevonden');
-    console.log(`404 Error: ${req.originalUrl}`);
-});
-
-// Algemene error handler
-app.use((err, req, res, next) => {
-  console.error("Unexpected error:", err);
-  res.status(500).render("error.ejs", {
-      message: "Serverfout",
-      error: err.message
-  });
-});
-
-    res.redirect('/log-in');
+  }
 
 
 
@@ -154,7 +137,7 @@ app.get('/', async (req, res) => {
       const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
       console.log('Image URLs being sent to template:', imageUrls.slice(0, 2));
 
-      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy });
+      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy ,  pageTitle: 'Home'});
   } catch (error) {
       console.error("Error in home route:", error);
       res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
@@ -362,4 +345,4 @@ app.use((err, req, res, next) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on http://0.0.0.0:${port}`);
 });
-}
+
