@@ -83,7 +83,8 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
       const imageUrls = data.results.map(image => ({
           url: image.urls.regular,
           width: image.width,
-          height: image.height
+          height: image.height,
+          alt_description: image.alt_description || ''
       }));
 
       return imageUrls;
@@ -302,6 +303,28 @@ app.get('/index', isAuthenticated, async (req, res) => {
         console.error("Error fetching images for index:", error);
         res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
     }
+});
+
+app.get('/search', isAuthenticated, async (req, res) => {
+  try {
+      const query = req.query.q || ''; // Haal de zoekterm op, of gebruik een lege string als default
+      const sortBy = req.query.sort_by || 'relevant'; // Optioneel: voeg sorteeropties toe
+
+      if (!query) {
+          return res.status(400).send("Zoekterm is vereist");
+      }
+
+      const imageUrls = await fetchUnsplashImages(query, 28, sortBy); // Gebruik de fetchUnsplashImages functie
+      res.render('index.ejs', {
+          pageTitle: `Zoekresultaten voor "${query}"`,
+          username: req.session.username,
+          gridImages: imageUrls,
+          currentSort: sortBy
+      });
+  } catch (error) {
+      console.error("Error fetching search results:", error);
+      res.status(500).send("Er is een fout opgetreden bij het ophalen van zoekresultaten");
+  }
 });
 
 // Error Handling
