@@ -73,13 +73,12 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
       });
 
       if (!response.ok) {
-          const error = await response.json();
-          throw new Error(`Unsplash API Error: ${error.errors.join(', ')}`);
+          const errorText = await response.text();
+          throw new Error(`Unsplash API Error: ${response.status} - ${errorText}`);
       }
 
       const data = await response.json();
 
-      // Let op: de structuur van de data is anders bij de Search API
       const imageUrls = data.results.map(image => ({
           url: image.urls.regular,
           width: image.width,
@@ -96,52 +95,52 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
 
 // Routes
 app.get('/', async (req, res) => {
-    try {
-        const sortBy = req.query.sort_by || 'relevant';
+  try {
+      const sortBy = req.query.sort_by || 'relevant';
 
-        const styles = req.query.styles ? req.query.styles.split(',') : [];
-        const colors = req.query.colors || '';
+      const styles = req.query.styles ? req.query.styles.split(',') : [];
+      const colors = req.query.colors || '';
 
-        let query = 'tattoo';
+      let query = 'tattoo';
 
-        if (styles.length > 0) {
-            const styleQueries = styles.map(style => {
-                switch (style) {
-                    case 'classic':
-                        return 'classic tattoo';
-                    case 'realistic':
-                        return 'realistic tattoo';
-                    case 'modern':
-                        return 'modern tattoo';
-                    case 'minimalistic':
-                        return 'minimalistic tattoo';
-                    case 'cultural':
-                        return 'cultural tattoo';
-                    case 'cartoon':
-                        return 'cartoon tattoo';
-                    case 'old':
-                        return 'old tattoo';
-                    default:
-                        return 'tattoo';
-                }
-            });
-            query = styleQueries.join(' ');
-        }
+      if (styles.length > 0) {
+          const styleQueries = styles.map(style => {
+              switch (style) {
+                  case 'classic':
+                      return 'classic tattoo';
+                  case 'realistic':
+                      return 'realistic tattoo';
+                  case 'modern':
+                      return 'modern tattoo';
+                  case 'minimalistic':
+                      return 'minimalistic tattoo';
+                  case 'cultural':
+                      return 'cultural tattoo';
+                  case 'cartoon':
+                      return 'cartoon tattoo';
+                  case 'old':
+                      return 'old tattoo';
+                  default:
+                      return 'tattoo';
+              }
+          });
+          query = styleQueries.join(' ');
+      }
 
-        if (colors === 'black_and_white') {
-            query += ' black and white tattoo';
-        } else if (colors === 'color') {
-            query += ' colorful tattoo';
-        }
+      if (colors === 'black_and_white') {
+          query += ' black and white tattoo';
+      } else if (colors === 'color') {
+          query += ' colorful tattoo';
+      }
 
-        const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
-        console.log('Image URLs being sent to template:', imageUrls.slice(0, 2));
+      const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
+      console.log('Image URLs being sent to template:', imageUrls.slice(0, 2));
 
-        res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy });
-    } catch (error) {
-        console.error("Error in home route:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-    }
+      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy });
+  } catch (error) {
+      console.error("Error in home route:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+  }
 });
 
 // Registration Route
