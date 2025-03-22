@@ -2,7 +2,9 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
+const session = require('express-session');
 const port = 9000;
 const xss = require('xss');
 const validator = require('validator');
