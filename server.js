@@ -2,12 +2,15 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const app = express();
+const port = 9000;
 const xss = require('xss');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
 const fetch = require('node-fetch');
 const session = require('express-session');
+const { register } = require('swiper/element');
 
 const app = express();
 const port = process.env.PORT || 9000;
@@ -93,13 +96,10 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
 }
 
 // Routes
-// Home route is now rendering begin.ejs without authentication
 app.get('/', async (req, res) => {
     try {
-        // Haal de sorteerparameter op uit de query, of gebruik 'relevant' als default
         const sortBy = req.query.sort_by || 'relevant';
 
-        // Haal de stijlen op uit de query, of gebruik een lege array als default
         const styles = req.query.styles ? req.query.styles.split(',') : [];
         const colors = req.query.colors || '';
 
@@ -138,7 +138,6 @@ app.get('/', async (req, res) => {
         const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
         console.log('Image URLs being sent to template:', imageUrls.slice(0, 2));
 
-        // Stuur de currentSort parameter mee naar de template
         res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy });
     } catch (error) {
         console.error("Error in home route:", error);
@@ -264,10 +263,8 @@ app.get('/preview', isAuthenticated, (req, res) => {
     res.render('preview', { pageTitle: 'Preview' });
 });
 
-// Index route is now authenticated and renders index.ejs with currentSort
 app.get('/index', isAuthenticated, async (req, res) => {
     try {
-        // Haal de sorteerparameter op uit de query, of gebruik 'relevant' als default
         const sortBy = req.query.sort_by || 'relevant';
         const imageUrls = await fetchUnsplashImages('tattoo', 28, sortBy);
         res.render('index.ejs', {
