@@ -10,7 +10,6 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
 const fetch = require('node-fetch');
-const session = require('express-session');
 const { register } = require('swiper/element');
 
 // Middleware
