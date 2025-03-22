@@ -200,7 +200,7 @@ app.get('/profiel', (req, res) => {
   });
 
   app.get('/detail/:id', (req, res) => {
-    res.render('detailpagina', { id: req.params.id }, { pageTitle: 'Detailpagina' });
+    res.render('detailpagina', { id: req.params.id }, { pageTitle: 'Detail pagina' });
   });
 
   app.get('/preview', (req, res) => {
