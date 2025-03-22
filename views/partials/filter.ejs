@@ -12,50 +12,83 @@
     </button>
   </div>
   <div class="sidebar-content">
-    <h3>Stijlen <button id="clearStyles" class="clear-button">Clear</button></h3>
-    <div class="checkbox-container">
-      <label>
-        <input type="checkbox" name="styles" value="classic" />
-        Klassieke stijlen
-      </label>
-      <label>
-        <input type="checkbox" name="styles" value="realistic" />
-        Realistische stijlen
-      </label>
-      <label>
-        <input type="checkbox" name="styles" value="modern" />
-        Moderne en experimentele stijlen
-      </label>
-      <label>
-        <input type="checkbox" name="styles" value="minimalistic" />
-        Minimalistische en grafische stijlen
-      </label>
-      <label>
-        <input type="checkbox" name="styles" value="cultural" />
-        Culturele en symbolische stijlen
-      </label>
-      <label>
-        <input type="checkbox" name="styles" value="cartoon" />
-        Cartoon en pop-art stijlen
-      </label>
-      <label>
-        <input type="checkbox" name="styles" value="old" />
-        Oude en alternatieve stijlen
-      </label>
-    </div>
+    <form id="filterForm" action="/index" method="GET">
+      <h3>Stijlen <button id="clearStyles" class="clear-button">Clear</button></h3>
+      <div class="checkbox-container">
+        <label>
+          <input type="checkbox" name="styles" value="classic" />
+          Klassieke stijlen
+        </label>
+        <label>
+          <input type="checkbox" name="styles" value="realistic" />
+          Realistische stijlen
+        </label>
+        <label>
+          <input type="checkbox" name="styles" value="modern" />
+          Moderne en experimentele stijlen
+        </label>
+        <label>
+          <input type="checkbox" name="styles" value="minimalistic" />
+          Minimalistische en grafische stijlen
+        </label>
+        <label>
+          <input type="checkbox" name="styles" value="cultural" />
+          Culturele en symbolische stijlen
+        </label>
+        <label>
+          <input type="checkbox" name="styles" value="cartoon" />
+          Cartoon en pop-art stijlen
+        </label>
+        <label>
+          <input type="checkbox" name="styles" value="old" />
+          Oude en alternatieve stijlen
+        </label>
+      </div>
 
-    <h3>Kleuren <button id="clearColors" class="clear-button">Clear</button></h3>
-    <div class="radio-container">
-      <label>
-        <input type="radio" name="colors" value="black_and_white" />
-        Zwart wit
-      </label>
-      <label>
-        <input type="radio" name="colors" value="color" />
-        Kleur
-      </label>
-    </div>
-
-    <button id="applyFiltersButton" class="filter-button">Toepassen</button>
+      <h3>Kleuren <button id="clearColors" class="clear-button">Clear</button></h3>
+      <div class="radio-container">
+        <label>
+          <input type="radio" name="colors" value="black_and_white" />
+          Zwart wit
+        </label>
+        <label>
+          <input type="radio" name="colors" value="color" />
+          Kleur
+        </label>
+      </div>
+      <input type="hidden" name="sort_by" value="<%= currentSort %>">
+      <button type="submit" id="applyFiltersButton" class="filter-button">Toepassen</button>
+    </form>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterButton = document.getElementById('filterButton');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const filterSidebar = document.getElementById('filterSidebar');
+    const clearStylesButton = document.getElementById('clearStyles');
+    const clearColorsButton = document.getElementById('clearColors');
+    const filterForm = document.getElementById('filterForm');
+
+    filterButton.addEventListener('click', function() {
+      filterSidebar.classList.add('show');
+    });
+
+    closeSidebar.addEventListener('click', function() {
+      filterSidebar.classList.remove('show');
+    });
+
+    clearStylesButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      const styleCheckboxes = document.querySelectorAll('input[name="styles"]');
+      styleCheckboxes.forEach(checkbox => checkbox.checked = false);
+    });
+
+    clearColorsButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      const colorRadios = document.querySelectorAll('input[name="colors"]');
+      colorRadios.forEach(radio => radio.checked = false);
+    });
+  });
+</script>

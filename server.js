@@ -262,19 +262,46 @@ app.get('/preview', isAuthenticated, (req, res) => {
 });
 
 app.get('/index', isAuthenticated, async (req, res) => {
-  try {
-      const sortBy = req.query.sort_by || 'relevant';
-      const imageUrls = await fetchUnsplashImages('tattoo', 28, sortBy);
-      res.render('index.ejs', {
-          pageTitle: 'Home',
-          username: req.session.username,
-          gridImages: imageUrls,
-          currentSort: sortBy
-      });
-  } catch (error) {
-      console.error("Error fetching images for index:", error);
-      res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
-  }
+    try {
+        const sortBy = req.query.sort_by || 'relevant';
+        const styles = req.query.styles ? req.query.styles.split(',') : [];
+        const colors = req.query.colors || '';
+
+        let query = 'tattoo';
+
+        if (styles.length > 0) {
+            const styleQueries = styles.map(style => {
+                switch (style) {
+                    case 'classic': return 'classic tattoo';
+                    case 'realistic': return 'realistic tattoo';
+                    case 'modern': return 'modern tattoo';
+                    case 'minimalistic': return 'minimalistic tattoo';
+                    case 'cultural': return 'cultural tattoo';
+                    case 'cartoon': return 'cartoon tattoo';
+                    case 'old': return 'old tattoo';
+                    default: return 'tattoo';
+                }
+            });
+            query = styleQueries.join(' ');
+        }
+
+        if (colors === 'black_and_white') {
+            query += ' black and white tattoo';
+        } else if (colors === 'color') {
+            query += ' colorful tattoo';
+        }
+
+        const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
+        res.render('index.ejs', {
+            pageTitle: 'Home',
+            username: req.session.username,
+            gridImages: imageUrls,
+            currentSort: sortBy
+        });
+    } catch (error) {
+        console.error("Error fetching images for index:", error);
+        res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
+    }
 });
 
 // Error Handling
