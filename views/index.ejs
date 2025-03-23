@@ -27,7 +27,7 @@
         <section class="carousel" id="tattoo-carousel">
           <% if (!locals.userTags) { %>
             <div class="zero-state">
-              <p>Geen gepersonaliseerde tattoo's gevonden. Vul de vragenlijst in voor suggesties.</p>
+              <h3>Geen gepersonaliseerde tattoo's gevonden. Vul de vragenlijst in voor suggesties.</h3>
               <a href="/vragenlijst" class="preference-button">Naar vragenlijst</a>
             </div>
           <% } else { %>
@@ -57,7 +57,8 @@
       <%- include('partials/nav') %>
     </footer>
 
-    <script src="/server.js"></script>
+
     <script src="/static/script/script.js"></script>
+    <script src="/server.js"></script>
   </body>
 </html>

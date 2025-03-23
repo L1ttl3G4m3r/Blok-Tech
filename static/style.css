@@ -364,7 +364,7 @@ swiper-slide {
 .tattoo-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 10px;
+  gap: 1em;
 }
 
 @media (min-width: 1024px) {
@@ -382,10 +382,18 @@ swiper-slide {
 
 .zero-state {
   text-align: center;
-  padding: 3em;
   height: 10em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  margin: 1em;
 }
+.zero-state h3 {
+  font-weight: 200;
 
+}
 /****************/
 /* Artist list */
 /****************/
@@ -478,7 +486,6 @@ li.artist-item {
   padding: 1em 4em;
   border-radius: 4px;
   background-color: var(--color-button);
-  margin-top: 2em;
   font-size: 1em;
   font-family: var(--main-font);
   font-weight: 500;
@@ -526,7 +533,6 @@ h4 {
 div.form-container a {
   color: var(--button-hover);
 }
-
 
 /****************************/
 /* Vragenlijst (codepen.io) */
