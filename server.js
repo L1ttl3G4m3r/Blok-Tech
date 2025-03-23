@@ -197,10 +197,21 @@ app.get('/post', isAuthenticated, (req, res) => {
     res.render('post.ejs', { pageTitle: 'Post' });
 });
 
-app.get('/artiesten', isAuthenticated, (req, res) => {
-    res.render('artiesten.ejs', { pageTitle: 'Artiesten' });
-});
 
+app.get('/artiesten', isAuthenticated, async (req, res) => {
+  try {
+      const collection = db.collection('artists'); // Vervang 'artists' met de naam van je collectie
+      const artists = await collection.find().toArray(); // Haal alle artiesten op
+      res.render('artiesten.ejs', {
+          pageTitle: 'Artiesten',
+          artists: artists, // Geef de artiesten door aan de template
+          currentSort: 'relevant'
+      });
+  } catch (error) {
+      console.error("Fout bij het ophalen van artiesten:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
+  }
+});
 app.get('/zie-alle', isAuthenticated, (req, res) => {
     res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
 });
