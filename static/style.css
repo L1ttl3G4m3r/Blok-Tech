@@ -9,7 +9,6 @@
 * {
   margin: 0;
   padding: 0;
-
 }
 *:focus {
   outline: 2px solid var(--focus-item);
@@ -22,10 +21,10 @@
   --color-text: #f3f0dd;
   --color-background: #000000;
   --color-button: #ff5527;
-  --button-hover: #DC3F15;
+  --button-hover: #dc3f15;
   --uppercase: uppercase;
   --border-button: 4px;
-  --focus-item: #0035C7;
+  --focus-item: #0035c7;
 }
 /****************/
 /* Algemeen */
@@ -39,7 +38,6 @@ h1 {
   white-space: nowrap; /* Zorgt ervoor dat de tekst niet wordt afgebroken */
   overflow: hidden;
 }
-
 body {
   background-color: var(--color-background);
   font-family: var(--main-font);
@@ -47,7 +45,6 @@ body {
   font-weight: 500;
   color: var(--color-text);
 }
-
 /****************/
 /* logo */
 /****************/
@@ -140,7 +137,7 @@ input[type="search"] {
   top: 0;
   left: 0;
 }
-.search-icon img{
+.search-icon img {
   width: 3em;
   height: 3em;
 }
@@ -151,7 +148,7 @@ input[type="search"] {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
 }
 /****************/
 /* Filter function */
@@ -201,7 +198,6 @@ nav {
 
 .sidebar.show {
   width: 300px;
-
 }
 
 /* Media query voor mobiele schermen */
@@ -392,7 +388,6 @@ swiper-slide {
 }
 .zero-state h3 {
   font-weight: 200;
-
 }
 /****************/
 /* Artist list */
@@ -474,14 +469,14 @@ li.artist-item {
 .button-reset:hover {
   background-color: var(--color-text);
   color: var(--color-background);
-  }
+}
 .button-cta:hover {
   background-color: var(--button-hover);
 }
 .button-cta2:hover {
   background-color: var(--color-text);
   color: var(--color-background);
-  }
+}
 .preference-button {
   padding: 1em 4em;
   border-radius: 4px;
@@ -545,21 +540,19 @@ div.form-container a {
 
 .swiper-wrapper {
   height: 100%;
-  margin:0;
-  padding:0;
-  list-style:none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .swiper-slide {
-  height:100%;
-
+  height: 100%;
   /* !important is nodig omdat swiper.js display:block; aan de li toevoegt - en daardoor zou de lay-out van de kaart misgaan */
-  display:flex !important;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-
 .swiper-slide h2,
 .swiper-slide h3,
 .swiper-slide h4 {
@@ -629,10 +622,10 @@ input[type="radio"]:checked::before {
 .swiper-pagination {
   /* het lukt me alleen met fixed */
   position: fixed !important;
-  bottom: .5em !important;
+  bottom: 0.5em !important;
 
-  border:none;
-  background:none;
+  border: none;
+  background: none;
   color: var(--color-button);
 }
 
@@ -661,6 +654,6 @@ input[type="radio"]:checked::before {
   width: 22em;
   padding: 1em;
   padding: 1em;
-  border-radius: .5em;
+  border-radius: 0.5em;
   margin-top: 6em;
 }
