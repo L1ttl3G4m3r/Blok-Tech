@@ -51,6 +51,7 @@ function isAuthenticated(req, res, next) {
 
 
 
+
 // Helper Functions
 async function hashPassword(password) {
     const saltRounds = 10;
@@ -93,8 +94,6 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
       return [];
   }
 }
-
-
 
 // Registration Route
 app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
