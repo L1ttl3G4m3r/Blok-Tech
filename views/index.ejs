@@ -2,41 +2,7 @@
 <html lang="nl">
   <head>
     <%- include('partials/head') %>
-    <style>
-      .tattoo-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
 
-      @media (min-width: 1024px) {
-        .tattoo-grid {
-          grid-template-columns: repeat(7, 1fr);
-        }
-      }
-
-      .tattoo-grid img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        cursor: pointer;
-      }
-
-      .zero-state {
-        text-align: center;
-        padding: 20px;
-      }
-
-      .zero-state .button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: black;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-top: 10px;
-      }
-    </style>
   </head>
   <body>
     <header><%- include('partials/header') %></header>
@@ -62,7 +28,7 @@
           <% if (!locals.userTags) { %>
             <div class="zero-state">
               <p>Geen gepersonaliseerde tattoo's gevonden. Vul de vragenlijst in voor suggesties.</p>
-              <a href="/vragenlijst" class="button">Naar vragenlijst</a>
+              <a href="/vragenlijst" class="preference-button">Naar vragenlijst</a>
             </div>
           <% } else { %>
             <%- include('partials/carousel') %>
@@ -72,20 +38,18 @@
 
       <section class="tattoo-grid" id="tattoo-grid">
 
-        <% gridImages.forEach(image => { %>
-          <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
-        <% }) %>
+        <% if (gridImages && gridImages.length > 0) { %>
+          <% gridImages.forEach(image => { %>
+              <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
+          <% }) %>
+      <% } else { %>
+          <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
+      <% } %>
 
       </section>
 
-        <% if (gridImages && gridImages.length > 0) { %>
-            <% gridImages.forEach(image => { %>
-                <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
-            <% }) %>
-        <% } else { %>
-            <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
-        <% } %>
-    </section>
+
+
 
     </main>
 
@@ -94,13 +58,6 @@
     </footer>
 
     <script src="/server.js"></script>
-    <script src="/static/script.js"></script>
-    <script>
-      document.querySelectorAll('#tattoo-grid img').forEach(img => {
-        img.addEventListener('click', function() {
-          window.location.href = `/detailpagina/${this.dataset.id}`;
-        });
-      });
-    </script>
+    <script src="/static/script/script.js"></script>
   </body>
 </html>

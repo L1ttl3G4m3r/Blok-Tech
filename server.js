@@ -42,29 +42,12 @@ async function connectToDatabase() {
 
 connectToDatabase();
 
-// Authentication Middleware
 function isAuthenticated(req, res, next) {
-    if (req.session.userId) {
-        return next();
-    }
-
-
-// 404 handler
-app.use((req, res) => {
-    res.status(404).send('404 - Pagina niet gevonden');
-    console.log(`404 Error: ${req.originalUrl}`);
-});
-
-// Algemene error handler
-app.use((err, req, res, next) => {
-  console.error("Unexpected error:", err);
-  res.status(500).render("error.ejs", {
-      message: "Serverfout",
-      error: err.message
-  });
-});
-
-    res.redirect('/log-in');
+  if (req.session.userId) {
+      return next(); // Ga door naar de volgende middleware of route handler
+  }
+  res.redirect('/log-in'); // Stuur de gebruiker naar de login pagina als deze niet is ingelogd
+}
 
 
 
@@ -112,54 +95,6 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
 }
 
 
-app.get('/', async (req, res) => {
-  try {
-      const sortBy = req.query.sort_by || 'relevant';
-
-      const styles = req.query.styles ? req.query.styles.split(',') : [];
-      const colors = req.query.colors || '';
-
-      let query = 'tattoo';
-
-      if (styles.length > 0) {
-          const styleQueries = styles.map(style => {
-              switch (style) {
-                  case 'classic':
-                      return 'classic tattoo';
-                  case 'realistic':
-                      return 'realistic tattoo';
-                  case 'modern':
-                      return 'modern tattoo';
-                  case 'minimalistic':
-                      return 'minimalistic tattoo';
-                  case 'cultural':
-                      return 'cultural tattoo';
-                  case 'cartoon':
-                      return 'cartoon tattoo';
-                  case 'old':
-                      return 'old tattoo';
-                  default:
-                      return 'tattoo';
-              }
-          });
-          query = styleQueries.join(' ');
-      }
-
-      if (colors === 'black_and_white') {
-          query += ' black and white tattoo';
-      } else if (colors === 'color') {
-          query += ' colorful tattoo';
-      }
-
-      const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
-      console.log('Image URLs being sent to template:', imageUrls.slice(0, 2));
-
-      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy });
-  } catch (error) {
-      console.error("Error in home route:", error);
-      res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-  }
-});
 
 // Registration Route
 app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
@@ -362,4 +297,4 @@ app.use((err, req, res, next) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on http://0.0.0.0:${port}`);
 });
-}
+

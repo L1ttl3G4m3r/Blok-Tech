@@ -94,7 +94,25 @@ footer {
 .nav-item:hover {
   filter: invert(50%);
 }
-/****************/
+
+.nav-item.active a {
+  color: var(--color-button);
+}
+
+/* Verberg standaard de actieve iconen */
+.active-icon {
+  display: none;
+}
+
+/* Wanneer een item actief is, verberg de normale icoon en toon de actieve icoon */
+.nav-item.active .default-icon {
+  display: none;
+}
+
+.nav-item.active .active-icon {
+  display: block;
+}
+/***********/
 /* Searchbar */
 /****************/
 section.search {
@@ -118,8 +136,6 @@ input[type="search"] {
   position: relative;
 }
 .search-icon {
-  width: 3em;
-  height: 3em;
   position: absolute;
   top: 0;
   left: 0;
@@ -310,28 +326,8 @@ swiper-slide {
   width: 80%;
 }
 /****************/
-/* vertical carousel */
+/* tattoo grid */
 /****************/
-ul.photolist {
-  margin-top: 2em;
-  display: flex;
-  flex-direction: column;
-}
-
-li.carousel-item {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2em;
-}
-
-.carousel-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .icon-box {
   position: absolute;
   width: 2.5em;
@@ -364,6 +360,32 @@ li.carousel-item {
 .icon-box.active .fill {
   display: block;
 }
+
+.tattoo-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 1024px) {
+  .tattoo-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.tattoo-grid img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.zero-state {
+  text-align: center;
+  padding: 3em;
+  height: 10em;
+}
+
 /****************/
 /* Artist list */
 /****************/
@@ -452,7 +474,17 @@ li.artist-item {
   background-color: var(--color-text);
   color: var(--color-background);
   }
-
+.preference-button {
+  padding: 1em 4em;
+  border-radius: 4px;
+  background-color: var(--color-button);
+  margin-top: 2em;
+  font-size: 1em;
+  font-family: var(--main-font);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+}
 /****************/
 /* forms login/register */
 /****************/
@@ -498,7 +530,7 @@ div.form-container a {
 
 /****************************/
 /* Vragenlijst (codepen.io) */
-/****************************/ 
+/****************************/
 .swiper {
   width: 100%;
   margin: 0 auto;
@@ -514,22 +546,22 @@ div.form-container a {
 
 .swiper-slide {
   height:100%;
-  
+
   /* !important is nodig omdat swiper.js display:block; aan de li toevoegt - en daardoor zou de lay-out van de kaart misgaan */
-  display:flex !important; 
+  display:flex !important;
   flex-direction:column;
   justify-content:center;
   align-items:center;
 }
 
-.swiper-slide h2, 
-.swiper-slide h3, 
+.swiper-slide h2,
+.swiper-slide h3,
 .swiper-slide h4 {
   text-align: center;
   margin-left: 2em;
   margin-right: 2em;
 }
- 
+
 .image-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -544,13 +576,13 @@ div.form-container a {
 
 input[type="checkbox"],
 input[type="radio"] {
-  appearance: none; 
+  appearance: none;
 
   width: 1.5em;
   height: 1.5em;
-  border: 2px solid var(--color-button); 
-  background-color: var(--color-background); 
-  border-radius: 4px; 
+  border: 2px solid var(--color-button);
+  background-color: var(--color-background);
+  border-radius: 4px;
 
   display: inline-block;
   position: relative;
