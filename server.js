@@ -95,6 +95,58 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
   }
 }
 
+
+
+app.get('/', async (req, res) => {
+  try {
+      const sortBy = req.query.sort_by || 'relevant';
+
+      const styles = req.query.styles ? req.query.styles.split(',') : [];
+      const colors = req.query.colors || '';
+
+      let query = 'tattoo';
+
+      if (styles.length > 0) {
+          const styleQueries = styles.map(style => {
+              switch (style) {
+                  case 'classic':
+                      return 'classic tattoo';
+                  case 'realistic':
+                      return 'realistic tattoo';
+                  case 'modern':
+                      return 'modern tattoo';
+                  case 'minimalistic':
+                      return 'minimalistic tattoo';
+                  case 'cultural':
+                      return 'cultural tattoo';
+                  case 'cartoon':
+                      return 'cartoon tattoo';
+                  case 'old':
+                      return 'old tattoo';
+                  default:
+                      return 'tattoo';
+              }
+          });
+          query = styleQueries.join(' ');
+      }
+
+      if (colors === 'black_and_white') {
+          query += ' black and white tattoo';
+      } else if (colors === 'color') {
+          query += ' colorful tattoo';
+      }
+
+      const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
+      console.log('Image URLs being sent to template:', imageUrls.slice(0, 2));
+
+      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy ,  pageTitle: 'Home'});
+  } catch (error) {
+      console.error("Error in home route:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+  }
+});
+
+
 // Registration Route
 app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
 
@@ -196,8 +248,6 @@ app.get('/profiel', isAuthenticated, (req, res) => {
 app.get('/post', isAuthenticated, (req, res) => {
     res.render('post.ejs', { pageTitle: 'Post' });
 });
-
-
 app.get('/artiesten', isAuthenticated, async (req, res) => {
   try {
       const collection = db.collection('artists'); // Vervang 'artists' met de naam van je collectie
@@ -212,6 +262,7 @@ app.get('/artiesten', isAuthenticated, async (req, res) => {
       res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
   }
 });
+
 app.get('/zie-alle', isAuthenticated, (req, res) => {
     res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
 });
