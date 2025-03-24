@@ -2,15 +2,29 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
-const app = express();
 const session = require('express-session');
-const port = 9000;
 const xss = require('xss');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
 const fetch = require('node-fetch');
-const { register } = require('swiper/element');
+const multer = require('multer');
+const path = require('path');
+
+const app = express();
+const port = process.env.PORT || 9000;
+
+// Configureer multer voor bestandsopslag
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Zorg ervoor dat deze map bestaat
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Unieke bestandsnaam
+    }
+});
+
+const upload = multer({ storage: storage });
 
 // Middleware
 app.use(express.json());
@@ -42,15 +56,13 @@ async function connectToDatabase() {
 
 connectToDatabase();
 
+// Authentication Middleware
 function isAuthenticated(req, res, next) {
-  if (req.session.userId) {
-      return next(); // Ga door naar de volgende middleware of route handler
-  }
-  res.redirect('/log-in'); // Stuur de gebruiker naar de login pagina als deze niet is ingelogd
+    if (req.session.userId) {
+        return next();
+    }
+    res.redirect('/log-in');
 }
-
-
-
 
 // Helper Functions
 async function hashPassword(password) {
@@ -59,90 +71,79 @@ async function hashPassword(password) {
 }
 
 async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
-  try {
-      const unsplashApiKey = process.env.UNSPLASH_API_KEY;
-      let apiUrl = `https://api.unsplash.com/search/photos?query=${query}&per_page=${count}&orientation=landscape`;
+    try {
+        const unsplashApiKey = process.env.UNSPLASH_API_KEY;
+        let apiUrl = `https://api.unsplash.com/search/photos?query=${query}&per_page=${count}&orientation=landscape`;
 
-      if (sortBy !== 'relevant') {
-          apiUrl += `&order_by=${sortBy}`;
-      }
+        if (sortBy !== 'relevant') {
+            apiUrl += `&order_by=${sortBy}`;
+        }
 
-      const response = await fetch(apiUrl, {
-          headers: {
-              'Authorization': `Client-ID ${unsplashApiKey}`,
-              'Accept-Version': 'v1'
-          }
-      });
+        const response = await fetch(apiUrl, {
+            headers: {
+                'Authorization': `Client-ID ${unsplashApiKey}`,
+                'Accept-Version': 'v1'
+            }
+        });
 
-      if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Unsplash API Error: ${response.status} - ${errorText}`);
-      }
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Unsplash API Error: ${response.status} - ${errorText}`);
+        }
 
-      const data = await response.json();
+        const data = await response.json();
 
-      const imageUrls = data.results.map(image => ({
-          url: image.urls.regular,
-          width: image.width,
-          height: image.height,
-          alt_description: image.alt_description || ''
-      }));
+        const imageUrls = data.results.map(image => ({
+            url: image.urls.regular,
+            width: image.width,
+            height: image.height,
+            alt_description: image.alt_description || ''
+        }));
 
-      return imageUrls;
-  } catch (error) {
-      console.error('Error fetching Unsplash images:', error);
-      return [];
-  }
+        return imageUrls;
+    } catch (error) {
+        console.error('Error fetching Unsplash images:', error);
+        return [];
+    }
 }
 
 // Routes
 app.get('/', async (req, res) => {
-  try {
-      const sortBy = req.query.sort_by || 'relevant';
+    try {
+        const sortBy = req.query.sort_by || 'relevant';
+        const styles = req.query.styles ? req.query.styles.split(',') : [];
+        const colors = req.query.colors || '';
 
-      const styles = req.query.styles ? req.query.styles.split(',') : [];
-      const colors = req.query.colors || '';
+        let query = 'tattoo';
 
-      let query = 'tattoo';
+        if (styles.length > 0) {
+            const styleQueries = styles.map(style => {
+                switch (style) {
+                    case 'classic': return 'classic tattoo';
+                    case 'realistic': return 'realistic tattoo';
+                    case 'modern': return 'modern tattoo';
+                    case 'minimalistic': return 'minimalistic tattoo';
+                    case 'cultural': return 'cultural tattoo';
+                    case 'cartoon': return 'cartoon tattoo';
+                    case 'old': return 'old tattoo';
+                    default: return 'tattoo';
+                }
+            });
+            query = styleQueries.join(' ');
+        }
 
-      if (styles.length > 0) {
-          const styleQueries = styles.map(style => {
-              switch (style) {
-                  case 'classic':
-                      return 'classic tattoo';
-                  case 'realistic':
-                      return 'realistic tattoo';
-                  case 'modern':
-                      return 'modern tattoo';
-                  case 'minimalistic':
-                      return 'minimalistic tattoo';
-                  case 'cultural':
-                      return 'cultural tattoo';
-                  case 'cartoon':
-                      return 'cartoon tattoo';
-                  case 'old':
-                      return 'old tattoo';
-                  default:
-                      return 'tattoo';
-              }
-          });
-          query = styleQueries.join(' ');
-      }
+        if (colors === 'black_and_white') {
+            query += ' black and white tattoo';
+        } else if (colors === 'color') {
+            query += ' colorful tattoo';
+        }
 
-      if (colors === 'black_and_white') {
-          query += ' black and white tattoo';
-      } else if (colors === 'color') {
-          query += ' colorful tattoo';
-      }
-
-      const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
-      console.log('Image URLs being sent to template:', imageUrls.slice(0, 2));
-
-      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy, pageTitle: "Begin" });
-  } catch (error) {
-      console.error("Error in home route:", error);
-      res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-  }
+        const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
+        res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy, pageTitle: "Begin" });
+    } catch (error) {
+        console.error("Error in home route:", error);
+        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+    }
 });
 
 // Registration Route
@@ -191,14 +192,11 @@ app.post('/register', async (req, res) => {
 
         const result = await collection.insertOne(newUser);
 
-        // Set session *after* successful registration
         req.session.userId = result.insertedId;
         req.session.username = sanitizedUsername;
         req.session.email = email;
 
-        // Redirect to /index route after successful registration
         return res.redirect('/index');
-
     } catch (error) {
         console.error("Registratiefout:", error);
         res.status(500).render("error.ejs", {
@@ -244,7 +242,14 @@ app.get('/profiel', isAuthenticated, (req, res) => {
 });
 
 app.get('/post', isAuthenticated, (req, res) => {
-    res.render('post.ejs', { pageTitle: 'Post' });
+    const mapboxToken = process.env.MAPBOX_TOKEN; // Zorg ervoor dat MAPBOX_TOKEN is ingesteld in je .env bestand
+    res.render('post.ejs', { pageTitle: 'Post', mapboxToken: mapboxToken });
+});
+
+app.post('/submit-post', isAuthenticated, upload.single('photo'), (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
+    res.json({ success: true, message: 'Post succesvol toegevoegd' });
 });
 
 app.get('/artiesten', isAuthenticated, (req, res) => {
@@ -307,25 +312,25 @@ app.get('/index', isAuthenticated, async (req, res) => {
 });
 
 app.get('/search', isAuthenticated, async (req, res) => {
-  try {
-      const query = req.query.q || ''; // Haal de zoekterm op, of gebruik een lege string als default
-      const sortBy = req.query.sort_by || 'relevant'; // Optioneel: voeg sorteeropties toe
+    try {
+        const query = req.query.q || '';
+        const sortBy = req.query.sort_by || 'relevant';
 
-      if (!query) {
-          return res.status(400).send("Zoekterm is vereist");
-      }
+        if (!query) {
+            return res.status(400).send("Zoekterm is vereist");
+        }
 
-      const imageUrls = await fetchUnsplashImages(query, 28, sortBy); // Gebruik de fetchUnsplashImages functie
-      res.render('index.ejs', {
-          pageTitle: `Zoekresultaten voor "${query}"`,
-          username: req.session.username,
-          gridImages: imageUrls,
-          currentSort: sortBy
-      });
-  } catch (error) {
-      console.error("Error fetching search results:", error);
-      res.status(500).send("Er is een fout opgetreden bij het ophalen van zoekresultaten");
-  }
+        const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
+        res.render('index.ejs', {
+            pageTitle: `Zoekresultaten voor "${query}"`,
+            username: req.session.username,
+            gridImages: imageUrls,
+            currentSort: sortBy
+        });
+    } catch (error) {
+        console.error("Error fetching search results:", error);
+        res.status(500).send("Er is een fout opgetreden bij het ophalen van zoekresultaten");
+    }
 });
 
 // Error Handling
@@ -346,4 +351,3 @@ app.use((err, req, res, next) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on http://0.0.0.0:${port}`);
 });
-

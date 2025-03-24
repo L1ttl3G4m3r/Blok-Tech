@@ -3,6 +3,39 @@
 <head>
     <%- include('partials/head') %>
     <title><%= pageTitle %></title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+        #searchResults {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ccc;
+            background-color: white;
+            z-index: 10;
+        }
+        #searchResults li {
+            padding: 10px;
+            cursor: pointer;
+        }
+        #searchResults li:hover {
+            background-color: #f0f0f0;
+        }
+        .studio-info input {
+            width: 300px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <header><%- include('partials/header') %></header>
@@ -10,34 +43,52 @@
     <main>
         <h1>Nieuwe Post</h1>
 
-        <div class="upload-container">
-            <input type="file" id="photoInput" accept="image/*" style="display: none;">
-            <div class="image-placeholder" onclick="document.getElementById('photoInput').click()">
-                <img src="/static/icons/image-placeholder.svg" alt="Afbeelding toevoegen" id="imagePreview">
-                <p>Klik om een afbeelding toe te voegen</p>
+        <form id="postForm" enctype="multipart/form-data">
+            <div class="upload-container">
+                <input type="file" id="photoInput" name="photo" accept="image/*" style="display: none;">
+                <div class="image-placeholder" onclick="document.getElementById('photoInput').click()">
+                    <img src="/static/icons/image-placeholder.svg" alt="Afbeelding toevoegen" id="imagePreview">
+                    <p>Klik om een afbeelding toe te voegen</p>
+                </div>
             </div>
-        </div>
 
-        <div class="description-container">
-            <label for="description">Beschrijving:</label>
-            <textarea id="description" name="description" rows="4" cols="50"></textarea>
-        </div>
+            <div class="description-container">
+                <label for="description">Beschrijving:</label>
+                <textarea id="description" name="description" rows="4" cols="50"></textarea>
+            </div>
 
-        <div class="tags-container">
-            <label for="tags">Tags:</label>
-            <input type="text" id="tags" name="tags">
-        </div>
+            <div class="tags-container">
+                <label for="tags">Tags:</label>
+                <input type="text" id="tags" name="tags">
+            </div>
 
-        <div class="studio-search-container">
-            <label for="studio">Tattoo Studio zoeken:</label>
-            <input type="text" id="studio" name="studio">
-        </div>
+            <div class="studio-info">
+                <input type="text" id="studioName" name="studioName" readonly placeholder="Naam van de studio">
+                <input type="text" id="studioAddress" name="studioAddress" readonly placeholder="Adres van de studio">
+                <input type="hidden" id="studioLat" name="studioLat">
+                <input type="hidden" id="studioLng" name="studioLng">
+            </div>
+
+            <div class="studio-search-container">
+                <label for="searchInput">Tattoo Studio zoeken:</label>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Zoek een studio...">
+                    <ul id="searchResults"></ul>
+                </div>
+            </div>
+
+            <button type="submit">Post Toevoegen</button>
+        </form>
     </main>
 
     <footer>
         <%- include('partials/nav') %>
     </footer>
 
+    <script>
+        window.mapboxToken = '<%= mapboxToken %>';
+    </script>
+    <script src="/static/script/studioZoeken.js"></script>
     <script>
         document.getElementById('photoInput').addEventListener('change', function(event) {
             if (event.target.files && event.target.files[0]) {
@@ -49,6 +100,29 @@
 
                 reader.readAsDataURL(event.target.files[0]);
             }
+        });
+
+        document.getElementById('postForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('/submit-post', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => {
+                  console.log(data);
+                  if(data.success) {
+                      alert('Post succesvol toegevoegd!');
+                  } else {
+                      alert('Er is een fout opgetreden bij het toevoegen van de post.');
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('Er is een fout opgetreden bij het versturen van de post.');
+              });
         });
     </script>
 </body>

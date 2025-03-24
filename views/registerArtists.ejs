@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">
+    <%- include('partials/head') %>
     <title>Register artist</title>
     <style>
-        #studioSearchContainer {
-            position: relative;
-        }
-
         #searchResults {
             position: absolute;
             top: 100%;
@@ -36,57 +30,49 @@
 </head>
 <body>
     <header>
+        <%- include('partials/header') %>
     </header>
     <main>
-        <div class="container">
-            <h2>Register</h2>
-            <form action="/registerArtists" id="aanmaakform" method="POST">
-    <%- include('partials/head') %>
-</head>
-    <body>
-        <header>
-            <%- include('partials/header') %>
-        </header>
-        <main>
         <div class="form-container">
             <h2 class="form-heading">Registeren als artiest</h2>
-            <form action="/registerArtists" id="aanmaakform" method="POST"> 
-            <div class="formgroup">
-                <label for="username">Gebruikersnaam</label>
-                <input type="text" name="username" id="username" required>
+            <form action="/registerArtists" id="aanmaakform" method="POST">
+                <div class="formgroup">
+                    <label for="username">Gebruikersnaam</label>
+                    <input type="text" name="username" id="username" required>
 
-                <label for="email">E-mail</label>
-                <input type="text" name="email" id="email" required>
+                    <label for="email">E-mail</label>
+                    <input type="text" name="email" id="email" required>
 
-                <label for="password">Wachtwoord</label>
-                <input type="password" name="password" id="password" required>
+                    <label for="password">Wachtwoord</label>
+                    <input type="password" name="password" id="password" required>
 
-                <label for="confirmPassword">Verifieer jouw wachtwoord</label>
-                <input type="password" name="confirmPassword" id="confirmPassword" required>
+                    <label for="confirmPassword">Verifieer jouw wachtwoord</label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" required>
 
-                <label for="studioName">Studio Naam</label>
-                <input type="text" name="studioName" id="studioName">
+                    <label for="studioName">Studio Naam</label>
+                    <input type="text" name="studioName" id="studioName" readonly>
 
-                <label for="studioAddress">Studio Addres</label>
-                <input type="text" name="studioAddress" id="studioAddress">
+                    <label for="studioAddress">Studio Adres</label>
+                    <input type="text" name="studioAddress" id="studioAddress" readonly>
 
-                <div id="studioSearchContainer">
-                    <label for="studioSearch">Zoek Studio</label>
-                    <input type="search" id="studioSearch" placeholder="Zoek een studio...">
-                    <ul id="searchResults"></ul>
+                    <div class="search-container">
+                        <label for="searchInput">Zoek Studio</label>
+                        <input type="text" id="searchInput" placeholder="Zoek een studio...">
+                        <ul id="searchResults"></ul>
+                    </div>
+
+                    <input type="hidden" id="studioLat" name="studioLat">
+                    <input type="hidden" id="studioLng" name="studioLng">
+
+                    <button type="submit">Maak gebruiker aan</button>
+                    <button type="reset">Begin opnieuw</button>
                 </div>
-
-                <input type="hidden" id="studioLat" name="studioLat">
-                <input type="hidden" id="studioLng" name="studioLng">
-
-                <button type="submit">Maak gebruiker aan</button>
-                <button type="reset">Begin opnieuw</button>
             </form>
         </div>
     </main>
     <script>
         window.mapboxToken = "<%= mapboxToken %>";
     </script>
-    <script src="/static/script/studioZoeken.js" defer></script>
+    <script src="/static/script/studioZoeken.js"></script>
 </body>
 </html>
