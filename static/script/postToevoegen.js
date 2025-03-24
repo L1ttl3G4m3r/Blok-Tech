@@ -44,6 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
           .then(response => response.json())
           .then(data => {
               searchResults.innerHTML = "";
+              if (!data.suggestions || data.suggestions.length === 0) {
+                  searchResults.innerHTML = "<li>Geen resultaten gevonden</li>";
+                  return;
+              }
               data.suggestions.forEach((suggestion) => {
                   const li = document.createElement("li");
                   li.textContent = `${suggestion.name}, ${suggestion.full_address || "Geen adres beschikbaar"}`;
@@ -53,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .catch(error => {
               console.error("Error fetching suggestions:", error);
-              searchResults.innerHTML = "<li>Error fetching results</li>";
+              searchResults.innerHTML = "<li>Fout bij ophalen van resultaten</li>";
           });
   }
 
@@ -63,6 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(retrieveUrl)
           .then(response => response.json())
           .then(data => {
+              if (!data.features || data.features.length === 0) {
+                  alert("Kon geen details ophalen voor deze locatie.");
+                  return;
+              }
               const feature = data.features[0];
               studioName.value = feature.properties.name || "";
               studioAddress.value = feature.properties.full_address || "";
@@ -71,12 +79,15 @@ document.addEventListener("DOMContentLoaded", () => {
               searchResults.innerHTML = "";
               searchInput.value = "";
           })
-          .catch(error => console.error("Error retrieving data:", error));
+          .catch(error => {
+              console.error("Error retrieving data:", error);
+              alert("Er is een fout opgetreden bij het ophalen van de locatiegegevens.");
+          });
   }
 
   function debounce(func, delay) {
       let timeoutId;
-      return function() {
+      return function () {
           const context = this;
           const args = arguments;
           clearTimeout(timeoutId);
@@ -98,8 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function addTag(tag) {
-      if (tag && !tags.includes(tag)) {
-          tags.push(tag);
+      const sanitizedTag = tag.trim().toLowerCase();
+      if (sanitizedTag && !tags.includes(sanitizedTag)) {
+          tags.push(sanitizedTag);
           renderTags();
       }
   }
@@ -111,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   tagsInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
-          event.preventDefault(); // Voorkom form submission
+          event.preventDefault();
           const newTag = tagsInput.value.trim();
           if (newTag) {
               addTag(newTag);
@@ -120,41 +132,40 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   });
 
-  // Afbeelding upload functionaliteit
-  photoInput.addEventListener('change', function(event) {
+  photoInput.addEventListener('change', function (event) {
       if (event.target.files && event.target.files[0]) {
           const reader = new FileReader();
-          reader.onload = function(e) {
+          reader.onload = function (e) {
               imagePreview.src = e.target.result;
           }
+          reader.onerror = function () {
+              alert("Er is een fout opgetreden bij het laden van de afbeelding.");
+          };
           reader.readAsDataURL(event.target.files[0]);
       }
   });
 
   // Formulier verzenden
-  postForm.addEventListener('submit', function(event) {
+  postForm.addEventListener('submit', async function (event) {
       event.preventDefault();
       const formData = new FormData(this);
 
-      // Voeg tags toe aan formData
-      formData.append('tags', tags.join(','));
+      try {
+          const response = await fetch('/submit-post', {
+              method: 'POST',
+              body: formData
+          });
 
-      fetch('/submit-post', {
-          method: 'POST',
-          body: formData
-      }).then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if(data.success) {
-                alert('Post succesvol toegevoegd!');
-            } else {
-                alert('Er is een fout opgetreden bij het toevoegen van de post.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Er is een fout opgetreden bij het versturen van de post.');
-        });
+          if (response.ok) {
+              alert('Post succesvol toegevoegd!');
+              window.location.href = '/index';
+          } else {
+              alert(`Er is een fout opgetreden bij het toevoegen van de post: ${response.statusText || 'Onbekende fout'}`);
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          alert('Er is een fout opgetreden bij het versturen van de post: ' + error.message);
+      }
   });
 
   // Initialize
