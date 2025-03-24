@@ -21,6 +21,7 @@
     "eslint": "npx eslint **/*.js",
     "lint": "concurrently \"npm run eslint\" \"npm run stylelint\"",
     "lintfix": "eslint --fix **/*.js"
+
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -42,6 +43,14 @@
     "xss": "^1.0.15"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@eslint/js": "^9.22.0",
+    "eslint": "^9.22.0",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.9",
+    "stylelint": "^16.16.0",
+    "stylelint-config-standard": "^37.0.0",
+    "typescript-eslint": "^8.27.0"
   }
 }
+
+

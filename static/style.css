@@ -359,8 +359,9 @@ swiper-slide {
 
 .tattoo-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1em;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5em;
+  margin: 0.5em;
 }
 
 @media (min-width: 1024px) {
@@ -374,6 +375,8 @@ swiper-slide {
   height: auto;
   object-fit: cover;
   cursor: pointer;
+  border-radius: 4px;
+
 }
 
 .zero-state {
@@ -423,11 +426,27 @@ li.artist-item {
 
 .artist-name {
   text-align: center;
-  margin-top: 10px;
-  font-size: 1em;
+  height: 3em;
+  margin-top: 1em;
   color: var(--color-text);
+  font-size: 1em;
+}
+/****************/
+/* studiolist */
+/****************/
+.studiolist {
+  margin: 2em;
 }
 
+.studiolist li {
+  list-style-type: none;
+  margin-top: 2em;
+}
+
+.studiolist p {
+  font-weight: 200;
+
+}
 /****************/
 /* Buttons */
 /****************/

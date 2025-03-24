@@ -14,11 +14,7 @@
       </section>
 
       <!-- Zoekfunctionaliteit -->
-      <section class="search"><%- include('partials/searchbar') %></section>
-      <section class="filtersorting">
-        <%- include('partials/sorting') %>
-        <%- include('partials/filter') %>
-      </section>
+      <section class="search"><%- include('partials/searchbar-artists') %></section>
 
       <!-- Carousel met unieke ideeën -->
       <section class="carousel-section">
@@ -33,11 +29,8 @@
         <div class="textcontainer">
             <h2>Studios</h2>
           </div>
+          <%- include('partials/studiolist') %>
       </section>
-      <section class="carousel-container">
-       <%- include('partials/carouselvertical') %>
-    </section>
-
     </main>
 
     <!-- Footer -->
@@ -46,8 +39,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="server.js"></script>
-    <script src="/static/script.js"></script>
-    <script src="/static/script/addAfbeelding.js"></script>
+    <script src="/static/script/script.js"></script>
   </body>
 </html>
