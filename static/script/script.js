@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const clearStylesButton = document.getElementById('clearStyles');
   const clearColorsButton = document.getElementById('clearColors');
   const navItems = document.querySelectorAll(".nav-item a");
+  document.getElementById('sort-select').addEventListener('change', function() {
+    document.getElementById('sort-form').submit();
+  });
 
   // Sorteren functionaliteit
   sortSelect.addEventListener('change', function() {

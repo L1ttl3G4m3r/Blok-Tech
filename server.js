@@ -106,7 +106,6 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
     }
 }
 
-// Routes
 app.get('/', async (req, res) => {
     try {
         const sortBy = req.query.sort_by || 'relevant';
@@ -138,12 +137,13 @@ app.get('/', async (req, res) => {
         }
 
         const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
-        res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy, pageTitle: "Begin" });
-    } catch (error) {
-        console.error("Error in home route:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-    }
+      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy ,  pageTitle: 'Home'});
+  } catch (error) {
+      console.error("Error in home route:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+  }
 });
+
 
 // Registration Route
 app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
@@ -297,9 +297,19 @@ app.post('/submit-post', isAuthenticated, upload.single('photo'), async (req, re
       return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
   }
 });
-
-app.get('/artiesten', isAuthenticated, (req, res) => {
-    res.render('artiesten.ejs', { pageTitle: 'Artiesten' });
+app.get('/artiesten', isAuthenticated, async (req, res) => {
+  try {
+      const collection = db.collection('artists'); // Vervang 'artists' met de naam van je collectie
+      const artists = await collection.find().toArray(); // Haal alle artiesten op
+      res.render('artiesten.ejs', {
+          pageTitle: 'Artiesten',
+          artists: artists, // Geef de artiesten door aan de template
+          currentSort: 'relevant'
+      });
+  } catch (error) {
+      console.error("Fout bij het ophalen van artiesten:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
+  }
 });
 
 app.get('/zie-alle', isAuthenticated, (req, res) => {
