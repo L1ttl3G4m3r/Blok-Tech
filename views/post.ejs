@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <%- include('partials/head') %>
+    <title><%= pageTitle %></title>
+</head>
+<body>
+    <header><%- include('partials/header') %></header>
+
+    <main>
+        <h1>Nieuwe Post</h1>
+
+        <div class="upload-container">
+            <input type="file" id="photoInput" accept="image/*" style="display: none;">
+            <div class="image-placeholder" onclick="document.getElementById('photoInput').click()">
+                <img src="/static/icons/image-placeholder.svg" alt="Afbeelding toevoegen" id="imagePreview">
+                <p>Klik om een afbeelding toe te voegen</p>
+            </div>
+        </div>
+
+        <div class="description-container">
+            <label for="description">Beschrijving:</label>
+            <textarea id="description" name="description" rows="4" cols="50"></textarea>
+        </div>
+
+        <div class="tags-container">
+            <label for="tags">Tags:</label>
+            <input type="text" id="tags" name="tags">
+        </div>
+
+        <div class="studio-search-container">
+            <label for="studio">Tattoo Studio zoeken:</label>
+            <input type="text" id="studio" name="studio">
+        </div>
+    </main>
+
+    <footer>
+        <%- include('partials/nav') %>
+    </footer>
+
+    <script>
+        document.getElementById('photoInput').addEventListener('change', function(event) {
+            if (event.target.files && event.target.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                }
+
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>
