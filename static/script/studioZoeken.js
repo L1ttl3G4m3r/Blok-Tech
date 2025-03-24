@@ -1,7 +1,11 @@
 const mapboxToken = window.mapboxToken;
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("studioSearch");
+  const searchInput = document.getElementById("searchInput");
   const searchResults = document.getElementById("searchResults");
+  const studioName = document.getElementById("studioName");
+  const studioAddress = document.getElementById("studioAddress");
+  const studioLat = document.getElementById("studioLat");
+  const studioLng = document.getElementById("studioLng");
   let sessionToken = generateSessionToken();
 
   function generateSessionToken() {
@@ -40,12 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             const retrieveData = await retrieveResponse.json();
 
-            document.getElementById("studioName").value = retrieveData.features[0].properties.name || "";
-            document.getElementById("studioAddress").value = retrieveData.features[0].properties.full_address || "";
+            studioName.value = retrieveData.features[0].properties.name || "";
+            studioAddress.value = retrieveData.features[0].properties.full_address || "";
 
             if (retrieveData.features[0].geometry && retrieveData.features[0].geometry.coordinates) {
-              document.getElementById("studioLat").value = retrieveData.features[0].geometry.coordinates[1] || "";
-              document.getElementById("studioLng").value = retrieveData.features[0].geometry.coordinates[0] || "";
+              studioLat.value = retrieveData.features[0].geometry.coordinates[1] || "";
+              studioLng.value = retrieveData.features[0].geometry.coordinates[0] || "";
             }
 
             searchResults.innerHTML = "";
