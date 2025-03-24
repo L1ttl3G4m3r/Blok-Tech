@@ -6,35 +6,26 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
     <style>
-        .search-container {
-            position: relative;
-            width: 300px;
-        }
-        #searchResults {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            max-height: 200px;
-            overflow-y: auto;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            border: 1px solid #ccc;
-            background-color: white;
-            z-index: 10;
-        }
-        #searchResults li {
-            padding: 10px;
-            cursor: pointer;
-        }
-        #searchResults li:hover {
-            background-color: #f0f0f0;
-        }
-        .studio-info input {
-            width: 300px;
-            margin-top: 10px;
-        }
+        .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.tag {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.tag-remove {
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
     </style>
 </head>
 <body>
@@ -58,9 +49,11 @@
             </div>
 
             <div class="tags-container">
-                <label for="tags">Tags:</label>
-                <input type="text" id="tags" name="tags">
-            </div>
+              <label for="tagsInput">Tags:</label>
+              <div id="tagsList" class="tags-list"></div>
+              <input type="text" id="tagsInput" placeholder="Voeg een tag toe en druk op Enter">
+              <input type="hidden" id="hiddenTagsInput" name="tags">
+          </div>
 
             <div class="studio-info">
                 <input type="text" id="studioName" name="studioName" readonly placeholder="Naam van de studio">
@@ -86,44 +79,9 @@
     </footer>
 
     <script>
-        window.mapboxToken = '<%= mapboxToken %>';
+      window.mapboxToken = '<%= mapboxToken %>';
     </script>
     <script src="/static/script/studioZoeken.js"></script>
-    <script>
-        document.getElementById('photoInput').addEventListener('change', function(event) {
-            if (event.target.files && event.target.files[0]) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    document.getElementById('imagePreview').src = e.target.result;
-                }
-
-                reader.readAsDataURL(event.target.files[0]);
-            }
-        });
-
-        document.getElementById('postForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-
-            fetch('/submit-post', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  console.log(data);
-                  if(data.success) {
-                      alert('Post succesvol toegevoegd!');
-                  } else {
-                      alert('Er is een fout opgetreden bij het toevoegen van de post.');
-                  }
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-                  alert('Er is een fout opgetreden bij het versturen van de post.');
-              });
-        });
-    </script>
+    <script src="/static/script/postToevoegen.js"></script>
 </body>
 </html>
