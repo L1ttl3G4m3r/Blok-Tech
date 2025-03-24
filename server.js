@@ -95,8 +95,6 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
   }
 }
 
-
-
 app.get('/', async (req, res) => {
   try {
       const sortBy = req.query.sort_by || 'relevant';
