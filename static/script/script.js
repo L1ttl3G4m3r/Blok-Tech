@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Element selecties
   const sortSelect = document.getElementById('sort-select');
   const filterButton = document.getElementById('filterButton');
   const filterSidebar = document.getElementById('filterSidebar');
@@ -8,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const clearStylesButton = document.getElementById('clearStyles');
   const clearColorsButton = document.getElementById('clearColors');
   const navItems = document.querySelectorAll(".nav-item a");
+  document.getElementById('sort-select').addEventListener('change', function() {
+    document.getElementById('sort-form').submit();
+  });
 
   // Sorteren functionaliteit
   sortSelect.addEventListener('change', function() {
@@ -16,78 +18,71 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Filter Sidebar functionaliteit
-  filterButton.addEventListener('click', toggleSidebar);
-  closeButton.addEventListener('click', closeSidebar);
-
-  // Clear filters functionaliteit
-  clearStylesButton.addEventListener('click', clearStyles);
-  clearColorsButton.addEventListener('click', clearColors);
-
-  // Apply filters functionaliteit
-  applyFiltersButton.addEventListener('click', applyFilters);
-
-  // Navigatie actief item markeren
-  markActiveNavItem();
-
-  // Tattoo grid klikbaar maken
-  makeTattooGridClickable();
-});
-
-// Functies
-function toggleSidebar() {
-  filterSidebar.style.width = filterSidebar.style.width === '340px' ? '0' : '340px';
-}
-
-function closeSidebar() {
-  filterSidebar.style.width = '0';
-}
-
-function clearStyles() {
-  document.querySelectorAll('input[name="styles"]').forEach(checkbox => {
-    checkbox.checked = false;
-  });
-}
-
-function clearColors() {
-  document.querySelectorAll('input[name="colors"]').forEach(radio => {
-    radio.checked = false;
-  });
-}
-
-function applyFilters(event) {
-  event.preventDefault();
-
-  const selectedStyles = Array.from(document.querySelectorAll('input[name="styles"]:checked'))
-    .map(checkbox => checkbox.value);
-  const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
-
-  let url = '/?';
-  if (sortSelect.value !== 'relevant') {
-    url += `sort_by=${sortSelect.value}&`;
-  }
-  if (selectedStyles.length > 0) {
-    url += `styles=${selectedStyles.join(',')}&`;
-  }
-  if (selectedColor) {
-    url += `colors=${selectedColor}&`;
-  }
-
-  window.location.href = url.endsWith('&') ? url.slice(0, -1) : url;
-}
-
-function markActiveNavItem() {
-  const navItems = document.querySelectorAll(".nav-item a");
-  navItems.forEach(item => {
-    if (item.href === window.location.href) {
-      item.parentElement.classList.add("active");
+  filterButton.addEventListener('click', () => {
+    if (filterSidebar.style.width === '340px') {
+      filterSidebar.style.width = '0';
+    } else {
+      filterSidebar.style.width = '340px';
     }
   });
-}
 
-function makeTattooGridClickable() {
-  document.querySelectorAll('#tattoo-grid img').forEach(img => {
-    img.addEventListener('click', function() {
-      window.location.href = `/detailpagina/${this.dataset.id}`;
+  closeButton.addEventListener('click', () => {
+    filterSidebar.style.width = '0';
+  });
+
+  // Clear filters functionaliteit
+  clearStylesButton.addEventListener('click', function() {
+    document.querySelectorAll('input[name="styles"]').forEach(checkbox => {
+      checkbox.checked = false;
     });
   });
-}
+
+
+  clearColorsButton.addEventListener('click', function() {
+    document.querySelectorAll('input[name="colors"]').forEach(radio => {
+      radio.checked = false;
+    });
+  });
+
+  // Apply filters functionaliteit
+  applyFiltersButton.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    const selectedStyles = Array.from(document.querySelectorAll('input[name="styles"]:checked'))
+      .map(checkbox => checkbox.value);
+    const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
+
+    let url = '/?';
+    if (sortSelect.value !== 'relevant') {
+      url += 'sort_by=' + sortSelect.value + '&';
+    }
+    if (selectedStyles.length > 0) {
+      url += 'styles=' + selectedStyles.join(',') + '&';
+    }
+    if (selectedColor) {
+      url += 'colors=' + selectedColor + '&';
+    }
+
+    if (url.endsWith('&')) {
+      url = url.slice(0, -1);
+    }
+
+    window.location.href = url;
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const navItems = document.querySelectorAll(".nav-item a");
+
+    navItems.forEach(item => {
+        if (item.href === window.location.href) {
+            item.parentElement.classList.add("active");
+        }
+    });
+});
+
+document.querySelectorAll('#tattoo-grid img').forEach(img => {
+  img.addEventListener('click', function() {
+    window.location.href = `/detailpagina/${this.dataset.id}`;
+  });
+});
