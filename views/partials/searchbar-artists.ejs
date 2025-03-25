@@ -1,17 +1,8 @@
 <search>
-  <form role="search" action="/search" method="get">
-    <label for="search-input" class="visually-hidden">Zoek</label>
-
+  <form role="search" id="artist-search-form" action="/search-artists" method="get">
+    <label for="artist-search-input" class="visually-hidden">Zoek artiesten</label>
     <div class="search-container">
-      <input type="search" id="search-input" name="q" placeholder="Artiesten zoeken..." />
-
-      <div class="search-icon">
-          <img src="/static/icons/search.svg" alt="search icon" />
-        </button>
-      </div>
-
+      <input type="search" id="artist-search-input" name="q" placeholder="Artiesten zoeken..." />
     </div>
-
   </form>
 </search>
-
