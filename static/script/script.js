@@ -80,9 +80,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
+// Tattoo grid startpagina //
 document.querySelectorAll('#tattoo-grid img').forEach(img => {
   img.addEventListener('click', function() {
     window.location.href = `/detailpagina/${this.dataset.id}`;
   });
 });
+
+window.imageUrls = JSON.parse(
+  decodeURIComponent(
+    document.getElementById("imageUrlsContainer").dataset.imageUrls
+  )
+);

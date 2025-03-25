@@ -61,8 +61,9 @@ header img {
 /* nav.ejs */
 /****************/
 footer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  width: 100vw;
   z-index: 1000;
   background-color: var(--color-background);
 }
@@ -324,39 +325,6 @@ swiper-slide {
 /****************/
 /* tattoo grid */
 /****************/
-.icon-box {
-  position: absolute;
-  width: 2.5em;
-  height: 2.5em;
-  background-color: var(--color-background);
-  display: flex;
-  left: 1em;
-  top: 1em;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-}
-.icon-box img {
-  width: 2.5em;
-  height: 2.5em;
-}
-
-.icon-box .outline {
-  display: block;
-}
-
-.icon-box .fill {
-  display: none;
-}
-
-.icon-box.active .outline {
-  display: none;
-}
-
-.icon-box.active .fill {
-  display: block;
-}
-
 .tattoo-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -445,7 +413,6 @@ li.artist-item {
 
 .studiolist p {
   font-weight: 200;
-
 }
 /****************/
 /* Buttons */
@@ -460,11 +427,11 @@ li.artist-item {
   font-weight: 500;
   text-decoration: none;
   color: var(--color-text);
+  letter-spacing: 0.05em;
 }
-.button-cta2,
-.button-reset {
+.button-cta2 {
   border: 2px solid var(--color-text);
-  padding: 1em 6em;
+  padding: 1em 5.5em;
   margin: 1em;
   font-size: 1em;
   font-family: var(--main-font);
@@ -472,19 +439,22 @@ li.artist-item {
   text-decoration: none;
   color: var(--color-text);
   border-radius: 4px;
+  letter-spacing: 0.05em;
 }
 .button-reset {
-  border: 2px solid var(--color-text);
-  padding: 1em 6em;
-  margin: 1em;
-  font-size: 1em;
-  font-family: var(--main-font);
-  font-weight: 500;
-  text-decoration: none;
-  color: var(--color-text);
-  border-radius: 4px;
   background-color: var(--color-background);
+  border: 2px solid var(--color-text);
+  padding: 1em 5.5em;
+  margin: 1em;
+  font-size: 1em;
+  font-family: var(--main-font);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+  border-radius: 4px;
+  letter-spacing: 0.05em;
 }
+
 .button-reset:hover {
   background-color: var(--color-text);
   color: var(--color-background);
@@ -547,7 +517,67 @@ h4 {
 div.form-container a {
   color: var(--button-hover);
 }
+/****************************/
+/* profile page */
+/****************************/
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 120vh;
+}
+.profile-header {
+  text-align: center;
+  margin-bottom: 2em;
+}
+.profile-photo-container {
+  margin-bottom: 1em;
+}
+#profilePhoto {
+  width: 8em;
+  height: 8em;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-button);
+}
+#usernameDisplay {
+  margin-top: 10px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+.form-group input,
+.form-group textarea {
+  width: 25em;
+  padding: 1em;
+  font-size: 16px;
+}
+.form-group textarea {
+  min-height: 2em;
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+button:hover {
+  background-color: #45a049;
+}
 
+textarea#bio {
+  background-color: var(--color-background);
+  border-radius: 4px;
+  border: 2px solid var(--color-text);
+  color: var(--color-text);
+  font-family: var(--main-font);
+}
 /****************************/
 /* Vragenlijst (codepen.io) */
 /****************************/
@@ -676,3 +706,4 @@ input[type="radio"]:checked::before {
   border-radius: 0.5em;
   margin-top: 6em;
 }
+

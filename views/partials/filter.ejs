@@ -62,33 +62,3 @@
   </div>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const filterButton = document.getElementById('filterButton');
-    const closeSidebar = document.getElementById('closeSidebar');
-    const filterSidebar = document.getElementById('filterSidebar');
-    const clearStylesButton = document.getElementById('clearStyles');
-    const clearColorsButton = document.getElementById('clearColors');
-    const filterForm = document.getElementById('filterForm');
-
-    filterButton.addEventListener('click', function() {
-      filterSidebar.classList.add('show');
-    });
-
-    closeSidebar.addEventListener('click', function() {
-      filterSidebar.classList.remove('show');
-    });
-
-    clearStylesButton.addEventListener('click', function(event) {
-      event.preventDefault();
-      const styleCheckboxes = document.querySelectorAll('input[name="styles"]');
-      styleCheckboxes.forEach(checkbox => checkbox.checked = false);
-    });
-
-    clearColorsButton.addEventListener('click', function(event) {
-      event.preventDefault();
-      const colorRadios = document.querySelectorAll('input[name="colors"]');
-      colorRadios.forEach(radio => radio.checked = false);
-    });
-  });
-</script>

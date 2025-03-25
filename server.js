@@ -246,7 +246,7 @@ app.get('/profiel', isAuthenticated, (req, res) => {
 app.get('/post', isAuthenticated, (req, res) => {
     res.render('post.ejs', { pageTitle: 'Post' });
 });
-app.get('/artiesten', isAuthenticated, async (req, res) => {
+app.get('/artist-page', isAuthenticated, async (req, res) => {
   try {
       const collection = db.collection('artists'); // Vervang 'artists' met de naam van je collectie
       const artists = await collection.find().toArray(); // Haal alle artiesten op
