@@ -6,7 +6,7 @@ const session = require('express-session');
 const xss = require('xss');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const fetch = require('node-fetch');
 const multer = require('multer');
 const path = require('path');
@@ -297,18 +297,38 @@ app.post('/submit-post', isAuthenticated, upload.single('photo'), async (req, re
       return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
   }
 });
+
 app.get('/artiesten', isAuthenticated, async (req, res) => {
   try {
-      const collection = db.collection('artists'); // Vervang 'artists' met de naam van je collectie
-      const artists = await collection.find().toArray(); // Haal alle artiesten op
-      res.render('artiesten.ejs', {
-          pageTitle: 'Artiesten',
-          artists: artists, // Geef de artiesten door aan de template
-          currentSort: 'relevant'
-      });
+    const collection = db.collection('artists');
+    const artists = await collection.find().toArray();
+    res.render('artiesten.ejs', {
+      pageTitle: 'Artiesten',
+      artists: artists,
+      currentSort: 'relevant'
+    });
   } catch (error) {
-      console.error("Fout bij het ophalen van artiesten:", error);
-      res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
+    console.error("Fout bij het ophalen van artiesten:", error);
+    res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
+  }
+});
+
+app.get('/artiest/:id', isAuthenticated, async (req, res) => {
+  try {
+    const collection = db.collection('artists');
+    const artist = await collection.findOne({ _id: new ObjectId(req.params.id) });
+
+    if (!artist) {
+      return res.status(404).send("Artiest niet gevonden");
+    }
+
+    res.render('detailpaginaA.ejs', {
+      pageTitle: `Artiest: ${artist.username}`,
+      artist: artist
+    });
+  } catch (error) {
+    console.error("Fout bij het ophalen van artiest details:", error);
+    res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
   }
 });
 

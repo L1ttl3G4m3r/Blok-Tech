@@ -1,8 +1,10 @@
 <ul class="studiolist">
-  <% studios.forEach(function(studio) { %>
+  <% artists.forEach(function(artist) { %>
     <li>
-      <h3><%= studio.name %></h3>
-      <p><strong>Locatie</strong> <%= studio.location %></p>
+      <a href="/artiest/<%= artist._id %>">
+        <h3><%= artist.username %></h3>
+        <p><strong>Studio:</strong> <%= artist.studio.name %></p>
+      </a>
     </li>
   <% }); %>
 </ul>
