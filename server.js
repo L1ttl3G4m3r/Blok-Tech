@@ -409,6 +409,26 @@ app.get('/search', isAuthenticated, async (req, res) => {
     }
 });
 
+app.get('/search-artists', isAuthenticated, async (req, res) => {
+  try {
+      const query = req.query.q || '';
+
+      if (!query) {
+          return res.json({ artists: [] });
+      }
+
+      const collection = db.collection('artists');
+      const artists = await collection.find({
+          username: { $regex: query, $options: 'i' }
+      }).toArray();
+
+      res.json({ artists: artists });
+  } catch (error) {
+      console.error("Fout bij het zoeken naar artiesten:", error);
+      res.status(500).json({ error: "Er is een fout opgetreden bij het zoeken naar artiesten" });
+  }
+});
+
 // Error Handling
 app.use((req, res) => {
     res.status(404).send('404 - Pagina niet gevonden');
