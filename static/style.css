@@ -600,15 +600,33 @@ div.form-container a {
   padding: 1em;
   z-index: 2000;
   align-items: center;
+  animation: slideUp 0.5s ease forwards;
 }
-
+@keyframes slideUp {
+  from {
+    bottom: -100px;
+  }
+  to {
+    bottom: 0;
+  }
+}
+.icon-text-container {
+  display: flex;
+  align-items: center;
+}
 .close-button-profile {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 24px;
+  top: 1em;
+  left: 1em;
   cursor: pointer;
+  animation: slideDown 0.5s ease forwards;
 }
+.close-button-profile img,
+.icon-text-container img {
+  width: 3em;
+  height: 3em;
+}
+
 .photo-options-menu a {
   text-decoration: none;
   color: var(--color-background);
@@ -637,7 +655,7 @@ div.form-container a {
   width: 25em;
   padding: 1em;
 }
-.info-container #editButton {
+#editButton {
   font-family: var(--main-font);
   margin-bottom: 1em;
   background: none; /* Verwijder de achtergrond */
@@ -646,7 +664,7 @@ div.form-container a {
   cursor: pointer;
   color: var(--color-text);
   text-decoration: underline;
-  align-self: flex-start;
+
 }
 
 /****************************/
