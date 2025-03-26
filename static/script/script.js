@@ -1,94 +1,113 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const sortSelect = document.getElementById('sort-select');
-  const filterButton = document.getElementById('filterButton');
-  const filterSidebar = document.getElementById('filterSidebar');
-  const closeButton = document.getElementById('closeSidebar');
-  const applyFiltersButton = document.getElementById('applyFiltersButton');
-  const clearStylesButton = document.getElementById('clearStyles');
-  const clearColorsButton = document.getElementById('clearColors');
-  const navItems = document.querySelectorAll(".nav-item a");
-  document.getElementById('sort-select').addEventListener('change', function() {
-    document.getElementById('sort-form').submit();
-  });
+    // Element selecties
+    const elements = {
+        sortSelect: document.getElementById('sort-select'),
+        filterButton: document.getElementById('filterButton'),
+        filterSidebar: document.getElementById('filterSidebar'),
+        closeButton: document.getElementById('closeSidebar'),
+        applyFiltersButton: document.getElementById('applyFiltersButton'),
+        clearStylesButton: document.getElementById('clearStyles'),
+        clearColorsButton: document.getElementById('clearColors'),
 
-  // Sorteren functionaliteit
-  sortSelect.addEventListener('change', function() {
-    const selectedValue = this.value;
-    window.location.href = `/?sort_by=${selectedValue}`;
-  });
+        navItems: document.querySelectorAll(".nav-item a"),
 
-  // Filter Sidebar functionaliteit
-  filterButton.addEventListener('click', () => {
-    if (filterSidebar.style.width === '340px') {
-      filterSidebar.style.width = '0';
-    } else {
-      filterSidebar.style.width = '340px';
-    }
-  });
+        tattooGridImages: document.querySelectorAll('#tattoo-grid img'),
 
-  closeButton.addEventListener('click', () => {
-    filterSidebar.style.width = '0';
-  });
+        profilePhoto: document.querySelector('.profile-photo-container'),
+        photoOptionsMenu: document.getElementById('photoOptionsMenu'),
+        closePhotoMenu: document.getElementById('closePhotoMenu')
+    };
 
-  // Clear filters functionaliteit
-  clearStylesButton.addEventListener('click', function() {
-    document.querySelectorAll('input[name="styles"]').forEach(checkbox => {
-      checkbox.checked = false;
+    // Sorteren functionaliteit
+    elements.sortSelect?.addEventListener('change', function() {
+        window.location.href = `/?sort_by=${this.value}`;
     });
-  });
 
-
-  clearColorsButton.addEventListener('click', function() {
-    document.querySelectorAll('input[name="colors"]').forEach(radio => {
-      radio.checked = false;
+    // Filter Sidebar functionaliteit
+    elements.filterButton?.addEventListener('click', () => {
+        elements.filterSidebar.style.width = elements.filterSidebar.style.width === '340px' ? '0' : '340px';
     });
-  });
 
-  // Apply filters functionaliteit
-  applyFiltersButton.addEventListener('click', function(event) {
-    event.preventDefault();
+    elements.closeButton?.addEventListener('click', () => {
+        elements.filterSidebar.style.width = '0';
+    });
 
-    const selectedStyles = Array.from(document.querySelectorAll('input[name="styles"]:checked'))
-      .map(checkbox => checkbox.value);
-    const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
+    // Clear filters functionaliteit
+    elements.clearStylesButton?.addEventListener('click', () => clearCheckboxes('styles'));
+    elements.clearColorsButton?.addEventListener('click', () => clearCheckboxes('colors'));
 
-    let url = '/?';
-    if (sortSelect.value !== 'relevant') {
-      url += 'sort_by=' + sortSelect.value + '&';
-    }
-    if (selectedStyles.length > 0) {
-      url += 'styles=' + selectedStyles.join(',') + '&';
-    }
-    if (selectedColor) {
-      url += 'colors=' + selectedColor + '&';
+    function clearCheckboxes(name) {
+        document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+            input.checked = false;
+        });
     }
 
-    if (url.endsWith('&')) {
-      url = url.slice(0, -1);
+    // Apply filters functionaliteit
+    elements.applyFiltersButton?.addEventListener('click', function(event) {
+        event.preventDefault();
+        const selectedStyles = getSelectedValues('styles');
+        const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
+
+        let url = '/?';
+        if (elements.sortSelect.value !== 'relevant') {
+            url += `sort_by=${elements.sortSelect.value}&`;
+        }
+        if (selectedStyles.length > 0) {
+            url += `styles=${selectedStyles.join(',')}&`;
+        }
+        if (selectedColor) {
+            url += `colors=${selectedColor}&`;
+        }
+
+        window.location.href = url.endsWith('&') ? url.slice(0, -1) : url;
+    });
+
+    function getSelectedValues(name) {
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+            .map(input => input.value);
     }
 
-    window.location.href = url;
-  });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const navItems = document.querySelectorAll(".nav-item a");
-
-    navItems.forEach(item => {
+    // Navigatie actief maken
+    elements.navItems.forEach(item => {
         if (item.href === window.location.href) {
             item.parentElement.classList.add("active");
         }
     });
-});
-// Tattoo grid startpagina //
-document.querySelectorAll('#tattoo-grid img').forEach(img => {
-  img.addEventListener('click', function() {
-    window.location.href = `/detailpagina/${this.dataset.id}`;
-  });
-});
 
-window.imageUrls = JSON.parse(
-  decodeURIComponent(
-    document.getElementById("imageUrlsContainer").dataset.imageUrls
-  )
-);
+    // Tattoo grid klikbaar maken
+    elements.tattooGridImages.forEach(img => {
+        img.addEventListener('click', function() {
+            window.location.href = `/detailpagina/${this.dataset.id}`;
+        });
+    });
+
+    // Profielfoto menu functionaliteit
+    elements.profilePhoto?.addEventListener('click', function() {
+        elements.photoOptionsMenu.style.display = 'flex';
+    });
+
+    elements.closePhotoMenu?.addEventListener('click', function() {
+        elements.photoOptionsMenu.style.display = 'none';
+    });
+});
+// perplexity //
+const form = document.getElementById('updateProfileForm');
+const editButton = document.getElementById('editButton');
+const saveButton = document.getElementById('saveButton');
+
+// Formuliervelden
+const usernameInput = document.getElementById('username');
+const emailInput = document.getElementById('email');
+const currentPasswordInput = document.getElementById('currentPassword');
+const newPasswordInput = document.getElementById('newPassword');
+
+// Haal gebruikersgegevens op uit de API
+
+
+// Activeer bewerken
+editButton.addEventListener('click', function () {
+    usernameInput.disabled = false;
+    emailInput.disabled = false;
+    currentPasswordInput.disabled = false;
+    saveButton.disabled = false;
+});

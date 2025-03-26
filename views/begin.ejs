@@ -18,9 +18,9 @@
     </div>
     <main>
       <div class="buttoncontainer">
-        <a href="/log-in" class="button-cta">Inloggen</a>
         <a href="/register" class="button-cta2">Registreren bezoeker</a>
         <a href="/registerArtists" class="button-cta2">Registreren artiest</a >
+        <a href="/log-in" class="button-cta">Inloggen</a>
       </div>
     </main>
 
@@ -29,7 +29,11 @@
       data-image-urls="<%= encodeURIComponent(JSON.stringify(imageUrls)) %>">
     </div>
     <script>
-
+      window.imageUrls = JSON.parse(
+        decodeURIComponent(
+          document.getElementById("imageUrlsContainer").dataset.imageUrls
+        )
+      );
     </script>
      <script src="/static/script/beginBackground.js"></script>
   </body>

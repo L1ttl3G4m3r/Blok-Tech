@@ -6,19 +6,19 @@
   <body>
     <header><%- include('partials/header') %></header>
     <main>
+      <section class="profile-photo">
+        <%- include('partials/profile-photo') %>
+      </section>
       <section class="profile">
         <%- include('partials/profile-data') %>
       </section>
-
-
-
-
+      <section class="upload-photo">
+        <%- include('partials/upload-profile') %>
+      </section>
     </main>
-
     <footer>
       <%- include('partials/nav') %>
     </footer>
-
-    <script src="/static/script/script.js"></script>
+  <script src="/static/script/script.js"></script>
   </body>
 </html>

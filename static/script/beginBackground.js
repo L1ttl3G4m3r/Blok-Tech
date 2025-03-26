@@ -55,4 +55,5 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(fillColumns, 30000); // Vul opnieuw elke 30 seconden
 
   window.addEventListener('resize', initializeBackground);
+
 });
