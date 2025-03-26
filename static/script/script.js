@@ -1,109 +1,113 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Element selecties
-    const elements = {
-        sortSelect: document.getElementById('sort-select'),
-        filterButton: document.getElementById('filterButton'),
-        filterSidebar: document.getElementById('filterSidebar'),
-        closeButton: document.getElementById('closeSidebar'),
-        applyFiltersButton: document.getElementById('applyFiltersButton'),
-        clearStylesButton: document.getElementById('clearStyles'),
-        clearColorsButton: document.getElementById('clearColors'),
+  // Element selecties
+  const elements = {
+      sortSelect: document.getElementById('sort-select'),
+      filterButton: document.getElementById('filterButton'),
+      filterSidebar: document.getElementById('filterSidebar'),
+      closeButton: document.getElementById('closeSidebar'),
+      applyFiltersButton: document.getElementById('applyFiltersButton'),
+      clearStylesButton: document.getElementById('clearStyles'),
+      clearColorsButton: document.getElementById('clearColors'),
+      navItems: document.querySelectorAll(".nav-item a"),
+      tattooGridImages: document.querySelectorAll('#tattoo-grid img'),
+      profilePhotos: document.querySelectorAll('.profile-photo-container'),
+      photoOptionsMenu: document.getElementById('photoOptionsMenu'),
+      closePhotoMenu: document.getElementById('closePhotoMenu'),
+      form: document.getElementById('updateProfileForm'),
+      editButton: document.getElementById('editButton'),
+      saveButton: document.getElementById('saveButton'),
+      usernameInput: document.getElementById('username'),
+      emailInput: document.getElementById('email'),
+      passwordInput: document.getElementById('password')
 
-        navItems: document.querySelectorAll(".nav-item a"),
+  };
 
-        tattooGridImages: document.querySelectorAll('#tattoo-grid img'),
+  // Sorteren functionaliteit
+  elements.sortSelect?.addEventListener('change', function() {
+      window.location.href = `/?sort_by=${encodeURIComponent(this.value)}`;
+  });
 
-        profilePhoto: document.querySelector('.profile-photo-container'),
-        photoOptionsMenu: document.getElementById('photoOptionsMenu'),
-        closePhotoMenu: document.getElementById('closePhotoMenu')
-    };
+  // Filter Sidebar functionaliteit
+  elements.filterButton?.addEventListener('click', (event) => {
+      event.preventDefault();
+      elements.filterSidebar.style.width = elements.filterSidebar.style.width === '340px' ? '0' : '340px';
+  });
 
-    // Sorteren functionaliteit
-    elements.sortSelect?.addEventListener('change', function() {
-        window.location.href = `/?sort_by=${this.value}`;
-    });
+  elements.closeButton?.addEventListener('click', () => {
+      elements.filterSidebar.style.width = '0';
+  });
 
-    // Filter Sidebar functionaliteit
-    elements.filterButton?.addEventListener('click', () => {
-        elements.filterSidebar.style.width = elements.filterSidebar.style.width === '340px' ? '0' : '340px';
-    });
+  // Clear filters functionaliteit
+  elements.clearStylesButton?.addEventListener('click', () => clearCheckboxes('styles'));
+  elements.clearColorsButton?.addEventListener('click', () => clearCheckboxes('colors'));
 
-    elements.closeButton?.addEventListener('click', () => {
-        elements.filterSidebar.style.width = '0';
-    });
+  function clearCheckboxes(name) {
+      document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+          input.checked = false;
+      });
+  }
 
-    // Clear filters functionaliteit
-    elements.clearStylesButton?.addEventListener('click', () => clearCheckboxes('styles'));
-    elements.clearColorsButton?.addEventListener('click', () => clearCheckboxes('colors'));
+  // Apply filters functionaliteit
+  elements.applyFiltersButton?.addEventListener('click', function(event) {
+      event.preventDefault();
+      const selectedStyles = getSelectedValues('styles');
+      const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
 
-    function clearCheckboxes(name) {
-        document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
-            input.checked = false;
-        });
-    }
+      const searchParams = new URLSearchParams();
+      if (elements.sortSelect.value !== 'relevant') {
+          searchParams.append('sort_by', elements.sortSelect.value);
+      }
+      if (selectedStyles.length > 0) {
+          searchParams.append('styles', selectedStyles.join(','));
+      }
+      if (selectedColor) {
+          searchParams.append('colors', selectedColor);
+      }
 
-    // Apply filters functionaliteit
-    elements.applyFiltersButton?.addEventListener('click', function(event) {
-        event.preventDefault();
-        const selectedStyles = getSelectedValues('styles');
-        const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
+      window.location.href = `/?${searchParams.toString()}`;
+  });
 
-        let url = '/?';
-        if (elements.sortSelect.value !== 'relevant') {
-            url += `sort_by=${elements.sortSelect.value}&`;
-        }
-        if (selectedStyles.length > 0) {
-            url += `styles=${selectedStyles.join(',')}&`;
-        }
-        if (selectedColor) {
-            url += `colors=${selectedColor}&`;
-        }
+  function getSelectedValues(name) {
+      return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+          .map(input => input.value);
+  }
 
-        window.location.href = url.endsWith('&') ? url.slice(0, -1) : url;
-    });
+  // Navigatie actief maken
+  elements.navItems.forEach(item => {
+      if (item.href === window.location.href) {
+          item.parentElement.classList.add("active");
+      }
+  });
 
-    function getSelectedValues(name) {
-        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
-            .map(input => input.value);
-    }
+  // Tattoo grid klikbaar maken
+  elements.tattooGridImages.forEach(img => {
+      img.addEventListener('click', function() {
+          window.location.href = `/detailpagina/${encodeURIComponent(this.dataset.id)}`;
+      });
+  });
 
-    // Navigatie actief maken
-    elements.navItems.forEach(item => {
-        if (item.href === window.location.href) {
-            item.parentElement.classList.add("active");
-        }
-    });
+  // Profielfoto menu functionaliteit
+  elements.profilePhotos.forEach(photo => {
+      photo.addEventListener('click', function() {
+          elements.photoOptionsMenu.style.display = 'flex';
+      });
+  });
 
-    // Tattoo grid klikbaar maken
-    elements.tattooGridImages.forEach(img => {
-        img.addEventListener('click', function() {
-            window.location.href = `/detailpagina/${this.dataset.id}`;
-        });
-    });
+  elements.closePhotoMenu?.addEventListener('click', function() {
+      elements.photoOptionsMenu.style.display = 'none';
+  });
 
-    // Profielfoto menu functionaliteit
-    elements.profilePhoto?.addEventListener('click', function() {
-        elements.photoOptionsMenu.style.display = 'flex';
-    });
+  // Formulier functionaliteit
+  elements.editButton?.addEventListener('click', function () {
+      elements.usernameInput.disabled = false;
+      elements.emailInput.disabled = false;
+      elements.passwordInput.disabled = false;
+      elements.saveButton.disabled = false;
+  });
 
-    elements.closePhotoMenu?.addEventListener('click', function() {
-        elements.photoOptionsMenu.style.display = 'none';
-    });
-});
-// perplexity //
-const form = document.getElementById('updateProfileForm');
-const editButton = document.getElementById('editButton');
-const saveButton = document.getElementById('saveButton');
-
-// Formuliervelden
-const usernameInput = document.getElementById('username');
-const emailInput = document.getElementById('email');
-const PasswordInput = document.getElementById('Password');
-
-// Activeer bewerken
-editButton.addEventListener('click', function () {
-    usernameInput.disabled = false;
-    emailInput.disabled = false;
-    PasswordInput.disabled = false;
-    saveButton.disabled = false;
+  elements.form?.addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Hier komt de logica voor het verwerken van het formulier
+      console.log('Formulier verzonden');
+  });
 });
