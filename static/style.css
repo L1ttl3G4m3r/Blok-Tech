@@ -218,17 +218,16 @@ nav {
   border-bottom: 2px solid var(--color-background);
 }
 
-.close-button {
+.close-button-filter {
   background: none;
   border: none;
   font-size: 1.5em;
   cursor: pointer;
 }
 
-.close-button img {
+.close-button-filter img {
   width: 2em;
   height: auto;
-  filter: invert(100%);
 }
 .sidebar-content {
   padding: 2em;
@@ -458,14 +457,20 @@ li.artist-item {
 .button-reset:hover {
   background-color: var(--color-text);
   color: var(--color-background);
+  transform: scale(1.05); /* Maak de knop iets groter */
+  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
 .button-cta:hover,
 .preference-button:hover {
   background-color: var(--button-hover);
+  transform: scale(1.05); /* Maak de knop iets groter */
+  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
 .button-cta2:hover {
   background-color: var(--color-text);
   color: var(--color-background);
+  transform: scale(1.05); /* Maak de knop iets groter */
+  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
 .preference-button {
   padding: 1em 4em;
@@ -484,6 +489,8 @@ li.artist-item {
   padding: 1em 11em;
   border-radius: 4px;
   font-family: var(--main-font);
+  border: none;
+  box-shadow: none;
 }
 #saveButton:not(:disabled) {
   background-color: var(--color-button);
@@ -491,6 +498,13 @@ li.artist-item {
   border-radius: 4px;
   color: var(--color-text);
   font-family: var(--main-font);
+  border: none;
+  box-shadow: none;
+}
+#saveButton:not(:disabled):hover {
+  background-color: var(--button-hover);
+  transform: scale(1.05); /* Maak de knop iets groter */
+  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
 /****************/
 /* forms login/register */
@@ -534,27 +548,24 @@ div.form-container a {
   color: var(--button-hover);
 }
 /****************************/
-/* profile photo */
+/* profile photo popup */
 /****************************/
 .profile-header {
   text-align: center;
   margin-bottom: 2em;
 }
-
 #profilePhoto {
   width: 8em;
   height: 8em;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--color-button);
-
 }
 .profile-photo-container {
   position: relative;
   display: inline-block;
   cursor: pointer;
 }
-
 .photo-overlay {
   position: absolute;
   top: 0;
@@ -569,8 +580,8 @@ div.form-container a {
   align-items: center;
   justify-content: center;
   color: var(--color-text);
+  font-weight: 300;
 }
-
 .profile-photo-container:hover .photo-overlay {
   opacity: 1;
 }
@@ -584,27 +595,25 @@ div.form-container a {
   right: 0;
   background-color: var(--color-text);
   display: flex;
-  justify-content: space-around;
+  display: none;
   flex-direction: column;
-  padding: 15px;
+  padding: 1em;
   z-index: 2000;
   align-items: center;
 }
 
-.close-button2 {
+.close-button-profile {
   position: absolute;
   top: 10px;
   left: 10px;
   font-size: 24px;
   cursor: pointer;
 }
-
 .photo-options-menu a {
   text-decoration: none;
-  color: #333;
+  color: var(--color-background);
   padding: 10px 20px;
   border-radius: 5px;
-  background-color: #e0e0e0;
 }
 /****************************/
 /* profile form */
@@ -614,7 +623,7 @@ div.form-container a {
   flex-direction: column;
   align-items: center;
 }
-#usernameDisplay {
+.profile-header h2{
   margin-top: 1em;
 }
 .form-group {
@@ -628,11 +637,16 @@ div.form-container a {
   width: 25em;
   padding: 1em;
 }
-.info-container {
-  margin-bottom: 1em; /* Voeg wat ruimte toe tussen velden */
-}
 .info-container #editButton {
-  margin-left: 0;
+  font-family: var(--main-font);
+  margin-bottom: 1em;
+  background: none; /* Verwijder de achtergrond */
+  border: none; /* Verwijder de rand */
+  box-shadow: none; /* Verwijder de schaduw */
+  cursor: pointer;
+  color: var(--color-text);
+  text-decoration: underline;
+  align-self: flex-start;
 }
 
 /****************************/
