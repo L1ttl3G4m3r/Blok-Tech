@@ -25,6 +25,8 @@
   --uppercase: uppercase;
   --border-button: 4px;
   --focus-item: #0035c7;
+  --disabled-button: #454545;
+  --disabled-text: #A9A9A9;
 }
 /****************/
 /* Algemeen */
@@ -61,8 +63,9 @@ header img {
 /* nav.ejs */
 /****************/
 footer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  width: 100vw;
   z-index: 1000;
   background-color: var(--color-background);
 }
@@ -215,17 +218,16 @@ nav {
   border-bottom: 2px solid var(--color-background);
 }
 
-.close-button {
+.close-button-filter {
   background: none;
   border: none;
   font-size: 1.5em;
   cursor: pointer;
 }
 
-.close-button img {
+.close-button-filter img {
   width: 2em;
   height: auto;
-  filter: invert(100%);
 }
 .sidebar-content {
   padding: 2em;
@@ -324,39 +326,6 @@ swiper-slide {
 /****************/
 /* tattoo grid */
 /****************/
-.icon-box {
-  position: absolute;
-  width: 2.5em;
-  height: 2.5em;
-  background-color: var(--color-background);
-  display: flex;
-  left: 1em;
-  top: 1em;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-}
-.icon-box img {
-  width: 2.5em;
-  height: 2.5em;
-}
-
-.icon-box .outline {
-  display: block;
-}
-
-.icon-box .fill {
-  display: none;
-}
-
-.icon-box.active .outline {
-  display: none;
-}
-
-.icon-box.active .fill {
-  display: block;
-}
-
 .tattoo-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -445,7 +414,6 @@ li.artist-item {
 
 .studiolist p {
   font-weight: 200;
-
 }
 /****************/
 /* Buttons */
@@ -460,11 +428,11 @@ li.artist-item {
   font-weight: 500;
   text-decoration: none;
   color: var(--color-text);
+  letter-spacing: 0.05em;
 }
-.button-cta2,
-.button-reset {
+.button-cta2 {
   border: 2px solid var(--color-text);
-  padding: 1em 6em;
+  padding: 1em 5.5em;
   margin: 1em;
   font-size: 1em;
   font-family: var(--main-font);
@@ -474,27 +442,35 @@ li.artist-item {
   border-radius: 4px;
 }
 .button-reset {
-  border: 2px solid var(--color-text);
-  padding: 1em 6em;
-  margin: 1em;
-  font-size: 1em;
-  font-family: var(--main-font);
-  font-weight: 500;
-  text-decoration: none;
-  color: var(--color-text);
-  border-radius: 4px;
   background-color: var(--color-background);
+  border: 2px solid var(--color-text);
+  padding: 1em 5.5em;
+  margin: 1em;
+  font-size: 1em;
+  font-family: var(--main-font);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+  border-radius: 4px;
 }
+
 .button-reset:hover {
   background-color: var(--color-text);
   color: var(--color-background);
+  transform: scale(1.05); /* Maak de knop iets groter */
+  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
-.button-cta:hover {
+.button-cta:hover,
+.preference-button:hover {
   background-color: var(--button-hover);
+  transform: scale(1.05); /* Maak de knop iets groter */
+  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
 .button-cta2:hover {
   background-color: var(--color-text);
   color: var(--color-background);
+  transform: scale(1.05); /* Maak de knop iets groter */
+  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
 .preference-button {
   padding: 1em 4em;
@@ -506,6 +482,31 @@ li.artist-item {
   text-decoration: none;
   color: var(--color-text);
 }
+
+#saveButton:disabled {
+  background-color: var(--disabled-button);
+  color: var(--disabled-text);
+  padding: 1em 11em;
+  border-radius: 4px;
+  font-family: var(--main-font);
+  border: none;
+  box-shadow: none;
+}
+#saveButton:not(:disabled) {
+  background-color: var(--color-button);
+  padding: 1em 11em;
+  border-radius: 4px;
+  color: var(--color-text);
+  font-family: var(--main-font);
+  border: none;
+  box-shadow: none;
+}
+#saveButton:not(:disabled):hover {
+  background-color: var(--button-hover);
+  transform: scale(1.05); /* Maak de knop iets groter */
+  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
+}
+
 /****************/
 /* forms login/register */
 /****************/
@@ -546,6 +547,125 @@ h4 {
 
 div.form-container a {
   color: var(--button-hover);
+}
+/****************************/
+/* profile photo popup */
+/****************************/
+.profile-header {
+  text-align: center;
+  margin-bottom: 2em;
+}
+#profilePhoto {
+  width: 8em;
+  height: 8em;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-button);
+}
+.profile-photo-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  font-weight: 300;
+}
+.profile-photo-container:hover .photo-overlay {
+  opacity: 1;
+}
+/****************************/
+/* profile menu photo */
+/****************************/
+.photo-options-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-text);
+  display: flex;
+  display: none;
+  flex-direction: column;
+  padding: 1em;
+  z-index: 2000;
+  align-items: center;
+  animation: slideUp 0.5s ease forwards;
+}
+@keyframes slideUp {
+  from {
+    bottom: -100px;
+  }
+  to {
+    bottom: 0;
+  }
+}
+.icon-text-container {
+  display: flex;
+  align-items: center;
+}
+.close-button-profile {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  cursor: pointer;
+  animation: slideDown 0.5s ease forwards;
+}
+.close-button-profile img,
+.icon-text-container img {
+  width: 3em;
+  height: 3em;
+}
+
+.photo-options-menu a {
+  text-decoration: none;
+  color: var(--color-background);
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+
+/****************************/
+/* profile form */
+/****************************/
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-header h2{
+  margin-top: 1em;
+}
+.form-group {
+  margin-bottom: 1em; /* Voeg wat ruimte toe tussen velden */
+}
+.form-group label {
+  display: block;
+  margin-bottom: 1em;
+}
+.form-group input {
+  width: 25em;
+  padding: 1em;
+}
+#editButton {
+  font-family: var(--main-font);
+  margin-bottom: 1em;
+  background: none; /* Verwijder de achtergrond */
+  border: none; /* Verwijder de rand */
+  box-shadow: none; /* Verwijder de schaduw */
+  cursor: pointer;
+  color: var(--color-text);
+  text-decoration: underline;
 }
 
 /****************************/
@@ -676,3 +796,4 @@ input[type="radio"]:checked::before {
   border-radius: 0.5em;
   margin-top: 6em;
 }
+

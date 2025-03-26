@@ -11,28 +11,23 @@
       <% for(let i = 0; i < 7; i++) { %>
       <div class="image-column">
         <% imageUrls.slice(i*2, i*2+2).forEach(image => { %>
-        <div
-          class="background-image"
-          style="background-image: url('<%= image.url %>')"
-        ></div>
+        <div class="background-image" style="background-image: url('<%= image.url %>')"></div>
         <% }) %>
       </div>
       <% } %>
     </div>
     <main>
       <div class="buttoncontainer">
+        <a href="/register" class="button-cta2">Registreren bezoeker</a>
+        <a href="/registerArtists" class="button-cta2">Registreren artiest</a >
         <a href="/log-in" class="button-cta">Inloggen</a>
-        <a href="/register" class="button-cta2">Registreren als bezoeker</a>
-        <a href="/registerArtists" class="button-cta2"
-          >Registreren als artiest</a
-        >
       </div>
     </main>
-    <script src="/static/script/beginBackground.js"></script>
+
     <div
       id="imageUrlsContainer"
-      data-image-urls="<%= encodeURIComponent(JSON.stringify(imageUrls)) %>"
-    ></div>
+      data-image-urls="<%= encodeURIComponent(JSON.stringify(imageUrls)) %>">
+    </div>
     <script>
       window.imageUrls = JSON.parse(
         decodeURIComponent(
@@ -40,5 +35,6 @@
         )
       );
     </script>
+     <script src="/static/script/beginBackground.js"></script>
   </body>
 </html>

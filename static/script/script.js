@@ -1,88 +1,113 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const sortSelect = document.getElementById('sort-select');
-  const filterButton = document.getElementById('filterButton');
-  const filterSidebar = document.getElementById('filterSidebar');
-  const closeButton = document.getElementById('closeSidebar');
-  const applyFiltersButton = document.getElementById('applyFiltersButton');
-  const clearStylesButton = document.getElementById('clearStyles');
-  const clearColorsButton = document.getElementById('clearColors');
-  const navItems = document.querySelectorAll(".nav-item a");
-  document.getElementById('sort-select').addEventListener('change', function() {
-    document.getElementById('sort-form').submit();
-  });
+  // Element selecties
+  const elements = {
+      sortSelect: document.getElementById('sort-select'),
+      filterButton: document.getElementById('filterButton'),
+      filterSidebar: document.getElementById('filterSidebar'),
+      closeButton: document.getElementById('closeSidebar'),
+      applyFiltersButton: document.getElementById('applyFiltersButton'),
+      clearStylesButton: document.getElementById('clearStyles'),
+      clearColorsButton: document.getElementById('clearColors'),
+      navItems: document.querySelectorAll(".nav-item a"),
+      tattooGridImages: document.querySelectorAll('#tattoo-grid img'),
+      profilePhotos: document.querySelectorAll('.profile-photo-container'),
+      photoOptionsMenu: document.getElementById('photoOptionsMenu'),
+      closePhotoMenu: document.getElementById('closePhotoMenu'),
+      form: document.getElementById('updateProfileForm'),
+      editButton: document.getElementById('editButton'),
+      saveButton: document.getElementById('saveButton'),
+      usernameInput: document.getElementById('username'),
+      emailInput: document.getElementById('email'),
+      passwordInput: document.getElementById('password')
+
+  };
 
   // Sorteren functionaliteit
-  sortSelect.addEventListener('change', function() {
-    const selectedValue = this.value;
-    window.location.href = `/?sort_by=${selectedValue}`;
+  elements.sortSelect?.addEventListener('change', function() {
+      window.location.href = `/?sort_by=${encodeURIComponent(this.value)}`;
   });
 
   // Filter Sidebar functionaliteit
-  filterButton.addEventListener('click', () => {
-    if (filterSidebar.style.width === '340px') {
-      filterSidebar.style.width = '0';
-    } else {
-      filterSidebar.style.width = '340px';
-    }
+  elements.filterButton?.addEventListener('click', (event) => {
+      event.preventDefault();
+      elements.filterSidebar.style.width = elements.filterSidebar.style.width === '340px' ? '0' : '340px';
   });
 
-  closeButton.addEventListener('click', () => {
-    filterSidebar.style.width = '0';
+  elements.closeButton?.addEventListener('click', () => {
+      elements.filterSidebar.style.width = '0';
   });
 
   // Clear filters functionaliteit
-  clearStylesButton.addEventListener('click', function() {
-    document.querySelectorAll('input[name="styles"]').forEach(checkbox => {
-      checkbox.checked = false;
-    });
-  });
+  elements.clearStylesButton?.addEventListener('click', () => clearCheckboxes('styles'));
+  elements.clearColorsButton?.addEventListener('click', () => clearCheckboxes('colors'));
 
-
-  clearColorsButton.addEventListener('click', function() {
-    document.querySelectorAll('input[name="colors"]').forEach(radio => {
-      radio.checked = false;
-    });
-  });
+  function clearCheckboxes(name) {
+      document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+          input.checked = false;
+      });
+  }
 
   // Apply filters functionaliteit
-  applyFiltersButton.addEventListener('click', function(event) {
-    event.preventDefault();
+  elements.applyFiltersButton?.addEventListener('click', function(event) {
+      event.preventDefault();
+      const selectedStyles = getSelectedValues('styles');
+      const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
 
-    const selectedStyles = Array.from(document.querySelectorAll('input[name="styles"]:checked'))
-      .map(checkbox => checkbox.value);
-    const selectedColor = document.querySelector('input[name="colors"]:checked')?.value || '';
+      const searchParams = new URLSearchParams();
+      if (elements.sortSelect.value !== 'relevant') {
+          searchParams.append('sort_by', elements.sortSelect.value);
+      }
+      if (selectedStyles.length > 0) {
+          searchParams.append('styles', selectedStyles.join(','));
+      }
+      if (selectedColor) {
+          searchParams.append('colors', selectedColor);
+      }
 
-    let url = '/?';
-    if (sortSelect.value !== 'relevant') {
-      url += 'sort_by=' + sortSelect.value + '&';
-    }
-    if (selectedStyles.length > 0) {
-      url += 'styles=' + selectedStyles.join(',') + '&';
-    }
-    if (selectedColor) {
-      url += 'colors=' + selectedColor + '&';
-    }
-
-    if (url.endsWith('&')) {
-      url = url.slice(0, -1);
-    }
-
-    window.location.href = url;
+      window.location.href = `/?${searchParams.toString()}`;
   });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
-    const navItems = document.querySelectorAll(".nav-item a");
+  function getSelectedValues(name) {
+      return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+          .map(input => input.value);
+  }
 
-    navItems.forEach(item => {
-        if (item.href === window.location.href) {
-            item.parentElement.classList.add("active");
-        }
-    });
-});
+  // Navigatie actief maken
+  elements.navItems.forEach(item => {
+      if (item.href === window.location.href) {
+          item.parentElement.classList.add("active");
+      }
+  });
 
-document.querySelectorAll('#tattoo-grid img').forEach(img => {
-  img.addEventListener('click', function() {
-    window.location.href = `/detailpagina/${this.dataset.id}`;
+  // Tattoo grid klikbaar maken
+  elements.tattooGridImages.forEach(img => {
+      img.addEventListener('click', function() {
+          window.location.href = `/detailpagina/${encodeURIComponent(this.dataset.id)}`;
+      });
+  });
+
+  // Profielfoto menu functionaliteit
+  elements.profilePhotos.forEach(photo => {
+      photo.addEventListener('click', function() {
+          elements.photoOptionsMenu.style.display = 'flex';
+      });
+  });
+
+  elements.closePhotoMenu?.addEventListener('click', function() {
+      elements.photoOptionsMenu.style.display = 'none';
+  });
+
+  // Formulier functionaliteit
+  elements.editButton?.addEventListener('click', function () {
+      elements.usernameInput.disabled = false;
+      elements.emailInput.disabled = false;
+      elements.passwordInput.disabled = false;
+      elements.saveButton.disabled = false;
+  });
+
+  elements.form?.addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Hier komt de logica voor het verwerken van het formulier
+      console.log('Formulier verzonden');
   });
 });

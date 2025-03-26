@@ -2,17 +2,19 @@
 <html lang="nl">
   <head>
     <%- include('partials/head') %>
-
   </head>
   <body>
     <header><%- include('partials/header') %></header>
-
     <main>
       <section class="intro">
         <h1>Inspiration for your tattoo</h1>
       </section>
 
       <section class="search"><%- include('partials/searchbar') %></section>
+      <section class="filtersorting">
+        <%- include('partials/sorting') %>
+        <%- include('partials/filter') %>
+      </section>
 
       <section class="carousel-section">
         <div class="textcontainer">
@@ -53,7 +55,8 @@
       <%- include('partials/nav') %>
     </footer>
 
-    <script src="/server.js"></script>
+
+
     <div id="imageUrlsData" data-image-urls="<%= JSON.stringify(gridImages) %>"></div>
     <script src="/static/script/script.js"></script>
   </body>
