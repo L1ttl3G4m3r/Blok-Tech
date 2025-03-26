@@ -506,6 +506,7 @@ li.artist-item {
   transform: scale(1.05); /* Maak de knop iets groter */
   transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
+
 /****************/
 /* forms login/register */
 /****************/
@@ -631,8 +632,9 @@ div.form-container a {
   text-decoration: none;
   color: var(--color-background);
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 4px;
 }
+
 /****************************/
 /* profile form */
 /****************************/

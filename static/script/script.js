@@ -98,16 +98,12 @@ const saveButton = document.getElementById('saveButton');
 // Formuliervelden
 const usernameInput = document.getElementById('username');
 const emailInput = document.getElementById('email');
-const currentPasswordInput = document.getElementById('currentPassword');
-const newPasswordInput = document.getElementById('newPassword');
-
-// Haal gebruikersgegevens op uit de API
-
+const PasswordInput = document.getElementById('Password');
 
 // Activeer bewerken
 editButton.addEventListener('click', function () {
     usernameInput.disabled = false;
     emailInput.disabled = false;
-    currentPasswordInput.disabled = false;
+    PasswordInput.disabled = false;
     saveButton.disabled = false;
 });
