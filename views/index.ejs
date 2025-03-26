@@ -43,7 +43,7 @@
       <% } else { %>
           <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
       <% } %>
-
+      <div id="imageUrlsData" data-image-urls="<%= JSON.stringify(gridImages) %>"></div>
       </section>
 
 
@@ -57,7 +57,7 @@
 
 
 
-    <div id="imageUrlsData" data-image-urls="<%= JSON.stringify(gridImages) %>"></div>
+
     <script src="/static/script/script.js"></script>
   </body>
 </html>
