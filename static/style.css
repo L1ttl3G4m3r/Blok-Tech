@@ -47,6 +47,7 @@ body {
   font-weight: 500;
   color: var(--color-text);
 }
+
 a {
   text-decoration: none;
   color: var(--color-text);
@@ -638,6 +639,7 @@ section.profile-section {
   display: inline-block;
   cursor: pointer;
 }
+
 .photo-overlay {
   position: absolute;
   top: 0;
@@ -1115,5 +1117,101 @@ section.uitlegAfbeelding {
 .microNav img {
   width: 30px;
   height: auto;
+}
+
+
+
+/*************************/
+/* grid detailInformatie */
+/*************************/
+section.detailInformatie {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  margin: 2em;
+  row-gap: .5em;
+}
+
+section.detailInformatie > img:first-of-type {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 1;
+  grid-row-end: 2;
+
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+section.detailInformatie a {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  display: flex;
+  align-items: center;
+}
+
+section.detailInformatie button:first-of-type {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  text-align: right;
+}
+
+section.detailInformatie button:last-of-type {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  text-align: right;
+}
+
+section.detailInformatie h1 {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+
+section.detailInformatie button {
+  background: none;
+  border: none;
+  color: var(--color-text);
+}
+
+/*****************************/
+/* gerelateerdeContent scrol */
+/*****************************/
+section.gerelateerdeContent img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+section.gerelateerdeContent h3 {
+  margin-left: 2em;
+  margin-right: 2em;
+  border-top: 1px solid var(--color-text);
+  padding-top: 1em;
+}
+
+section.gerelateerdeContent ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+/*********************/
+/* header-detail.ejs */
+/*********************/
+.detailNav ul {
+  display: flex;
+  justify-content: space-between;
 }
 
