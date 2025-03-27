@@ -54,10 +54,11 @@ header {
   top: 0;
   display: flex;
   justify-content: center;
-  margin: 2em 0;
+  margin: 1.5em 0;
 }
 header img {
-  width: 12em;
+  width: 10em;
+  height: auto;
 }
 /****************/
 /* nav.ejs */
@@ -568,6 +569,9 @@ div.form-container a {
 /****************************/
 /* profile photo popup */
 /****************************/
+section.profile-section {
+  height: 100vh;
+}
 .profile-header {
   text-align: center;
   margin-bottom: 2em;
