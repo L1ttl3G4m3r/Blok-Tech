@@ -220,6 +220,99 @@ app.post('/register', async (req, res) => {
     }
 });
 
+// Route voor het weergeven van het registratieformulier voor artiesten
+app.get('/registerArtists', (req, res) => {
+  res.render("registerArtists.ejs", {
+      pageTitle: 'Registreer artiest',
+      mapboxToken: process.env.MAPBOX_TOKEN // Zorg ervoor dat je deze in je .env bestand hebt
+  });
+});
+
+// Route voor het verwerken van het registratieformulier voor artiesten
+app.post('/registerArtists', async (req, res) => {
+  try {
+      const collection = db.collection('artists');
+      const { username, email, password, confirmPassword, studioName, studioAddress, studioLat, studioLng } = req.body;
+
+      // Validatie van alle velden
+      if (!username || !email || !password || !confirmPassword || !studioName || !studioAddress || !studioLat || !studioLng) {
+          return res.status(400).send("Alle velden zijn verplicht");
+      }
+
+      // Type checking
+      if (typeof username !== 'string' ||
+          typeof email !== 'string' ||
+          typeof password !== 'string' ||
+          typeof confirmPassword !== 'string' ||
+          typeof studioName !== 'string' ||
+          typeof studioAddress !== 'string' ||
+          typeof studioLat !== 'string' ||
+          typeof studioLng !== 'string') {
+          return res.status(400).send("Ongeldig formulierformaat");
+      }
+
+      // E-mail validatie
+      if (!validator.isEmail(email)) {
+          return res.status(400).send("Ongeldig e-mailadres");
+      }
+
+      // Wachtwoord validatie
+      if (!validator.isLength(password, { min: 8 })) {
+          return res.status(400).send("Wachtwoord moet minimaal 8 tekens lang zijn");
+      }
+
+      if (password !== confirmPassword) {
+          return res.status(400).send("Wachtwoorden komen niet overeen");
+      }
+
+      // Controleer of e-mail al in gebruik is
+      const existingUser = await collection.findOne({ email: email });
+      if (existingUser) {
+          return res.status(400).send("Dit e-mailadres is al in gebruik");
+      }
+
+      // Hash het wachtwoord
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Sanitize input
+      const sanitizedUsername = xss(username);
+      const sanitizedStudioName = xss(studioName);
+      const sanitizedStudioAddress = xss(studioAddress);
+
+      // Maak nieuw artiest object
+      const newArtist = {
+          username: sanitizedUsername.trim(),
+          email: email.trim().toLowerCase(),
+          password: hashedPassword,
+          studioName: sanitizedStudioName.trim(),
+          studioAddress: sanitizedStudioAddress.trim(),
+          studioLocation: {
+              type: "Point",
+              coordinates: [parseFloat(studioLng), parseFloat(studioLat)]
+          },
+          createdAt: new Date()
+      };
+
+      // Voeg de nieuwe artiest toe aan de database
+      const result = await collection.insertOne(newArtist);
+
+      // Optioneel: Automatisch inloggen na registratie
+      req.session.userId = result.insertedId;
+      req.session.username = sanitizedUsername;
+      req.session.email = email;
+
+      // Redirect naar de artiestenpagina of dashboard
+      return res.redirect('/dashboard');
+
+  } catch (error) {
+      console.error("Registratiefout:", error);
+      res.status(500).render("error.ejs", {
+          message: "Er is een fout opgetreden bij de registratie",
+          error: error.message
+      });
+  }
+});
+
 // Login Route
 app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
