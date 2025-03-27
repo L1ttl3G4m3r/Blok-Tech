@@ -106,7 +106,18 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
     }
 }
 
+// Routes
 app.get('/', async (req, res) => {
+    try {
+        const imageUrls = await fetchUnsplashImages('tattoo', 30, 'relevant');
+        res.render("begin.ejs", { imageUrls: imageUrls, currentSort: 'relevant' ,  pageTitle: 'Home'});
+    } catch (error) {
+        console.error("Error in home route:", error);
+        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+    }
+});
+
+app.get('/index', isAuthenticated, async (req, res) => {
     try {
         const sortBy = req.query.sort_by || 'relevant';
         const styles = req.query.styles ? req.query.styles.split(',') : [];
@@ -136,14 +147,18 @@ app.get('/', async (req, res) => {
             query += ' colorful tattoo';
         }
 
-        const imageUrls = await fetchUnsplashImages(query, 30, sortBy);
-      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: sortBy ,  pageTitle: 'Home'});
-  } catch (error) {
-      console.error("Error in home route:", error);
-      res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-  }
+        const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
+        res.render('index.ejs', {
+            pageTitle: 'Home',
+            username: req.session.username,
+            gridImages: imageUrls,
+            currentSort: sortBy
+        });
+    } catch (error) {
+        console.error("Error fetching images for index:", error);
+        res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
+    }
 });
-
 
 // Registration Route
 app.get('/register', (req, res) => res.render("register.ejs", { pageTitle: 'Registreren' }));
@@ -344,49 +359,6 @@ app.get('/preview', isAuthenticated, (req, res) => {
     res.render('preview', { pageTitle: 'Preview' });
 });
 
-app.get('/index', isAuthenticated, async (req, res) => {
-    try {
-        const sortBy = req.query.sort_by || 'relevant';
-        const styles = req.query.styles ? req.query.styles.split(',') : [];
-        const colors = req.query.colors || '';
-
-        let query = 'tattoo';
-
-        if (styles.length > 0) {
-            const styleQueries = styles.map(style => {
-                switch (style) {
-                    case 'classic': return 'classic tattoo';
-                    case 'realistic': return 'realistic tattoo';
-                    case 'modern': return 'modern tattoo';
-                    case 'minimalistic': return 'minimalistic tattoo';
-                    case 'cultural': return 'cultural tattoo';
-                    case 'cartoon': return 'cartoon tattoo';
-                    case 'old': return 'old tattoo';
-                    default: return 'tattoo';
-                }
-            });
-            query = styleQueries.join(' ');
-        }
-
-        if (colors === 'black_and_white') {
-            query += ' black and white tattoo';
-        } else if (colors === 'color') {
-            query += ' colorful tattoo';
-        }
-
-        const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
-        res.render('index.ejs', {
-            pageTitle: 'Home',
-            username: req.session.username,
-            gridImages: imageUrls,
-            currentSort: sortBy
-        });
-    } catch (error) {
-        console.error("Error fetching images for index:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
-    }
-});
-
 app.get('/search', isAuthenticated, async (req, res) => {
     try {
         const query = req.query.q || '';
@@ -410,23 +382,23 @@ app.get('/search', isAuthenticated, async (req, res) => {
 });
 
 app.get('/search-artists', isAuthenticated, async (req, res) => {
-  try {
-      const query = req.query.q || '';
+    try {
+        const query = req.query.q || '';
 
-      if (!query) {
-          return res.json({ artists: [] });
-      }
+        if (!query) {
+            return res.json({ artists: [] });
+        }
 
-      const collection = db.collection('artists');
-      const artists = await collection.find({
-          username: { $regex: query, $options: 'i' }
-      }).toArray();
+        const collection = db.collection('artists');
+        const artists = await collection.find({
+            username: { $regex: query, $options: 'i' }
+        }).toArray();
 
-      res.json({ artists: artists });
-  } catch (error) {
-      console.error("Fout bij het zoeken naar artiesten:", error);
-      res.status(500).json({ error: "Er is een fout opgetreden bij het zoeken naar artiesten" });
-  }
+        res.json({ artists: artists });
+    } catch (error) {
+        console.error("Fout bij het zoeken naar artiesten:", error);
+        res.status(500).json({ error: "Er is een fout opgetreden bij het zoeken naar artiesten" });
+    }
 });
 
 // Error Handling
