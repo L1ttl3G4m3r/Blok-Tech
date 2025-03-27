@@ -2,8 +2,9 @@
   <% artists.forEach(function(artist) { %>
     <li>
       <a href="/artiest/<%= artist._id %>">
-        <h3><%= artist.username %></h3>
-        <p><strong>Studio:</strong> <%= artist.studio.name %></p>
+
+        <h3><%= artist.studio.name %></h3>
+        <p><%= artist.username %></p>
       </a>
     </li>
   <% }); %>

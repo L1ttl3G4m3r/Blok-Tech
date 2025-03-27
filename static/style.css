@@ -54,10 +54,11 @@ header {
   top: 0;
   display: flex;
   justify-content: center;
-  margin: 2em 0;
+  margin: 1.5em 0;
 }
 header img {
-  width: 12em;
+  width: 10em;
+  height: auto;
 }
 /****************/
 /* nav.ejs */
@@ -123,13 +124,22 @@ section.search {
 
 input[type="search"] {
   width: 22em;
-  padding: 1em 2.5em;
+  padding: 0 2.5em;
   height: 3em;
   font-size: 1em;
   border-radius: 4px;
   color: var(--color-text);
   border: 2px solid var(--color-text);
   background-color: var(--color-background);
+}
+#search-results {
+  background-color: var(--color-text);
+  border-radius: 4px;
+
+}
+#search-results a {
+  color: var(--color-background);
+  margin: 1em;
 }
 
 .search-container {
@@ -200,7 +210,7 @@ nav {
 }
 
 .sidebar.show {
-  width: 300px;
+  width: 27.5em;
 }
 
 /* Media query voor mobiele schermen */
@@ -347,7 +357,11 @@ swiper-slide {
   border-radius: 4px;
 
 }
-
+.tattoo-grid p {
+  text-align: center;
+  justify-content: center;
+  align-self: center;
+}
 .zero-state {
   text-align: center;
   height: 10em;
@@ -411,10 +425,14 @@ li.artist-item {
   list-style-type: none;
   margin-top: 2em;
 }
-
-.studiolist p {
+.studiolist a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+.studiolist li p {
   font-weight: 200;
 }
+
 /****************/
 /* Buttons */
 /****************/
@@ -551,6 +569,9 @@ div.form-container a {
 /****************************/
 /* profile photo popup */
 /****************************/
+section.profile-section {
+  height: 100vh;
+}
 .profile-header {
   text-align: center;
   margin-bottom: 2em;

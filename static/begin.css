@@ -87,7 +87,7 @@ main {
   z-index: 2;
   text-align: center;
   padding: 1em;
-  color: white;
+  color: var(--color-text);
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
@@ -95,6 +95,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 5em;
   align-items: center;
   font-size: 1em;
 }
