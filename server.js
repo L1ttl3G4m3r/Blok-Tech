@@ -159,7 +159,7 @@ app.get('/index', isAuthenticated, async (req, res) => {
       const postsCollection = db.collection('posts');
 
       const sortBy = req.query.sort_by || 'relevant';
-      const styles = req.query.styles ? req.query.styles.split(',') : [];
+      const styles = req.session.userPreferences?.tattooStijl || [];
       const colors = req.query.colors || '';
       const tattooPlek = req.query.tattooPlek || '';
       const woonplaats = req.query.woonplaats || '';
@@ -526,59 +526,40 @@ app.get('/artiest/:id', isAuthenticated, async (req, res) => {
 });
 
 app.get('/questionnaire', isAuthenticated, (req, res) => {
-  res.render('questionnaire.ejs', { pageTitle: 'Vragenlijst' });
+  const styles = req.session.userPreferences ? req.session.userPreferences.tattooStijl : [];
+  const colors = req.session.userPreferences ? req.session.userPreferences.tattooKleur : '';
+  const tattooPlek = req.session.userPreferences ? req.session.userPreferences.tattooPlek : [];
+  const woonplaats = req.session.userPreferences ? req.session.userPreferences.woonplaats : [];
+
+  res.render('questionnaire.ejs', {
+    pageTitle: 'Vragenlijst',
+    styles: styles,
+    colors: colors,
+    tattooPlek: tattooPlek,
+    woonplaats: woonplaats
+  });
 });
 
 app.post('/questionnaire', isAuthenticated, (req, res) => {
-  try {
-    const { tattooStijl, tattooKleur, tattooPlek, woonplaats } = req.body;
+  const { tattooStijl, tattooKleur, tattooPlek, woonplaats } = req.body;
 
-    // Sla de antwoorden op in de sessie
-    req.session.userPreferences = {
-      tattooStijl: Array.isArray(tattooStijl) ? tattooStijl : [tattooStijl],
-      tattooKleur,
-      tattooPlek,
-      woonplaats
-    };
+  // Sla de antwoorden op in de sessie
+  req.session.userPreferences = {
+    tattooStijl: Array.isArray(tattooStijl) ? tattooStijl : [tattooStijl],
+    tattooKleur: tattooKleur || '',
+    tattooPlek: tattooPlek || '',
+    woonplaats: woonplaats || ''
+  };
 
-    // Bouw queryparameters op basis van de ingevulde gegevens
-    const queryParams = [
-      `styles=${tattooStijl ? tattooStijl.join(',') : ''}`,
-      `colors=${tattooKleur || ''}`,
-      `tattooPlek=${tattooPlek || ''}`,
-      `woonplaats=${woonplaats || ''}`
-    ].join('&');
+  // Redirect naar de index pagina met query parameters
+  const queryParams = new URLSearchParams({
+    styles: req.session.userPreferences.tattooStijl.join(','),
+    colors: req.session.userPreferences.tattooKleur,
+    tattooPlek: req.session.userPreferences.tattooPlek,
+    woonplaats: req.session.userPreferences.woonplaats
+  });
 
-    // Redirect naar /index met queryparameters
-    res.redirect(`/index?${queryParams}`);
-  } catch (error) {
-    console.error("Fout bij het verwerken van het formulier:", error);
-    res.status(500).send("Er is een fout opgetreden bij het verwerken van de gegevens.");
-  }
-});
-
-app.post('/save-answers', async (req, res) => {
-  try {
-      const usersCollection = db.collection('users');
-      const { tattooStijl, tattooKleur, tattooPlek } = req.body;
-
-      // Check of de gebruiker ingelogd is
-      if (!req.session.userId) {
-          return res.redirect('/log-in');
-      }
-
-      // Opslaan in database (voeg voorkeuren toe aan de gebruiker)
-      await usersCollection.updateOne(
-          { _id: req.session.userId },
-          { $set: { tattooStijl, tattooKleur, tattooPlek } }
-      );
-
-      // Redirect terug naar index
-      res.redirect('/index');
-  } catch (error) {
-      console.error("Fout bij opslaan van antwoorden:", error);
-      res.status(500).send("Er is een fout opgetreden");
-  }
+  res.redirect(`/index?${queryParams.toString()}`);
 });
 
 // Route voor het tonen van tattoos in de 'classic' categorie

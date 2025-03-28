@@ -1,5 +1,6 @@
 <swiper-container class="mySwiper" space-between="30" slides-per-view="auto" pagination="true" pagination-clickable="true">
   <!-- Zelfgemaakte posts -->
+  <% if (styles.includes('zelfgemaakt')) { %>
   <swiper-slide>
       <h3>Zelfgemaakte Tattoo's</h3>
       <p>Bekijk unieke tatoeages die door onze gebruikers zijn gedeeld.</p>
@@ -17,183 +18,233 @@
           <% } %>
       </div>
   </swiper-slide>
+  <% } %>
 
+  <% if (styles.includes('natuur')) { %>
   <swiper-slide>
       <h3>Natuur</h3>
       <div class="tattoo-gallery">
           <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
       </div>
   </swiper-slide>
+  <% } %>
 
+  <% if (styles.includes('dieren')) { %>
   <swiper-slide>
     <h3>Dieren</h3>
     <div class="tattoo-gallery">
         <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
     </div>
-</swiper-slide>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Mythiche symbolen</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('mythische symbolen')) { %>
+  <swiper-slide>
+    <h3>Mythische symbolen</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Geometrische vormen</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('geometrische vormen')) { %>
+  <swiper-slide>
+    <h3>Geometrische vormen</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Emoties & Gezichten</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('emoties & gezichten')) { %>
+  <swiper-slide>
+    <h3>Emoties & Gezichten</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Kunstzinnige stijlen</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('kunstzinnige stijlen')) { %>
+  <swiper-slide>
+    <h3>Kunstzinnige stijlen</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Sci-fi</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('sci-fi')) { %>
+  <swiper-slide>
+    <h3>Sci-fi</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Futuristisch</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('futuristisch')) { %>
+  <swiper-slide>
+    <h3>Futuristisch</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Muziek</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('muziek')) { %>
+  <swiper-slide>
+    <h3>Muziek</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Fine line</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('fine line')) { %>
+  <swiper-slide>
+    <h3>Fine line</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Traditioneel</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('traditioneel')) { %>
+  <swiper-slide>
+    <h3>Traditioneel</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Blackwork</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('blackwork')) { %>
+  <swiper-slide>
+    <h3>Blackwork</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Watercolor</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('watercolor')) { %>
+  <swiper-slide>
+    <h3>Watercolor</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Geometrisch & Abstract</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('geometrisch & abstract')) { %>
+  <swiper-slide>
+    <h3>Geometrisch & Abstract</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Realistisch</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('realistisch')) { %>
+  <swiper-slide>
+    <h3>Realistisch</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Dotwork</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('dotwork')) { %>
+  <swiper-slide>
+    <h3>Dotwork</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Minimalistisch</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('minimalistisch')) { %>
+  <swiper-slide>
+    <h3>Minimalistisch</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Zwart-wit</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('zwart-wit')) { %>
+  <swiper-slide>
+    <h3>Zwart-wit</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Gekleurd</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('gekleurd')) { %>
+  <swiper-slide>
+    <h3>Gekleurd</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Arm</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('arm')) { %>
+  <swiper-slide>
+    <h3>Arm</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Been</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('been')) { %>
+  <swiper-slide>
+    <h3>Been</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Rug</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('rug')) { %>
+  <swiper-slide>
+    <h3>Rug</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Borst</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('borst')) { %>
+  <swiper-slide>
+    <h3>Borst</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Nek</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('nek')) { %>
+  <swiper-slide>
+    <h3>Nek</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-<swiper-slide>
-  <h3>Gezicht</h3>
-  <div class="tattoo-gallery">
-      <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
-  </div>
-</swiper-slide>
+  <% if (styles.includes('gezicht')) { %>
+  <swiper-slide>
+    <h3>Gezicht</h3>
+    <div class="tattoo-gallery">
+        <!-- Hier kun je de afbeeldingen dynamisch laden via de server -->
+    </div>
+  </swiper-slide>
+  <% } %>
 
-  <!-- Voeg andere categorieën toe zoals relevante locatie -->
 </swiper-container>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
