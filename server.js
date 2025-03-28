@@ -118,47 +118,91 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/index', isAuthenticated, async (req, res) => {
-    try {
-        const sortBy = req.query.sort_by || 'relevant';
-        const styles = req.query.styles ? req.query.styles.split(',') : [];
-        const colors = req.query.colors || '';
+  try {
+      const usersCollection = db.collection('users');
+      const postsCollection = db.collection('posts');
 
-        let query = 'tattoo';
+      const sortBy = req.query.sort_by || 'relevant';
+      const styles = req.query.styles ? req.query.styles.split(',') : [];
+      const colors = req.query.colors || '';
+      const tattooPlek = req.query.tattooPlek || '';
+      const woonplaats = req.query.woonplaats || '';
 
-        if (styles.length > 0) {
-            const styleQueries = styles.map(style => {
-                switch (style) {
-                    case 'classic': return 'classic tattoo';
-                    case 'realistic': return 'realistic tattoo';
-                    case 'modern': return 'modern tattoo';
-                    case 'minimalistic': return 'minimalistic tattoo';
-                    case 'cultural': return 'cultural tattoo';
-                    case 'cartoon': return 'cartoon tattoo';
-                    case 'old': return 'old tattoo';
-                    default: return 'tattoo';
-                }
-            });
-            query = styleQueries.join(' ');
-        }
+      let query = 'tattoo';
 
-        if (colors === 'black_and_white') {
-            query += ' black and white tattoo';
-        } else if (colors === 'color') {
-            query += ' colorful tattoo';
-        }
+      if (styles.length > 0) {
+          const styleQueries = styles.map(style => {
+              switch (style) {
+                  case 'classic': return 'classic tattoo';
+                  case 'realistic': return 'realistic tattoo';
+                  case 'modern': return 'modern tattoo';
+                  case 'minimalistic': return 'minimalistic tattoo';
+                  case 'cultural': return 'cultural tattoo';
+                  case 'cartoon': return 'cartoon tattoo';
+                  case 'old': return 'old tattoo';
+                  default: return 'tattoo';
+              }
+          });
+          query = styleQueries.join(' ');
+      }
 
-        const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
-        res.render('index.ejs', {
-            pageTitle: 'Home',
-            username: req.session.username,
-            gridImages: imageUrls,
-            currentSort: sortBy,
-            isArtist: req.session.isArtist
-        });
-    } catch (error) {
-        console.error("Error fetching images for index:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
-    }
+      if (colors === 'black_and_white') {
+          query += ' black and white tattoo';
+      } else if (colors === 'color') {
+          query += ' colorful tattoo';
+      }
+
+      const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
+
+      // Haal de voorkeuren van de gebruiker op
+      const user = await usersCollection.findOne({ _id: req.session.userId });
+
+      // Haal posts op en filter op basis van voorkeuren
+      let filteredPosts = await postsCollection.find().toArray();
+
+      if (user?.tattooStijl) {
+          filteredPosts = filteredPosts.filter(post => user.tattooStijl.includes(post.style));
+      }
+
+      res.render('index.ejs', {
+          pageTitle: 'Home',
+          username: req.session.username,
+          gridImages: imageUrls,
+          currentSort: sortBy,
+          isArtist: req.session.isArtist,
+          posts: filteredPosts,
+          userPreferences: user || {}, // Zorg ervoor dat er geen fout komt als user null is
+          // Voeg de queryparameters toe aan de renderdata
+          styles,
+          colors,
+          tattooPlek,
+          woonplaats
+      });
+
+  } catch (error) {
+      console.error("Error fetching images for index:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
+  }
+});
+
+app.post('/index', isAuthenticated, async (req, res) => {
+  try {
+      const { tattooStijl, tattooKleur, tattooPlek, woonplaats } = req.body;
+
+      // Formatteer de antwoorden als queryparameters
+      const queryParams = [
+          `styles=${tattooStijl ? tattooStijl.join(',') : ''}`,
+          `colors=${tattooKleur || ''}`,
+          `tattooPlek=${tattooPlek || ''}`,
+          `woonplaats=${woonplaats || ''}`
+      ].join('&');
+
+      console.log("Redirecting with query params:", queryParams);  // Toevoegen van logging
+      res.redirect(`/index?${queryParams}`);
+  } catch (error) {
+      console.error("Error processing form data:", error);  // Gedetailleerdere logging
+      res.status(500).send("Er is een fout opgetreden bij het verwerken van de gegevens");
+  }
 });
 
 // Registration Route
@@ -357,17 +401,6 @@ app.post('/log-in', async (req, res) => {
   }
 });
 
-// Other Routes
-app.get('/profiel', isAuthenticated, (req, res) => {
-    res.render('profiel.ejs', { pageTitle: 'Profiel' });
-});
-
-
-app.get('/post', isAuthenticated, (req, res) => {
-    const mapboxToken = process.env.MAPBOX_TOKEN; // Zorg ervoor dat MAPBOX_TOKEN is ingesteld in je .env bestand
-    res.render('post.ejs', { pageTitle: 'Post', mapboxToken: mapboxToken });
-});
-
 app.post('/submit-post', isAuthenticated, upload.single('photo'), async (req, res) => {
   try {
       const collection = db.collection('posts');
@@ -455,8 +488,52 @@ app.get('/artiest/:id', isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/zie-alle', isAuthenticated, (req, res) => {
-    res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
+app.get('/questionnaire', (req, res) => {
+  res.render('questionnaire');
+});
+
+app.post('/save-answers', async (req, res) => {
+  try {
+      const usersCollection = db.collection('users');
+      const { tattooStijl, tattooKleur, tattooPlek } = req.body;
+
+      // Check of de gebruiker ingelogd is
+      if (!req.session.userId) {
+          return res.redirect('/log-in');
+      }
+
+      // Opslaan in database (voeg voorkeuren toe aan de gebruiker)
+      await usersCollection.updateOne(
+          { _id: req.session.userId },
+          { $set: { tattooStijl, tattooKleur, tattooPlek } }
+      );
+
+      // Redirect terug naar index
+      res.redirect('/index');
+  } catch (error) {
+      console.error("Fout bij opslaan van antwoorden:", error);
+      res.status(500).send("Er is een fout opgetreden");
+  }
+});
+
+// Route voor het tonen van tattoos in de 'classic' categorie
+app.get('/tattoos/:category', async (req, res) => {
+  try {
+      const category = req.params.category;
+      const postsCollection = db.collection('posts');
+
+      // Zoek naar posts die overeenkomen met de categorie
+      const categoryPosts = await postsCollection.find({ category: category }).toArray();
+
+      // Render de pagina voor deze categorie met de gevonden posts
+      res.render('category.ejs', {
+          pageTitle: `${category.charAt(0).toUpperCase() + category.slice(1)} Tattoos`,
+          posts: categoryPosts
+      });
+  } catch (error) {
+      console.error("Error fetching category tattoos:", error);
+      res.status(500).send("Er is een fout opgetreden bij het ophalen van de tattoo categorie.");
+  }
 });
 
 app.get('/detail/:id', isAuthenticated, (req, res) => {
