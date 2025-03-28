@@ -17,11 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
   let tags = [];
 
   // Afbeelding uploaden
+  const imagePlaceholder = document.querySelector('.image-placeholder');
   const photoInput = document.getElementById('photoInput');
   const imagePreview = document.getElementById('imagePreview');
 
   // Formulier
   const postForm = document.getElementById('postForm');
+
+  imagePlaceholder.addEventListener('click', function() {
+    photoInput.click();
+});
 
   // Functie om een sessie-token te genereren voor Mapbox API
   function generateSessionToken() {
@@ -94,6 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
           timeoutId = setTimeout(() => func.apply(context, args), delay);
       };
   }
+  imagePlaceholder.addEventListener('click', function() {
+      photoInput.click();
+  });
 
   // Tags functionaliteit
   function renderTags() {
@@ -171,3 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize
   renderTags();
 });
+
+
+
