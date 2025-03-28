@@ -362,6 +362,7 @@ app.get('/profiel', isAuthenticated, (req, res) => {
     res.render('profiel.ejs', { pageTitle: 'Profiel' });
 });
 
+
 app.get('/post', isAuthenticated, (req, res) => {
     const mapboxToken = process.env.MAPBOX_TOKEN; // Zorg ervoor dat MAPBOX_TOKEN is ingesteld in je .env bestand
     res.render('post.ejs', { pageTitle: 'Post', mapboxToken: mapboxToken });
