@@ -282,13 +282,12 @@ nav {
 }
 
 label {
-  margin-right: 10px;
+  margin-right: 0.8em;
   font-weight: bold;
 }
 
 select {
-  padding: 8px 12px;
-  font-size: 16px;
+  padding: 0.5em 0.8em;
   border: 2px solid var(--color-text);
   background-color: var(--color-background);
   border-radius: 4px;
