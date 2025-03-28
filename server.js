@@ -118,13 +118,13 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
 
 // Routes
 app.get('/', async (req, res) => {
-    try {
-        const imageUrls = await fetchUnsplashImages('tattoo', 30, 'relevant');
-        res.render("begin.ejs", { imageUrls: imageUrls, currentSort: 'relevant' ,  pageTitle: 'Home'});
-    } catch (error) {
-        console.error("Error in home route:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-    }
+  try {
+      const imageUrls = await fetchUnsplashImages('tattoo', 30, 'relevant');
+      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: 'relevant', pageTitle: 'Home' });
+  } catch (error) {
+      console.error("Error in home route:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+  }
 });
 
 app.get('/index', isAuthenticated, async (req, res) => {
@@ -561,6 +561,51 @@ app.post('/questionnaire', isAuthenticated, (req, res) => {
 
   res.redirect(`/index?${queryParams.toString()}`);
 });
+
+app.post('/save-answers', async (req, res) => {
+  // Controleer of de gebruiker ingelogd is via de sessie
+  if (!req.session.userId) {
+      console.log("Geen ingelogde gebruiker gevonden in de sessie.");
+      return res.status(401).send('Je moet ingelogd zijn om je voorkeuren op te slaan.');
+  }
+
+  // Verkrijg de gegevens van het formulier
+  const { tattooStijl, tattooKleur, tattooPlek, woonplaats } = req.body;
+
+  console.log("Antwoorden ontvangen:", req.body); // Dit zal helpen bij debugging om te controleren of de antwoorden goed binnenkomen
+
+  try {
+      // Verkrijg de users collectie
+      const usersCollection = db.collection('users'); // Aangezien de gebruikers in de 'users' collectie staan
+
+      // Update de voorkeuren van de gebruiker in de database
+      const updateResult = await usersCollection.updateOne(
+          { _id: new ObjectId(req.session.userId) }, // Voeg 'new' toe om een ObjectId te maken
+          {
+              $set: {
+                  preferences: {
+                      tattooStijl: Array.isArray(tattooStijl) ? tattooStijl : [tattooStijl], // Controleer of tattooStijl een array is (voor checkboxes)
+                      tattooKleur,
+                      tattooPlek,
+                      woonplaats
+                  }
+              }
+          }
+      );
+
+      // Controleer of de update is gelukt
+      if (updateResult.modifiedCount > 0) {
+          console.log("Gebruiker geüpdatet met voorkeuren:", updateResult);
+          res.redirect('/index'); // Redirect naar de gewenste pagina (bijvoorbeeld de homepage)
+      } else {
+          res.status(404).send('Geen gebruiker gevonden om bij te werken.');
+      }
+  } catch (err) {
+      console.error("Fout bij opslaan:", err);
+      res.status(500).send('Er is een fout opgetreden bij het opslaan van je voorkeuren.');
+  }
+});
+
 
 // Route voor het tonen van tattoos in de 'classic' categorie
 app.get('/tattoos/:category', async (req, res) => {
