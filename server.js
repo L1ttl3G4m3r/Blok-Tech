@@ -152,7 +152,8 @@ app.get('/index', isAuthenticated, async (req, res) => {
             pageTitle: 'Home',
             username: req.session.username,
             gridImages: imageUrls,
-            currentSort: sortBy
+            currentSort: sortBy,
+            isArtist: req.session.isArtist
         });
     } catch (error) {
         console.error("Error fetching images for index:", error);
@@ -272,7 +273,7 @@ app.post('/registerArtists', async (req, res) => {
       }
 
       // Hash het wachtwoord
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await hashPassword(password);
 
       // Sanitize input
       const sanitizedUsername = xss(username);
@@ -300,9 +301,10 @@ app.post('/registerArtists', async (req, res) => {
       req.session.userId = result.insertedId;
       req.session.username = sanitizedUsername;
       req.session.email = email;
+      req.session.isArtist = true;
 
       // Redirect naar de artiestenpagina of dashboard
-      return res.redirect('/dashboard');
+      return res.redirect('/index');
 
   } catch (error) {
       console.error("Registratiefout:", error);
@@ -317,30 +319,42 @@ app.post('/registerArtists', async (req, res) => {
 app.get('/log-in', (req, res) => res.render("log-in.ejs", { pageTitle: 'Inloggen' }));
 
 app.post('/log-in', async (req, res) => {
-    try {
-        const collection = db.collection('users');
-        const { email, password } = req.body;
-        const user = await collection.findOne({ email: email });
+  try {
+      const { email, password } = req.body;
 
-        if (!user) {
-            return res.status(400).send("Gebruiker niet gevonden");
-        }
+      // Haal de collecties op
+      const usersCollection = db.collection('users');
+      const artistsCollection = db.collection('artists');
 
-        const isMatch = await bcrypt.compare(password, user.password);
+      // Zoek gebruiker in 'users' collectie
+      let user = await usersCollection.findOne({ email });
+      let isArtist = false;
 
-        if (isMatch) {
-            req.session.userId = user._id;
-            req.session.username = user.username;
-            req.session.email = user.email;
+      // Controleer eerst het wachtwoord voor 'users'
+      if (user && await bcrypt.compare(password, user.password)) {
+          req.session.userId = user._id;
+          req.session.username = user.username;
+          req.session.email = user.email;
+          req.session.isArtist = false;
+          return res.redirect('/index');
+      }
 
-            res.redirect('/index');
-        } else {
-            res.status(400).send("Incorrect wachtwoord");
-        }
-    } catch (error) {
-        console.error("Login error:", error);
-        res.status(500).send("Er is een fout opgetreden bij het inloggen");
-    }
+      // Zo niet, zoek in 'artists' collectie
+      user = await artistsCollection.findOne({ email });
+      if (user && await bcrypt.compare(password, user.password)) {
+          req.session.userId = user._id;
+          req.session.username = user.username;
+          req.session.email = user.email;
+          req.session.isArtist = true;
+          return res.redirect('/index');
+      }
+
+      return res.status(400).send("Incorrect e-mail of wachtwoord");
+
+  } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).send("Er is een fout opgetreden bij het inloggen");
+  }
 });
 
 // Other Routes
