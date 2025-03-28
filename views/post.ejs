@@ -2,86 +2,64 @@
 <html lang="nl">
 <head>
     <%- include('partials/head') %>
-    <title><%= pageTitle %></title>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
-    <style>
-        .tags-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-bottom: 10px;
-}
-
-.tag {
-    background-color: #e0e0e0;
-    padding: 5px 10px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-}
-
-.tag-remove {
-    margin-left: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-    </style>
 </head>
 <body>
     <header><%- include('partials/header') %></header>
 
     <main>
-        <h1>Nieuwe Post</h1>
+     <section class="post-section">
 
-        <form id="postForm" enctype="multipart/form-data">
+        <form class=post-form id="postForm" enctype="multipart/form-data" method="POST">
             <div class="upload-container">
                 <input type="file" id="photoInput" name="photo" accept="image/*" style="display: none;">
-                <div class="image-placeholder" onclick="document.getElementById('photoInput').click()">
-                    <img src="/static/icons/image-placeholder.svg" alt="Afbeelding toevoegen" id="imagePreview">
+                <div class="image-placeholder">
+                    <img src="/static/icons/normal/Photo.svg" alt="Afbeelding toevoegen" id="imagePreview">
                     <p>Klik om een afbeelding toe te voegen</p>
                 </div>
             </div>
 
             <div class="description-container">
-                <label for="description">Beschrijving:</label>
+                <label for="description">Bericht</label>
                 <textarea id="description" name="description" rows="4" cols="50"></textarea>
             </div>
 
             <div class="tags-container">
-              <label for="tagsInput">Tags:</label>
+              <label for="tagsInput">Tags</label>
               <div id="tagsList" class="tags-list"></div>
               <input type="text" id="tagsInput" placeholder="Voeg een tag toe en druk op Enter">
               <input type="hidden" id="hiddenTagsInput" name="tags">
           </div>
 
-            <div class="studio-info">
-                <input type="text" id="studioName" name="studioName" readonly placeholder="Naam van de studio">
-                <input type="text" id="studioAddress" name="studioAddress" readonly placeholder="Adres van de studio">
-                <input type="hidden" id="studioLat" name="studioLat">
-                <input type="hidden" id="studioLng" name="studioLng">
-            </div>
+
 
             <div class="studio-search-container">
-                <label for="searchInput">Tattoo Studio zoeken:</label>
+                <label for="searchInput">Tattoo Studio</label>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Zoek een studio...">
                     <ul id="searchResults"></ul>
                 </div>
             </div>
+            <div class="studio-info">
+              <input type="text" id="studioName" name="studioName" readonly placeholder="Naam van de studio">
+              <input type="text" id="studioAddress" name="studioAddress" readonly placeholder="Adres van de studio">
+              <input type="hidden" id="studioLat" name="studioLat">
+              <input type="hidden" id="studioLng" name="studioLng">
+          </div>
 
-            <button type="submit">Post Toevoegen</button>
+            <button class="button-cta" type="submit">Post Toevoegen</button>
         </form>
+      </section>
     </main>
 
     <footer>
         <%- include('partials/nav') %>
     </footer>
 
-    <script>
-      window.mapboxToken = '<%= mapboxToken %>';
-    </script>
+    <script> window.mapboxToken = '<%= mapboxToken %>';</script>
     <script src="/static/script/studioZoeken.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
     <script src="/static/script/postToevoegen.js"></script>
+    <script src="static/script/script.js"></script>
 </body>
 </html>

@@ -52,9 +52,12 @@
     </main>
 
     <footer>
-      <%- include('partials/nav') %>
+      <% if (isArtist) { %>
+        <%- include('partials/navA') %>
+      <% } else { %>
+        <%- include('partials/nav') %>
+      <% } %>
     </footer>
-
 
 
     <script src="/static/script/filter.js"></script>

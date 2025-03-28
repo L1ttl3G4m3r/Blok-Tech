@@ -74,6 +74,7 @@ footer {
   display: flex;
   justify-content: space-around;
   list-style-type: none;
+  margin-bottom: 1em;
 }
 .nav-item a {
   display: flex;
@@ -436,39 +437,46 @@ li.artist-item {
 /* Buttons */
 /****************/
 .button-cta {
-  padding: 1em 8em;
+  width: 20.5em;
+  padding: 0.8em 0;
   border-radius: 4px;
   background-color: var(--color-button);
-  margin: 1em;
   font-size: 1em;
+  margin: 1em 0;
   font-family: var(--main-font);
   font-weight: 500;
   text-decoration: none;
   color: var(--color-text);
-  letter-spacing: 0.05em;
+  border: none;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 .button-cta2 {
-  border: 2px solid var(--color-text);
-  padding: 1em 5.5em;
-  margin: 1em;
+  background-color: var(--color-text);
+  width: 20.5em;
+  padding: 0.8em 0;
   font-size: 1em;
+  margin: 1em 0;
   font-family: var(--main-font);
   font-weight: 500;
   text-decoration: none;
-  color: var(--color-text);
+  color: var(--color-background);
   border-radius: 4px;
+  border: none;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 .button-reset {
-  background-color: var(--color-background);
-  border: 2px solid var(--color-text);
-  padding: 1em 5.5em;
-  margin: 1em;
+  background-color: var(--color-text);
+  width: 20.5em;
+  padding: 0.8em 0;
+  margin: 1em 0;
   font-size: 1em;
   font-family: var(--main-font);
   font-weight: 500;
   text-decoration: none;
-  color: var(--color-text);
+  color: var(--color-background);
   border-radius: 4px;
+  border: none;
+  box-shadow: none;
 }
 
 .button-reset:hover {
@@ -528,14 +536,13 @@ li.artist-item {
 /* forms login/register */
 /****************/
 h2.form-heading {
-  align-self: flex-start;
+  text-align: center;
   margin-bottom: 1em;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 .form-container {
-  max-width: 27.5em;
   margin: 0 auto;
-  padding: 2em;
+  width: 80%;
 }
 .formgroup {
   display: flex;
@@ -625,7 +632,7 @@ section.profile-section {
 }
 @keyframes slideUp {
   from {
-    bottom: -100px;
+    bottom: -5em;
   }
   to {
     bottom: 0;
@@ -815,5 +822,86 @@ input[type="radio"]:checked::before {
   padding: 1em;
   border-radius: 0.5em;
   margin-top: 6em;
+}
+/****************************/
+/* Post feature */
+/****************************/
+.post-section {
+  height: 110vh; /* Zorgt ervoor dat de sectie de volledige hoogte van het scherm beslaat */
+}
+
+.post-form {
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+
+}
+.post-form label, .formgroup label {
+  font-weight: 300;
+}
+.upload-container,
+.description-container,
+.tags-container,
+.studio-search-container,
+.studio-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  width: 80%;
+}
+.image-placeholder  {
+  flex-direction: column;
+}
+textarea {
+  border: 2px solid var(--color-text);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border-radius: 4px;
+  font-family: var(--main-font);
+  padding: 0.4em;
+}
+.studio-info input {
+  border: none;
+}
+.image-placeholder {
+  width: 100%;
+  height: 10em;
+  border: 2px solid var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  padding: 1em;
+}
+
+.image-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.tags-list {
+  display: flex;
+  gap: 1em;
+}
+.search-container ul {
+  list-style-type: none;
+}
+.tag {
+  background-color: var(--button-hover);
+  padding: 0.5em;
+  border-radius: 3px;
+  display: flex;
+}
+
+.tag-remove {
+  margin-left: 0.5em;
+  cursor: pointer;
+  font-weight: bold;
 }
 
