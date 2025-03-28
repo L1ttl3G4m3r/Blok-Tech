@@ -627,6 +627,29 @@ app.get('/tattoos/:category', async (req, res) => {
   }
 });
 
+// Zorg ervoor dat je de juiste databaseverbinding en collections hebt
+app.get('/carouselDetail', async (req, res) => {
+  try {
+      // Haal de categorie op uit de querystring (bijvoorbeeld 'natuur')
+      const category = req.query.category || '';
+      const postsCollection = db.collection('posts');
+
+      // Haal de posts voor deze categorie op uit de database
+      const posts = await postsCollection.find({ style: category }).toArray();
+
+      // Render de carouselDetail.ejs pagina met de posts
+      res.render('carouselDetail.ejs', {
+          pageTitle: `${category} Tattoos`,
+          category: category,
+          posts: posts
+      });
+
+  } catch (error) {
+      console.error("Error fetching details for carousel:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de detailpagina");
+  }
+});
+
 app.get('/detail/:id', isAuthenticated, (req, res) => {
     res.render('detailpagina', { id: req.params.id, pageTitle: 'Detailpagina' });
 });

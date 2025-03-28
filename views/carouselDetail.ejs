@@ -1,0 +1,28 @@
+<%- include('partials/head') %>
+
+<body>
+    <header>
+        <h1>Detailpagina van de <%= category %> Tattoos</h1>
+        <a href="/index" class="back-to-home">Terug naar homepage</a>
+    </header>
+
+    <section class="carousel-detail">
+        <div class="carousel-container">
+            <% if (posts && posts.length > 0) { %>
+                <div class="post-gallery">
+                    <% posts.forEach(post => { %>
+                        <div class="post">
+                            <img src="<%= post.imageUrl %>" alt="<%= post.title %>">
+                            <h4><%= post.title %></h4>
+                            <p><%= post.description %></p>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p>Er zijn geen tatoeages beschikbaar voor deze categorie.</p>
+            <% } %>
+        </div>
+    </section>
+
+    <%- include('partials/scripts') %>
+</body>
