@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const xss = require('xss');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
@@ -35,7 +36,16 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    store: MongoStore.create({
+        mongoUrl: process.env.URI,  // Gebruik je MongoDB URI
+        dbName: process.env.DB_NAME, // Specificeer de databasenaam
+        collectionName: 'sessions' // Specificeer de collectienaam (optioneel, standaard 'sessions')
+    }),
+    cookie: {
+        secure: false, // true in productie met HTTPS
+        httpOnly: true, // Beschermt de cookie tegen toegang via client-side script
+        maxAge: 1000 * 60 * 60 * 24 // Cookie verloopt na 1 dag
+    }
 }));
 
 // Database Connection
@@ -120,6 +130,32 @@ app.get('/', async (req, res) => {
 app.get('/index', isAuthenticated, async (req, res) => {
   try {
       const usersCollection = db.collection('users');
+      const artistsCollection = db.collection('artists');
+
+      if (!db) throw new Error("Database connection is not established");
+
+      let user = null;
+      let collectionName = 'users';
+
+      try {
+          const { ObjectId } = require('mongodb');
+          user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
+      } catch (error) {
+          console.log("Error fetching user from users collection:", error);
+      }
+
+      if (!user) {
+          try {
+              const { ObjectId } = require('mongodb');
+              user = await artistsCollection.findOne({ _id: new ObjectId(req.session.userId) });
+              collectionName = 'artists';
+          } catch (error) {
+              console.log("Error fetching user from artists collection:", error);
+          }
+      }
+
+      if (!user) throw new Error("User not found");
+
       const postsCollection = db.collection('posts');
 
       const sortBy = req.query.sort_by || 'relevant';
@@ -127,6 +163,8 @@ app.get('/index', isAuthenticated, async (req, res) => {
       const colors = req.query.colors || '';
       const tattooPlek = req.query.tattooPlek || '';
       const woonplaats = req.query.woonplaats || '';
+
+      console.log("Query parameters:", { styles, colors, tattooPlek, woonplaats });
 
       let query = 'tattoo';
 
@@ -152,17 +190,17 @@ app.get('/index', isAuthenticated, async (req, res) => {
           query += ' colorful tattoo';
       }
 
+      console.log("Unsplash query:", query);
+
       const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
+      console.log("Fetched Unsplash images:", imageUrls);
 
-      // Haal de voorkeuren van de gebruiker op
-      const user = await usersCollection.findOne({ _id: req.session.userId });
-
-      // Haal posts op en filter op basis van voorkeuren
       let filteredPosts = await postsCollection.find().toArray();
-
       if (user?.tattooStijl) {
           filteredPosts = filteredPosts.filter(post => user.tattooStijl.includes(post.style));
       }
+
+      console.log("Filtered posts:", filteredPosts);
 
       res.render('index.ejs', {
           pageTitle: 'Home',
@@ -171,8 +209,7 @@ app.get('/index', isAuthenticated, async (req, res) => {
           currentSort: sortBy,
           isArtist: req.session.isArtist,
           posts: filteredPosts,
-          userPreferences: user || {}, // Zorg ervoor dat er geen fout komt als user null is
-          // Voeg de queryparameters toe aan de renderdata
+          userPreferences: user || {},
           styles,
           colors,
           tattooPlek,
@@ -251,7 +288,7 @@ app.post('/register', async (req, res) => {
 
         const result = await collection.insertOne(newUser);
 
-        req.session.userId = result.insertedId;
+        req.session.userId = result.insertedId.toString();
         req.session.username = sanitizedUsername;
         req.session.email = email;
 
@@ -342,7 +379,7 @@ app.post('/registerArtists', async (req, res) => {
       const result = await collection.insertOne(newArtist);
 
       // Optioneel: Automatisch inloggen na registratie
-      req.session.userId = result.insertedId;
+      req.session.userId = result.insertedId.toString();
       req.session.username = sanitizedUsername;
       req.session.email = email;
       req.session.isArtist = true;
@@ -376,7 +413,7 @@ app.post('/log-in', async (req, res) => {
 
       // Controleer eerst het wachtwoord voor 'users'
       if (user && await bcrypt.compare(password, user.password)) {
-          req.session.userId = user._id;
+          req.session.userId = user._id.toString();
           req.session.username = user.username;
           req.session.email = user.email;
           req.session.isArtist = false;
@@ -386,7 +423,7 @@ app.post('/log-in', async (req, res) => {
       // Zo niet, zoek in 'artists' collectie
       user = await artistsCollection.findOne({ email });
       if (user && await bcrypt.compare(password, user.password)) {
-          req.session.userId = user._id;
+          req.session.userId = user._id.toString();
           req.session.username = user.username;
           req.session.email = user.email;
           req.session.isArtist = true;
@@ -488,8 +525,36 @@ app.get('/artiest/:id', isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/questionnaire', (req, res) => {
-  res.render('questionnaire');
+app.get('/questionnaire', isAuthenticated, (req, res) => {
+  res.render('questionnaire.ejs', { pageTitle: 'Vragenlijst' });
+});
+
+app.post('/questionnaire', isAuthenticated, (req, res) => {
+  try {
+    const { tattooStijl, tattooKleur, tattooPlek, woonplaats } = req.body;
+
+    // Sla de antwoorden op in de sessie
+    req.session.userPreferences = {
+      tattooStijl: Array.isArray(tattooStijl) ? tattooStijl : [tattooStijl],
+      tattooKleur,
+      tattooPlek,
+      woonplaats
+    };
+
+    // Bouw queryparameters op basis van de ingevulde gegevens
+    const queryParams = [
+      `styles=${tattooStijl ? tattooStijl.join(',') : ''}`,
+      `colors=${tattooKleur || ''}`,
+      `tattooPlek=${tattooPlek || ''}`,
+      `woonplaats=${woonplaats || ''}`
+    ].join('&');
+
+    // Redirect naar /index met queryparameters
+    res.redirect(`/index?${queryParams}`);
+  } catch (error) {
+    console.error("Fout bij het verwerken van het formulier:", error);
+    res.status(500).send("Er is een fout opgetreden bij het verwerken van de gegevens.");
+  }
 });
 
 app.post('/save-answers', async (req, res) => {
