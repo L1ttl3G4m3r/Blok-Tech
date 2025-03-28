@@ -10,17 +10,17 @@
     <main>
      <section class="post-section">
 
-        <form class=post-form id="postForm" enctype="multipart/form-data">
+        <form class=post-form id="postForm" enctype="multipart/form-data" method="POST">
             <div class="upload-container">
                 <input type="file" id="photoInput" name="photo" accept="image/*" style="display: none;">
                 <div class="image-placeholder">
-                    <img src="/static/icons/image-placeholder.svg" alt="Afbeelding toevoegen" id="imagePreview">
+                    <img src="/static/icons/normal/Photo.svg" alt="Afbeelding toevoegen" id="imagePreview">
                     <p>Klik om een afbeelding toe te voegen</p>
                 </div>
             </div>
 
             <div class="description-container">
-                <label for="description">Beschrijving</label>
+                <label for="description">Bericht</label>
                 <textarea id="description" name="description" rows="4" cols="50"></textarea>
             </div>
 
@@ -34,7 +34,7 @@
 
 
             <div class="studio-search-container">
-                <label for="searchInput">Tattoo Studio zoeken</label>
+                <label for="searchInput">Tattoo Studio</label>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Zoek een studio...">
                     <ul id="searchResults"></ul>
@@ -47,7 +47,7 @@
               <input type="hidden" id="studioLng" name="studioLng">
           </div>
 
-            <button class="post-button" type="submit">Post Toevoegen</button>
+            <button class="button-cta" type="submit">Post Toevoegen</button>
         </form>
       </section>
     </main>
