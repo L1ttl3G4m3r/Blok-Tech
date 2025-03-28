@@ -561,6 +561,7 @@ input {
 .button-group {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-direction: column;
   margin-top: 1em;
 }
