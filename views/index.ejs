@@ -31,7 +31,7 @@
             </div>
             <% } else { %>
             <!-- Als er voorkeuren zijn, toon de carousel met tattoos -->
-            <%- include('partials/carousel', { styles: userPreferences.preferences.tattooStijl }) %>
+            <%- include('partials/carousel', { styles: userPreferences.preferences.tattooStijl, colors: userPreferences.preferences.tattooKleur, tattooPlek: userPreferences.preferences.tattooPlek, woonplaats: userPreferences.preferences.woonplaats }) %>
             <% } %>
         </section>
     </section>
