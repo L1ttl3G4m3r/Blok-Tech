@@ -537,13 +537,13 @@ li.artist-item {
 /* forms login/register */
 /****************/
 h2.form-heading {
-  align-self: flex-start;
+  text-align: center;
   margin-bottom: 1em;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 .form-container {
   margin: 0 auto;
-  padding: 2em;
+  width: 80%;
 }
 .formgroup {
   display: flex;
@@ -839,7 +839,7 @@ input[type="radio"]:checked::before {
   gap: 1em;
 
 }
-.post-form label {
+.post-form label, .formgroup label {
   font-weight: 300;
 }
 .upload-container,

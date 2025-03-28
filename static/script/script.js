@@ -7,11 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
       photoOptionsMenu: document.getElementById('photoOptionsMenu'),
       closePhotoMenu: document.getElementById('closePhotoMenu'),
       form: document.getElementById('updateProfileForm'),
+
       editButton: document.getElementById('editButton'),
       saveButton: document.getElementById('saveButton'),
       usernameInput: document.getElementById('username'),
       emailInput: document.getElementById('email'),
-      passwordInput: document.getElementById('password')
+      passwordInput: document.getElementById('password'),
+      studioName: document.getElementById('studioname'),
+      studioAddres: document.getElementById('studioAddres'),
   };
 
   // Navigatie actief maken
@@ -45,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
       elements.emailInput.disabled = false;
       elements.passwordInput.disabled = false;
       elements.saveButton.disabled = false;
+      elements.studioName.disabled = false;
+      elements.studioAddres.disabled = false;
   });
 
   elements.form?.addEventListener('submit', function(event) {
