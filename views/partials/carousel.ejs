@@ -1,24 +1,22 @@
 <swiper-container class="mySwiper" space-between="30" slides-per-view="auto" pagination="true" pagination-clickable="true">
   <!-- Zelfgemaakte posts -->
-  <% if (styles.includes('zelfgemaakt')) { %>
   <swiper-slide>
-      <h3>Zelfgemaakte Tattoo's</h3>
-      <p>Bekijk unieke tatoeages die door onze gebruikers zijn gedeeld.</p>
-      <div class="post-gallery">
-          <% if (posts && posts.length > 0) { %>
-              <% posts.forEach(post => { %>
-                  <div class="post">
-                      <img src="<%= post.imageUrl %>" alt="<%= post.title %>">
-                      <h4><%= post.title %></h4>
-                      <p><%= post.description %></p>
-                  </div>
-              <% }) %>
-          <% } else { %>
-              <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
-          <% } %>
-      </div>
-  </swiper-slide>
-  <% } %>
+    <h3>Zelfgemaakte Tattoo's</h3>
+    <p>Bekijk unieke tatoeages die door onze gebruikers zijn gedeeld.</p>
+    <div class="post-gallery">
+        <% if (posts && posts.length > 0) { %>
+            <% posts.forEach(post => { %>
+                <div class="post">
+                    <img src="<%= post.imageUrl %>" alt="<%= post.title %>">
+                    <h4><%= post.title %></h4>
+                    <p><%= post.description %></p>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
+        <% } %>
+    </div>
+</swiper-slide>
 
   <% if (styles.includes('natuur')) { %>
   <swiper-slide>
