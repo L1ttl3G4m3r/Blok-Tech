@@ -878,6 +878,7 @@ input[type="radio"]:checked::before {
   height: 110vh; /* Zorgt ervoor dat de sectie de volledige hoogte van het scherm beslaat */
 }
 
+
 .post-form {
   border-radius: 0.5em;
   display: flex;
@@ -1046,3 +1047,74 @@ section.gerelateerdeContent ul {
   display: flex;
   justify-content: space-between;
 }
+
+/***************/
+/* micropagina */
+/***************/
+section.microDetail {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: .5fr .5fr .5fr .5fr .5fr .5fr;
+  margin: 2em;
+  /* gap: 1em; */
+  column-gap: .5em;
+}
+
+section.microDetail img {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 4;
+
+  width: 100%;
+  height: auto;
+}
+
+section.microDetail > a {
+  grid-column-start: 2;
+  grid-row-start: 3;
+}
+
+section.microDetail ul:first-of-type {
+  grid-row-start: 4;
+  grid-column-start: 1;
+  grid-column-end: -1;
+}
+
+section.microDetail h2:last-of-type {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 5;
+}
+
+section.microDetail ul:last-of-type {
+  grid-row-start: 6;
+  grid-column-start: 1;
+  grid-column-end: -1;
+}
+
+section.microDetail ul {
+  display: flex;
+  gap: 1.5em;
+}
+
+section.uitlegAfbeelding {
+  margin-left: 2em;
+  margin-right: 2em;
+  border: 2px solid var(--color-text);
+  border-radius: 1em;
+  padding: 1em;
+}
+
+.microNav ul {
+  display: flex;
+  /* justify-content: space-evenly; */
+  gap: 8em;
+  margin-left: 2em;
+}
+
+.microNav img {
+  width: 30px;
+  height: auto;
+}
+
