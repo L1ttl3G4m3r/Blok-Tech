@@ -30,6 +30,7 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs').set('views', 'views');
+app.use('/uploads', express.static('uploads'));
 app.use("/static", express.static("static"));
 app.use(cors());
 app.use(session({
@@ -654,6 +655,21 @@ app.get('/carouselDetail', async (req, res) => {
   }
 });
 
+app.get('/selfmadeDetail', async (req, res) => {
+  try {
+      const postsCollection = db.collection('posts');
+      const selfmadePosts = await postsCollection.find().toArray(); // Alle posts ophalen
+
+      res.render('selfmadeDetail.ejs', {
+          pageTitle: 'Zelfgemaakte Tattoo’s',
+          posts: selfmadePosts
+      });
+  } catch (error) {
+      console.error("Error fetching selfmade posts:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de zelfgemaakte tattoo’s.");
+  }
+});
+
 app.get('/detailpagina', (req, res) => {
   const imageUrl = req.query.image; // Ophalen van de URL van de afbeelding
   if (!imageUrl) {
@@ -668,6 +684,23 @@ app.get('/detailpagina', (req, res) => {
 
 app.get('/detail/:id', isAuthenticated, (req, res) => {
     res.render('detailpagina', { id: req.params.id, pageTitle: 'Detailpagina' });
+});
+
+app.get('/detailpagina/:id', async (req, res) => {
+  try {
+      const postsCollection = db.collection('posts');
+      const { ObjectId } = require('mongodb');
+      const post = await postsCollection.findOne({ _id: new ObjectId(req.params.id) });
+
+      if (!post) {
+          return res.status(404).send("Post niet gevonden");
+      }
+
+      res.render('detailpagina.ejs', { post });
+  } catch (error) {
+      console.error("Error fetching post:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de detailpagina.");
+  }
 });
 
 app.get('/preview', isAuthenticated, (req, res) => {
