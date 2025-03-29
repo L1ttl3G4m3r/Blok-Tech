@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const xss = require('xss');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
@@ -29,13 +30,23 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs').set('views', 'views');
+app.use('/uploads', express.static('uploads'));
 app.use("/static", express.static("static"));
 app.use(cors());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    store: MongoStore.create({
+        mongoUrl: process.env.URI,  // Gebruik je MongoDB URI
+        dbName: process.env.DB_NAME, // Specificeer de databasenaam
+        collectionName: 'sessions' // Specificeer de collectienaam (optioneel, standaard 'sessions')
+    }),
+    cookie: {
+        secure: false, // true in productie met HTTPS
+        httpOnly: true, // Beschermt de cookie tegen toegang via client-side script
+        maxAge: 1000 * 60 * 60 * 24 // Cookie verloopt na 1 dag
+    }
 }));
 
 // Database Connection
@@ -108,57 +119,128 @@ async function fetchUnsplashImages(query, count = 30, sortBy = 'relevant') {
 
 // Routes
 app.get('/', async (req, res) => {
-    try {
-        const imageUrls = await fetchUnsplashImages('tattoo', 30, 'relevant');
-        res.render("begin.ejs", { imageUrls: imageUrls, currentSort: 'relevant' ,  pageTitle: 'Home'});
-    } catch (error) {
-        console.error("Error in home route:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
-    }
+  try {
+      const imageUrls = await fetchUnsplashImages('tattoo', 30, 'relevant');
+      res.render("begin.ejs", { imageUrls: imageUrls, currentSort: 'relevant', pageTitle: 'Home' });
+  } catch (error) {
+      console.error("Error in home route:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de startpagina");
+  }
 });
 
 app.get('/index', isAuthenticated, async (req, res) => {
-    try {
-        const sortBy = req.query.sort_by || 'relevant';
-        const styles = req.query.styles ? req.query.styles.split(',') : [];
-        const colors = req.query.colors || '';
+  try {
+      const usersCollection = db.collection('users');
+      const artistsCollection = db.collection('artists');
 
-        let query = 'tattoo';
+      if (!db) throw new Error("Database connection is not established");
 
-        if (styles.length > 0) {
-            const styleQueries = styles.map(style => {
-                switch (style) {
-                    case 'classic': return 'classic tattoo';
-                    case 'realistic': return 'realistic tattoo';
-                    case 'modern': return 'modern tattoo';
-                    case 'minimalistic': return 'minimalistic tattoo';
-                    case 'cultural': return 'cultural tattoo';
-                    case 'cartoon': return 'cartoon tattoo';
-                    case 'old': return 'old tattoo';
-                    default: return 'tattoo';
-                }
-            });
-            query = styleQueries.join(' ');
-        }
+      let user = null;
+      let collectionName = 'users';
 
-        if (colors === 'black_and_white') {
-            query += ' black and white tattoo';
-        } else if (colors === 'color') {
-            query += ' colorful tattoo';
-        }
+      try {
+          const { ObjectId } = require('mongodb');
+          user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
+      } catch (error) {
+          console.log("Error fetching user from users collection:", error);
+      }
 
-        const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
-        res.render('index.ejs', {
-            pageTitle: 'Home',
-            username: req.session.username,
-            gridImages: imageUrls,
-            currentSort: sortBy,
-            isArtist: req.session.isArtist
-        });
-    } catch (error) {
-        console.error("Error fetching images for index:", error);
-        res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
-    }
+      if (!user) {
+          try {
+              const { ObjectId } = require('mongodb');
+              user = await artistsCollection.findOne({ _id: new ObjectId(req.session.userId) });
+              collectionName = 'artists';
+          } catch (error) {
+              console.log("Error fetching user from artists collection:", error);
+          }
+      }
+
+      if (!user) throw new Error("User not found");
+
+      const postsCollection = db.collection('posts');
+
+      const sortBy = req.query.sort_by || 'relevant';
+      const styles = req.session.userPreferences?.tattooStijl || [];
+      const colors = req.query.colors || '';
+      const tattooPlek = req.query.tattooPlek || '';
+      const woonplaats = req.query.woonplaats || '';
+
+      console.log("Query parameters:", { styles, colors, tattooPlek, woonplaats });
+
+      let query = 'tattoo';
+
+      if (styles.length > 0) {
+          const styleQueries = styles.map(style => {
+              switch (style) {
+                  case 'classic': return 'classic tattoo';
+                  case 'realistic': return 'realistic tattoo';
+                  case 'modern': return 'modern tattoo';
+                  case 'minimalistic': return 'minimalistic tattoo';
+                  case 'cultural': return 'cultural tattoo';
+                  case 'cartoon': return 'cartoon tattoo';
+                  case 'old': return 'old tattoo';
+                  default: return 'tattoo';
+              }
+          });
+          query = styleQueries.join(' ');
+      }
+
+      if (colors === 'black_and_white') {
+          query += ' black and white tattoo';
+      } else if (colors === 'color') {
+          query += ' colorful tattoo';
+      }
+
+      console.log("Unsplash query:", query);
+
+      const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
+      console.log("Fetched Unsplash images:", imageUrls);
+
+      let filteredPosts = await postsCollection.find().toArray();
+      if (user?.tattooStijl) {
+          filteredPosts = filteredPosts.filter(post => user.tattooStijl.includes(post.style));
+      }
+
+      console.log("Filtered posts:", filteredPosts);
+
+      res.render('index.ejs', {
+          pageTitle: 'Home',
+          username: req.session.username,
+          gridImages: imageUrls,
+          currentSort: sortBy,
+          isArtist: req.session.isArtist,
+          posts: filteredPosts,
+          userPreferences: user || {},
+          styles,
+          colors,
+          tattooPlek,
+          woonplaats
+      });
+
+  } catch (error) {
+      console.error("Error fetching images for index:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de homepagina");
+  }
+});
+
+app.post('/index', isAuthenticated, async (req, res) => {
+  try {
+      const { tattooStijl, tattooKleur, tattooPlek, woonplaats } = req.body;
+
+      // Formatteer de antwoorden als queryparameters
+      const queryParams = [
+          `styles=${tattooStijl ? tattooStijl.join(',') : ''}`,
+          `colors=${tattooKleur || ''}`,
+          `tattooPlek=${tattooPlek || ''}`,
+          `woonplaats=${woonplaats || ''}`
+      ].join('&');
+
+      console.log("Redirecting with query params:", queryParams);  // Toevoegen van logging
+      res.redirect(`/index?${queryParams}`);
+  } catch (error) {
+      console.error("Error processing form data:", error);  // Gedetailleerdere logging
+      res.status(500).send("Er is een fout opgetreden bij het verwerken van de gegevens");
+  }
 });
 
 // Registration Route
@@ -207,7 +289,7 @@ app.post('/register', async (req, res) => {
 
         const result = await collection.insertOne(newUser);
 
-        req.session.userId = result.insertedId;
+        req.session.userId = result.insertedId.toString();
         req.session.username = sanitizedUsername;
         req.session.email = email;
 
@@ -298,7 +380,7 @@ app.post('/registerArtists', async (req, res) => {
       const result = await collection.insertOne(newArtist);
 
       // Optioneel: Automatisch inloggen na registratie
-      req.session.userId = result.insertedId;
+      req.session.userId = result.insertedId.toString();
       req.session.username = sanitizedUsername;
       req.session.email = email;
       req.session.isArtist = true;
@@ -332,7 +414,7 @@ app.post('/log-in', async (req, res) => {
 
       // Controleer eerst het wachtwoord voor 'users'
       if (user && await bcrypt.compare(password, user.password)) {
-          req.session.userId = user._id;
+          req.session.userId = user._id.toString();
           req.session.username = user.username;
           req.session.email = user.email;
           req.session.isArtist = false;
@@ -342,7 +424,7 @@ app.post('/log-in', async (req, res) => {
       // Zo niet, zoek in 'artists' collectie
       user = await artistsCollection.findOne({ email });
       if (user && await bcrypt.compare(password, user.password)) {
-          req.session.userId = user._id;
+          req.session.userId = user._id.toString();
           req.session.username = user.username;
           req.session.email = user.email;
           req.session.isArtist = true;
@@ -355,17 +437,6 @@ app.post('/log-in', async (req, res) => {
       console.error("Login error:", error);
       res.status(500).send("Er is een fout opgetreden bij het inloggen");
   }
-});
-
-// Other Routes
-app.get('/profiel', isAuthenticated, (req, res) => {
-    res.render('profiel.ejs', { pageTitle: 'Profiel' });
-});
-
-
-app.get('/post', isAuthenticated, (req, res) => {
-    const mapboxToken = process.env.MAPBOX_TOKEN; // Zorg ervoor dat MAPBOX_TOKEN is ingesteld in je .env bestand
-    res.render('post.ejs', { pageTitle: 'Post', mapboxToken: mapboxToken });
 });
 
 app.post('/submit-post', isAuthenticated, upload.single('photo'), async (req, res) => {
@@ -455,12 +526,181 @@ app.get('/artiest/:id', isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/zie-alle', isAuthenticated, (req, res) => {
-    res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
+app.get('/questionnaire', isAuthenticated, (req, res) => {
+  const styles = req.session.userPreferences ? req.session.userPreferences.tattooStijl : [];
+  const colors = req.session.userPreferences ? req.session.userPreferences.tattooKleur : '';
+  const tattooPlek = req.session.userPreferences ? req.session.userPreferences.tattooPlek : [];
+  const woonplaats = req.session.userPreferences ? req.session.userPreferences.woonplaats : [];
+
+  res.render('questionnaire.ejs', {
+    pageTitle: 'Vragenlijst',
+    styles: styles,
+    colors: colors,
+    tattooPlek: tattooPlek,
+    woonplaats: woonplaats
+  });
+});
+
+app.post('/questionnaire', isAuthenticated, (req, res) => {
+  const { tattooStijl, tattooKleur, tattooPlek, woonplaats } = req.body;
+
+  // Sla de antwoorden op in de sessie
+  req.session.userPreferences = {
+    tattooStijl: Array.isArray(tattooStijl) ? tattooStijl : [tattooStijl],
+    tattooKleur: tattooKleur || '',
+    tattooPlek: tattooPlek || '',
+    woonplaats: woonplaats || ''
+  };
+
+  // Redirect naar de index pagina met query parameters
+  const queryParams = new URLSearchParams({
+    styles: req.session.userPreferences.tattooStijl.join(','),
+    colors: req.session.userPreferences.tattooKleur,
+    tattooPlek: req.session.userPreferences.tattooPlek,
+    woonplaats: req.session.userPreferences.woonplaats
+  });
+
+  res.redirect(`/index?${queryParams.toString()}`);
+});
+
+app.post('/save-answers', async (req, res) => {
+  // Controleer of de gebruiker ingelogd is via de sessie
+  if (!req.session.userId) {
+      console.log("Geen ingelogde gebruiker gevonden in de sessie.");
+      return res.status(401).send('Je moet ingelogd zijn om je voorkeuren op te slaan.');
+  }
+
+  // Verkrijg de gegevens van het formulier
+  const { tattooStijl, tattooKleur, tattooPlek, woonplaats } = req.body;
+
+  console.log("Antwoorden ontvangen:", req.body); // Dit zal helpen bij debugging om te controleren of de antwoorden goed binnenkomen
+
+  try {
+      // Verkrijg de users collectie
+      const usersCollection = db.collection('users'); // Aangezien de gebruikers in de 'users' collectie staan
+
+      // Update de voorkeuren van de gebruiker in de database
+      const updateResult = await usersCollection.updateOne(
+          { _id: new ObjectId(req.session.userId) }, // Voeg 'new' toe om een ObjectId te maken
+          {
+              $set: {
+                  preferences: {
+                      tattooStijl: Array.isArray(tattooStijl) ? tattooStijl : [tattooStijl], // Controleer of tattooStijl een array is (voor checkboxes)
+                      tattooKleur,
+                      tattooPlek,
+                      woonplaats
+                  }
+              }
+          }
+      );
+
+      // Controleer of de update is gelukt
+      if (updateResult.modifiedCount > 0) {
+          console.log("Gebruiker geüpdatet met voorkeuren:", updateResult);
+          res.redirect('/index'); // Redirect naar de gewenste pagina (bijvoorbeeld de homepage)
+      } else {
+          res.status(404).send('Geen gebruiker gevonden om bij te werken.');
+      }
+  } catch (err) {
+      console.error("Fout bij opslaan:", err);
+      res.status(500).send('Er is een fout opgetreden bij het opslaan van je voorkeuren.');
+  }
+});
+
+
+// Route voor het tonen van tattoos in de 'classic' categorie
+app.get('/tattoos/:category', async (req, res) => {
+  try {
+      const category = req.params.category;
+      const postsCollection = db.collection('posts');
+
+      // Zoek naar posts die overeenkomen met de categorie
+      const categoryPosts = await postsCollection.find({ category: category }).toArray();
+
+      // Render de pagina voor deze categorie met de gevonden posts
+      res.render('category.ejs', {
+          pageTitle: `${category.charAt(0).toUpperCase() + category.slice(1)} Tattoos`,
+          posts: categoryPosts
+      });
+  } catch (error) {
+      console.error("Error fetching category tattoos:", error);
+      res.status(500).send("Er is een fout opgetreden bij het ophalen van de tattoo categorie.");
+  }
+});
+
+app.get('/carouselDetail', async (req, res) => {
+  try {
+      const category = req.query.category;
+      if (!category) {
+          return res.status(400).send("Categorie niet gespecificeerd");
+      }
+
+      console.log("Categorie ontvangen:", category); // Debugging
+
+      const query = `tattoo ${category}`;
+      console.log("Fetching images for:", query);
+
+      const imageUrls = await fetchUnsplashImages(query, 30, 'relevant');
+      console.log("Fetched Unsplash images:", imageUrls.length);
+
+      res.render('carouselDetail.ejs', {
+          pageTitle: `${category} Tattoos`,
+          category,
+          imageUrls
+      });
+
+  } catch (error) {
+      console.error("Fout bij laden van de detailpagina:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de detailpagina.");
+  }
+});
+
+app.get('/selfmadeDetail', async (req, res) => {
+  try {
+      const postsCollection = db.collection('posts');
+      const selfmadePosts = await postsCollection.find().toArray(); // Alle posts ophalen
+
+      res.render('selfmadeDetail.ejs', {
+          pageTitle: 'Zelfgemaakte Tattoo’s',
+          posts: selfmadePosts
+      });
+  } catch (error) {
+      console.error("Error fetching selfmade posts:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de zelfgemaakte tattoo’s.");
+  }
+});
+
+app.get('/detailpagina', (req, res) => {
+  const imageUrl = req.query.image; // Ophalen van de URL van de afbeelding
+  if (!imageUrl) {
+      return res.status(400).send("Geen afbeelding gespecificeerd");
+  }
+
+  res.render('detailpagina.ejs', {
+      pageTitle: 'Tattoo Detail',
+      imageUrl
+  });
 });
 
 app.get('/detail/:id', isAuthenticated, (req, res) => {
     res.render('detailpagina', { id: req.params.id, pageTitle: 'Detailpagina' });
+});
+
+app.get('/detailpagina/:id', async (req, res) => {
+  try {
+      const postsCollection = db.collection('posts');
+      const { ObjectId } = require('mongodb');
+      const post = await postsCollection.findOne({ _id: new ObjectId(req.params.id) });
+
+      if (!post) {
+          return res.status(404).send("Post niet gevonden");
+      }
+
+      res.render('detailpagina.ejs', { post });
+  } catch (error) {
+      console.error("Error fetching post:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de detailpagina.");
+  }
 });
 
 app.get('/preview', isAuthenticated, (req, res) => {
