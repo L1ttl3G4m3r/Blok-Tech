@@ -17,9 +17,15 @@ const port = process.env.PORT || 9000;
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    // Controleer of de upload een profielfoto is en sla deze op in de juiste map
+    if (file.fieldname === "photo") {
+      cb(null, "profile-photos/");  // Profielfoto's gaan naar de 'profile-photos/' map
+    } else {
+      cb(null, "uploads/");  // Andere bestanden gaan naar de 'uploads/' map
+    }
   },
   filename: (req, file, cb) => {
+    // Gebruik een unieke naam voor elk bestand, gebaseerd op de timestamp
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
@@ -31,6 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs").set("views", "views");
 app.use("/uploads", express.static("uploads"));
+app.use('/profile-photos', express.static('profile-photos'));
 app.use("/static", express.static("static"));
 app.use(cors());
 app.use(
@@ -463,7 +470,7 @@ app.post("/log-in", async (req, res) => {
 
     user = await artistsCollection.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
-      req.session.userId = user._id.toString();
+      req.session.userId = userId.toString();
       req.session.username = user.username;
       req.session.email = user.email;
       req.session.isArtist = true;
@@ -868,9 +875,31 @@ app.get("/collectie-bezoeker", isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/profiel', (req, res) => {
-  const user = req.session.user || {};
-  res.render('profiel.ejs', { pageTitle: 'Profiel', user });
+app.get('/profiel', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/login');
+  }
+
+  // Haal de meest recente gebruiker op uit de database
+  const usersCollection = db.collection("users");
+  const user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
+
+  // Zorg dat er een standaard foto wordt gebruikt als er geen profielfoto is
+  const profilePhoto = user?.profilePhoto || "/static/icons/profile/avatar-stock.svg";
+
+  // Update de sessie met de juiste profielfoto
+  req.session.profilePhoto = profilePhoto;
+
+  res.render('profiel.ejs', {
+    pageTitle: 'Profiel',
+    user: {
+      userId: req.session.userId,
+      username: req.session.username || 'Gast',
+      email: req.session.email || '',
+      isArtist: req.session.isArtist || false,
+      profilePhoto: req.session.profilePhoto
+    }
+  });
 });
 
 app.get('/post', isAuthenticated, (req, res) => {
@@ -929,6 +958,31 @@ try {
     console.error('Fout bij het opslaan van de post:', error);
     return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
 }
+});
+
+app.post("/upload-photo", upload.single("photo"), async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).send("Niet geautoriseerd");
+    }
+
+    const newProfilePhoto = `/profile-photos/${req.file.filename}`;
+
+    // Update de profielfoto in de database
+    const usersCollection = db.collection("users");
+    await usersCollection.updateOne(
+      { _id: new ObjectId(req.session.userId) },
+      { $set: { profilePhoto: newProfilePhoto } }
+    );
+
+    // Update de sessie met de nieuwe profielfoto
+    req.session.profilePhoto = newProfilePhoto;
+
+    res.json({ success: true, photoUrl: newProfilePhoto });
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    res.status(500).send("Fout bij uploaden van de foto");
+  }
 });
 
 // Error Handling
