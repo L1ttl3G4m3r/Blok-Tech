@@ -868,6 +868,69 @@ app.get("/collectie-bezoeker", isAuthenticated, async (req, res) => {
   }
 });
 
+app.get('/profiel', (req, res) => {
+  const user = req.session.user || {};
+  res.render('profiel.ejs', { pageTitle: 'Profiel', user });
+});
+
+app.get('/post', isAuthenticated, (req, res) => {
+  const mapboxToken = process.env.MAPBOX_TOKEN; // Zorg ervoor dat MAPBOX_TOKEN is ingesteld in je .env bestand
+  res.render('post.ejs', { pageTitle: 'Post', mapboxToken: mapboxToken });
+});
+
+app.post('/submit-post', isAuthenticated, upload.single('photo'), async (req, res) => {
+try {
+    const collection = db.collection('posts');
+
+    // Controleer of een bestand is geüpload
+    const photoPath = req.file ? `/uploads/${req.file.filename}` : null;
+
+    // Valideer de aanwezigheid van verplichte velden
+    if (!req.body.description || !req.body.studioName || !req.body.studioAddress) {
+        return res.status(400).json({ success: false, message: 'Beschrijving, studionaam en adres zijn verplicht.' });
+    }
+
+    // Parse de tags, zorg ervoor dat het een array is
+    let tags = [];
+    try {
+        tags = req.body.tags ? req.body.tags.split(',') : [];
+        // Verwijder lege strings en trim de tags
+        tags = tags.map(tag => tag.trim()).filter(tag => tag !== '');
+    } catch (error) {
+        console.error('Fout bij het verwerken van tags:', error);
+        return res.status(400).json({ success: false, message: 'Ongeldige tags format.' });
+    }
+
+    // Data opslaan in MongoDB
+    const newPost = {
+        description: xss(req.body.description),
+        tags: tags.map(tag => xss(tag)),
+        studio: {
+            name: xss(req.body.studioName),
+            address: xss(req.body.studioAddress),
+            lat: parseFloat(req.body.studioLat),
+            lng: parseFloat(req.body.studioLng)
+        },
+        photo: photoPath,
+        createdAt: new Date(),
+        userId: req.session.userId
+    };
+
+    const result = await collection.insertOne(newPost);
+
+    if (result.acknowledged) {
+        return res.status(200).json({ success: true, message: 'Post succesvol toegevoegd' });
+    } else {
+        console.error('Fout bij het toevoegen van de post aan de database');
+        return res.status(500).json({ success: false, message: 'Fout bij het toevoegen van de post aan de database' });
+    }
+
+} catch (error) {
+    console.error('Fout bij het opslaan van de post:', error);
+    return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
+}
+});
+
 // Error Handling
 app.use((req, res) => {
   res.status(404).send("404 - Pagina niet gevonden");
