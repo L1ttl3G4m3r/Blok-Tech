@@ -664,6 +664,10 @@ section.profile-section {
   display: flex;
   align-items: center;
 }
+.icon-text-container button {
+  border: none;
+  background: none;
+}
 .close-button-profile {
   position: absolute;
   top: 1em;
