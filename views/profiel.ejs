@@ -9,13 +9,24 @@
       <section class="profile-section">
         <%- include('partials/profile-photo') %>
         <%- include('partials/upload-photo') %>
-        <%- include('partials/profile-data') %>
-        <%- include('partials/profile-data-artist') %>
+
+        <div id="profileData" data-role="visitor">
+          <% if (!isArtist) { %>
+            <%- include('partials/profile-data') %>
+          <% } %>
+        </div>
+        <div id="profileDataArtist" data-role="artist">
+          <% if (isArtist) { %>
+            <%- include('partials/profile-data-artist') %>
+          <% } %>
+        </div>
+
       </section>
     </main>
     <footer>
       <%- include('partials/nav') %>
     </footer>
+    <script>window.userRole = "<%= user.role %>";</script>
   <script src="/static/script/script.js"></script>
   </body>
 </html>
