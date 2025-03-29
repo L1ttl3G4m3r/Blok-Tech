@@ -505,6 +505,33 @@ app.get('/search-artists', isAuthenticated, async (req, res) => {
     }
 });
 
+app.get('/collectie-bezoeker', isAuthenticated, async (req, res) => {
+  try {
+      const collection = db.collection('users');
+      const user = await collection.findOne({ _id: new ObjectId(req.session.userId) });
+
+      let userImages = []; // Initialize an empty array
+
+      if (user && user.userImages && Array.isArray(user.userImages)) {
+          // Check if user exists, has userImages, and it's an array
+          userImages = user.userImages;
+      } else {
+          console.warn(`No userImages array found for user ${req.session.userId}`);
+      }
+
+      res.render('collectie-bezoeker.ejs', {
+          pageTitle: 'Collectie Bezoeker',
+          username: req.session.username,
+          userImages: userImages, // Pass the array of image URLs
+      });
+  } catch (error) {
+      console.error("Error fetching user's images:", error);
+      res.status(500).send("An error occurred while loading the page.");
+  }
+});
+
+
+
 // Error Handling
 app.use((req, res) => {
     res.status(404).send('404 - Pagina niet gevonden');
