@@ -2,7 +2,7 @@
   <% artists.forEach(artist => { %>
     <li class="artist-item">
       <div class="artist-image">
-        <img src="<%= artist.image %>" alt="<%= artist.username %>">
+        <img src="<%= artist.image || 'static/icons/profile/avatar-stock.svg' %>" alt="<%= artist.username %>">
       </div>
       <h4 class="artist-name"><%= artist.username %></h4>
     </li>

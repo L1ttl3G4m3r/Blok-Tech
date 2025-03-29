@@ -122,6 +122,10 @@ section.search {
   justify-content: space-between;
   margin: 0 1.5em 1.5em 0.5em;
 }
+section.search-artists {
+  display: flex;
+  justify-content: center;
+}
 
 input[type="search"] {
   width: 20em;
