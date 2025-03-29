@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const isArtist = window.userRole === 'artist'; // Dit kan worden ingesteld door de server
 
   // Selecteer de elementen
-  const profileData = document.querySelector('#profile-data');
-  const profileDataArtist = document.querySelector('#profile-data-artist');
+  const profileData = document.querySelector('#profileData');
+  const profileDataArtist = document.querySelector('#profileDataArtist');
 
   // Toon/verberg op basis van de rol
   if (isArtist) {

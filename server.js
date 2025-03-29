@@ -455,10 +455,6 @@ app.get('/artiest/:id', isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/zie-alle', isAuthenticated, (req, res) => {
-    res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
-});
-
 app.get('/detail/:id', isAuthenticated, (req, res) => {
     res.render('detailpagina', { id: req.params.id, pageTitle: 'Detailpagina' });
 });
