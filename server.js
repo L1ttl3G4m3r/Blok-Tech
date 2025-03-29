@@ -526,7 +526,6 @@ app.get('/artiest/:id', isAuthenticated, async (req, res) => {
   }
 });
 
-
 app.get('/questionnaire', isAuthenticated, (req, res) => {
   const styles = req.session.userPreferences ? req.session.userPreferences.tattooStijl : [];
   const colors = req.session.userPreferences ? req.session.userPreferences.tattooKleur : '';

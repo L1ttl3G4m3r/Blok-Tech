@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body>
+    <header><%- include('partials/header') %></header>
+    <main>
+      <section class="intro">
+        <h1>Inspiration for your tattoo</h1>
+      </section>
+
+      <section class="search"><%- include('partials/searchbar') %></section>
+      <section class="filtersorting">
+        <%- include('partials/sorting') %>
+        <%- include('partials/filter') %>
+      </section>
+
+      <section class="carousel-section">
+        <div class="textcontainer">
+          <h2>Unieke ideeën</h2>
+          <a href="" alt="">Zie alle</a>
+        </div>
+
+        <section class="carousel" id="tattoo-carousel">
+          <% if (!locals.userTags) { %>
+            <div class="zero-state">
+              <h3>Geen gepersonaliseerde tattoo's gevonden. Vul de vragenlijst in voor suggesties.</h3>
+              <a href="/questionnaire" class="preference-button">Naar vragenlijst</a>
+            </div>
+          <% } else { %>
+            <%- include('partials/carousel') %>
+          <% } %>
+        </section>
+      </section>
+
+      <section class="tattoo-grid" id="tattoo-grid">
+
+        <% if (gridImages && gridImages.length > 0) { %>
+          <% gridImages.forEach(image => { %>
+              <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo Image' %>" data-id="<%= image.id %>">
+          <% }) %>
+      <% } else { %>
+          <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
+      <% } %>
+
+      </section>
+
+
+
+
+    </main>
+
+    <footer>
+      <%- include('partials/nav') %>
+    </footer>
+
+    <script src="/static/script/script.js"></script>
+  </body>
+</html>

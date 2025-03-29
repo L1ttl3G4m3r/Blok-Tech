@@ -9,17 +9,7 @@
       <section class="intro">
         <h1>Inspiration for your tattoo</h1>
       </section>
-
-      <section class="search"><%- include('partials/searchbar') %></section>
-      <section class="filtersorting">
-        <%- include('partials/sorting') %> <%- include('partials/filter') %>
-      </section>
-
       <section class="carousel-section">
-        <div class="textcontainer">
-    <h2>Unieke ideeën</h2>
-        </div>
-
         <section class="carousel" id="tattoo-carousel">
             <% if (!userPreferences || !userPreferences.preferences || !userPreferences.preferences.tattooStijl || userPreferences.preferences.tattooStijl.length === 0) { %>
             <!-- Als er geen voorkeuren zijn, toon de boodschap en de knop naar de vragenlijst -->
@@ -35,6 +25,14 @@
             <% } %>
         </section>
     </section>
+      <section class="filtersorting">
+      <%- include('partials/sorting') %>
+    </section>
+    <section class="search">
+      <%- include('partials/searchbar') %>
+      <%- include('partials/filter') %>
+    </section>
+
 
       <section class="tattoo-grid" id="tattoo-grid">
         <% if (gridImages && gridImages.length > 0) { %> <%

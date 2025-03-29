@@ -119,12 +119,12 @@ footer {
 /****************/
 section.search {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin-bottom: 1.5em;
 }
 
 input[type="search"] {
-  width: 22em;
+  width: 20em;
   padding: 0 2.5em;
   height: 3em;
   font-size: 1em;
@@ -169,9 +169,9 @@ input[type="search"] {
 /****************/
 section.filtersorting {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  padding: 0 1em;
+  margin: 0 0.5em;
 }
 nav {
   padding: 0 1.2em;
@@ -248,9 +248,11 @@ nav {
   margin-top: 1em;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1em;
 }
+.radio-container {
 
+}
 .checkbox-container label {
   display: flex;
   align-items: center;
@@ -261,6 +263,7 @@ nav {
   margin-right: 2em;
   width: 20px;
   height: 20px;
+  background-color: var(--color-text);
 }
 
 .checkbox-checked {
@@ -274,6 +277,7 @@ nav {
   color: var(--color-text);
   font-family: var(--main-font);
   font-size: 1em;
+
 }
 
 /****************/
