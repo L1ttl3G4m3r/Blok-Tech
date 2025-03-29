@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= pageTitle %></title>
+</head>
+<body>
+    <h1>Welcome, <%= username %>!</h1>
+
+    <div class="user-images">
+        <h2>Your Images:</h2>
+        <% if (userImages && userImages.length > 0) { %>
+            <% userImages.forEach(function(imageUrl) { %>
+                <img src="<%= imageUrl %>" alt="User Image" width="200">
+            <% }); %>
+        <% } else { %>
+            <p>No images available.</p>
+        <% } %>
+    </div>
+</body>
+</html>
+
