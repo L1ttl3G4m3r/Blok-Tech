@@ -182,6 +182,7 @@ nav {
 #filterButton {
   cursor: pointer;
   background-color: var(--color-background);
+  border: none;
 }
 #filterButton img {
   width: 3em;
