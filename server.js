@@ -627,27 +627,43 @@ app.get('/tattoos/:category', async (req, res) => {
   }
 });
 
-// Zorg ervoor dat je de juiste databaseverbinding en collections hebt
 app.get('/carouselDetail', async (req, res) => {
   try {
-      // Haal de categorie op uit de querystring (bijvoorbeeld 'natuur')
-      const category = req.query.category || '';
-      const postsCollection = db.collection('posts');
+      const category = req.query.category;
+      if (!category) {
+          return res.status(400).send("Categorie niet gespecificeerd");
+      }
 
-      // Haal de posts voor deze categorie op uit de database
-      const posts = await postsCollection.find({ style: category }).toArray();
+      console.log("Categorie ontvangen:", category); // Debugging
 
-      // Render de carouselDetail.ejs pagina met de posts
+      const query = `tattoo ${category}`;
+      console.log("Fetching images for:", query);
+
+      const imageUrls = await fetchUnsplashImages(query, 30, 'relevant');
+      console.log("Fetched Unsplash images:", imageUrls.length);
+
       res.render('carouselDetail.ejs', {
           pageTitle: `${category} Tattoos`,
-          category: category,
-          posts: posts
+          category,
+          imageUrls
       });
 
   } catch (error) {
-      console.error("Error fetching details for carousel:", error);
-      res.status(500).send("Er is een fout opgetreden bij het laden van de detailpagina");
+      console.error("Fout bij laden van de detailpagina:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de detailpagina.");
   }
+});
+
+app.get('/detailpagina', (req, res) => {
+  const imageUrl = req.query.image; // Ophalen van de URL van de afbeelding
+  if (!imageUrl) {
+      return res.status(400).send("Geen afbeelding gespecificeerd");
+  }
+
+  res.render('detailpagina.ejs', {
+      pageTitle: 'Tattoo Detail',
+      imageUrl
+  });
 });
 
 app.get('/detail/:id', isAuthenticated, (req, res) => {

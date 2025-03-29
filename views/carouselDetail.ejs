@@ -1,28 +1,32 @@
-<%- include('partials/head') %>
-
-<body>
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <%- include('partials/head') %>
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
     <header>
-        <h1>Detailpagina van de <%= category %> Tattoos</h1>
-        <a href="/index" class="back-to-home">Terug naar homepage</a>
+      <%- include('partials/header') %>
+      <h1>Tattoos: <%= category %></h1>
+      <a href="/index">Terug naar home</a>
     </header>
 
-    <section class="carousel-detail">
-        <div class="carousel-container">
-            <% if (posts && posts.length > 0) { %>
-                <div class="post-gallery">
-                    <% posts.forEach(post => { %>
-                        <div class="post">
-                            <img src="<%= post.imageUrl %>" alt="<%= post.title %>">
-                            <h4><%= post.title %></h4>
-                            <p><%= post.description %></p>
-                        </div>
-                    <% }) %>
-                </div>
-            <% } else { %>
-                <p>Er zijn geen tatoeages beschikbaar voor deze categorie.</p>
-            <% } %>
-        </div>
+    <section class="tattoo-gallery">
+      <% if (imageUrls && imageUrls.length > 0) { %>
+          <% imageUrls.forEach(image => { %>
+              <div class="tattoo-item">
+                  <a href="/detailpagina?image=<%= encodeURIComponent(image.url) %>">
+                      <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo afbeelding' %>">
+                  </a>
+              </div>
+          <% }); %>  <!-- Sluit de forEach correct af -->
+      <% } else { %>
+          <p>Er zijn geen tatoeages gevonden voor deze categorie.</p>
+      <% } %>
     </section>
 
-    <%- include('partials/scripts') %>
-</body>
+
+    <script src="/static/scripts.js"></script>
+  </body>
+</html>
