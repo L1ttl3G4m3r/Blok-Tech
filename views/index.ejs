@@ -12,7 +12,6 @@
       <section class="carousel-section">
         <section class="carousel" id="tattoo-carousel">
             <% if (!userPreferences || !userPreferences.preferences || !userPreferences.preferences.tattooStijl || userPreferences.preferences.tattooStijl.length === 0) { %>
-            <!-- Als er geen voorkeuren zijn, toon de boodschap en de knop naar de vragenlijst -->
             <div class="zero-state">
                 <h3>
                     Geen gepersonaliseerde tattoo's gevonden. Vul de vragenlijst in voor suggesties.
@@ -20,7 +19,6 @@
                 <a href="/questionnaire" class="preference-button">Naar vragenlijst</a>
             </div>
             <% } else { %>
-            <!-- Als er voorkeuren zijn, toon de carousel met tattoos -->
             <%- include('partials/carousel', { styles: userPreferences.preferences.tattooStijl, colors: userPreferences.preferences.tattooKleur, tattooPlek: userPreferences.preferences.tattooPlek, woonplaats: userPreferences.preferences.woonplaats }) %>
             <% } %>
         </section>
