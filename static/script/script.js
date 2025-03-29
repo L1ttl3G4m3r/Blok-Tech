@@ -16,21 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
       studioName: document.getElementById('studioname'),
       studioAddres: document.getElementById('studioAddres'),
   };
-  // Stel in of de gebruiker een artiest is (bijvoorbeeld via een globale variabele)
-  const isArtist = window.userRole === 'artist'; // Dit kan worden ingesteld door de server
-
-  // Selecteer de elementen
-  const profileData = document.querySelector('#profileData');
-  const profileDataArtist = document.querySelector('#profileDataArtist');
-
-  // Toon/verberg op basis van de rol
-  if (isArtist) {
-    profileData.style.display = 'none';
-    profileDataArtist.style.display = 'block';
-  } else {
-    profileData.style.display = 'block';
-    profileDataArtist.style.display = 'none';
-  }
 
   // Navigatie actief maken
   elements.navItems.forEach(item => {
