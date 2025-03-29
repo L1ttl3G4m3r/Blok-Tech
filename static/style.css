@@ -119,8 +119,8 @@ footer {
 /****************/
 section.search {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 1.5em;
+  justify-content: space-between;
+  margin: 0 1.5em 1.5em 0.5em;
 }
 
 input[type="search"] {
@@ -262,9 +262,12 @@ nav {
 .radio-container {
   display: flex;
   flex-direction: column;
-  justify-items: center;
   gap: 1em;
   margin-top: 1em;
+}
+.radio-container label {
+  display: flex;
+  align-items: center;
 }
 .title-clear {
   margin-top: 1em;
@@ -304,7 +307,7 @@ nav {
 /* Sorting function */
 /****************/
 .sort-container {
-  margin: 20px 0;
+  margin: 1em 0;
 }
 
 label {
@@ -320,14 +323,7 @@ select {
   cursor: pointer;
   color: var(--color-text);
 }
-select:hover {
-  border-color: #888;
-}
 
-select:focus {
-  outline: none;
-  border-color: var(--color-text);
-}
 /****************/
 /* Carousel */
 /****************/
