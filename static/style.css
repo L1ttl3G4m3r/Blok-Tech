@@ -839,7 +839,7 @@ input[type="radio"]:checked::before {
   gap: 1em;
 
 }
-.post-form label, .formgroup label {
+.post-form label, .form-group label {
   font-weight: 300;
 }
 .upload-container,
