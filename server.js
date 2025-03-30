@@ -459,9 +459,32 @@ app.get('/zie-alle', isAuthenticated, (req, res) => {
     res.render('zie-alle.ejs', { pageTitle: 'Overzicht' });
 });
 
-app.get('/detail/:id', isAuthenticated, (req, res) => {
-    res.render('detailpagina', { id: req.params.id, pageTitle: 'Detailpagina' });
+app.get('/detail/:id', isAuthenticated, async (req, res) => {
+  try {
+      const imageId = req.params.id;
+      const imageUrls = await fetchUnsplashImages('tattoo', 30, 'relevant');
+      const selectedImage = imageUrls.find((image, index) => index.toString() === imageId);
+
+
+      if (!selectedImage) {
+          return res.status(404).send("Image not found");
+      }
+      console.log(selectedImage);
+
+      res.render('detailpagina.ejs', {
+          pageTitle: 'Detailpagina',
+          image: selectedImage,
+          artist_username: selectedImage.artist_username,
+          artist_name: selectedImage.artist_name
+
+      });
+
+  } catch (error) {
+      console.error("Error fetching image details:", error);
+      res.status(500).send("An error occurred while loading the image details");
+  }
 });
+
 
 app.get('/preview', isAuthenticated, (req, res) => {
     res.render('preview', { pageTitle: 'Preview' });
