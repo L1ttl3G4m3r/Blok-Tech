@@ -8,29 +8,24 @@
     <header><%- include('partials/header') %></header>
 
     <main>
-      <!-- Titel -->
       <section class="intro">
         <h1>Inspiration for your tattoo</h1>
       </section>
 
-      <!-- Zoekfunctionaliteit -->
-      <section class="search"><%- include('partials/searchbar-artists') %></section>
-
-      <!-- Carousel met unieke ideeën -->
-      <section class="artist-page">
-
-        <div class="textcontainer">
-          <h2>Artiesten</h2>
-        </div>
-
         <section class="artist-section">
+          <div class="textcontainer">
+            <h2>Artiesten</h2>
+          </div>
           <%- include('partials/artists') %>
         </section>
+        <section class="search-artists"><%- include('partials/searchbar-artists') %></section>
+        <section class="studio-section">
         <div class="textcontainer">
             <h2>Studios</h2>
           </div>
           <%- include('partials/studiolist') %>
-      </section>
+        </section>
+
     </main>
 
     <!-- Footer -->

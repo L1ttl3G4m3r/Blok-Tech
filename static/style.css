@@ -119,12 +119,16 @@ footer {
 /****************/
 section.search {
   display: flex;
+  justify-content: space-between;
+  margin: 0 1.5em 1.5em 0.5em;
+}
+section.search-artists {
+  display: flex;
   justify-content: center;
-  margin-bottom: 1.5em;
 }
 
 input[type="search"] {
-  width: 22em;
+  width: 20em;
   padding: 0 2.5em;
   height: 3em;
   font-size: 1em;
@@ -169,9 +173,9 @@ input[type="search"] {
 /****************/
 section.filtersorting {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  padding: 0 1em;
+  margin: 0 0.5em;
 }
 nav {
   padding: 0 1.2em;
@@ -182,6 +186,7 @@ nav {
 #filterButton {
   cursor: pointer;
   background-color: var(--color-background);
+  border: none;
 }
 #filterButton img {
   width: 3em;
@@ -206,18 +211,15 @@ nav {
 /* Media query voor mobiele schermen */
 @media (max-width: 768px) {
   .sidebar {
-    width: 50%; /* Sidebar neemt 50% van het scherm in beslag */
+    width: 70%; /* Sidebar neemt 50% van het scherm in beslag */
   }
 }
 
-.sidebar.show {
-  width: 27.5em;
-}
 
 /* Media query voor mobiele schermen */
 @media (max-width: 768px) {
   .sidebar.show {
-    width: 50%; /* Sidebar neemt 50% van het scherm in beslag */
+    width: 70%; /* Sidebar neemt 50% van het scherm in beslag */
   }
 }
 
@@ -228,7 +230,19 @@ nav {
   padding: 1em;
   border-bottom: 2px solid var(--color-background);
 }
-
+.title-clear {
+  display: flex;
+  gap: 1em;
+}
+.clear-button {
+  background-color: var(--color-button);
+  border: none;
+  padding: 0 1em;
+  border-radius: 2px;
+  color: var(--color-text);
+  font-family: var(--main-font);
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
 .close-button-filter {
   background: none;
   border: none;
@@ -247,9 +261,21 @@ nav {
   margin-top: 1em;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1em;
 }
-
+.radio-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-top: 1em;
+}
+.radio-container label {
+  display: flex;
+  align-items: center;
+}
+.title-clear {
+  margin-top: 1em;
+}
 .checkbox-container label {
   display: flex;
   align-items: center;
@@ -258,13 +284,11 @@ nav {
 
 .checkbox-container input[type="checkbox"] {
   margin-right: 2em;
-  width: 20px;
-  height: 20px;
+  width: 1em;
+  height: 1em;
+  background-color: var(--color-text);
 }
 
-.checkbox-checked {
-  accent-color: var(--color-button); /* Verander naar gewenste kleur */
-}
 .filter-button {
   background-color: var(--color-button);
   width: 15em;
@@ -273,13 +297,21 @@ nav {
   color: var(--color-text);
   font-family: var(--main-font);
   font-size: 1em;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
-
+.radio-container input[type="radio"] {
+  background-color: var(--color-text);
+  margin-right: 2em;
+  width: 1em;
+  height: 1em;
+}
 /****************/
 /* Sorting function */
 /****************/
 .sort-container {
-  margin: 20px 0;
+  margin: 1em 0;
 }
 
 label {
@@ -295,14 +327,7 @@ select {
   cursor: pointer;
   color: var(--color-text);
 }
-select:hover {
-  border-color: #888;
-}
 
-select:focus {
-  outline: none;
-  border-color: var(--color-text);
-}
 /****************/
 /* Carousel */
 /****************/
@@ -561,6 +586,7 @@ input {
 .button-group {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-direction: column;
   margin-top: 1em;
 }
@@ -641,6 +667,10 @@ section.profile-section {
 .icon-text-container {
   display: flex;
   align-items: center;
+}
+.icon-text-container button {
+  border: none;
+  background: none;
 }
 .close-button-profile {
   position: absolute;
@@ -838,7 +868,7 @@ input[type="radio"]:checked::before {
   gap: 1em;
 
 }
-.post-form label, .formgroup label {
+.post-form label, .form-group label {
   font-weight: 300;
 }
 .upload-container,

@@ -1,22 +1,218 @@
-<swiper-container class="mySwiper" space-between="30" slides-per-view="auto" pagination="true"
-pagination-clickable="true">
-<swiper-slide>
-    <img src="/static/icons/backguymobile.png" alt="back guy">
-    <div class="icon-box">
-        <img class="outline" src="/static/icons/collection.svg" alt="To collection">
-        <img class="fill" src="/static/icons/collection fill.svg" alt="Collection saved">
-    </div>
-</swiper-slide>
-<swiper-slide>Slide 2</swiper-slide>
-<swiper-slide>Slide 3</swiper-slide>
-<swiper-slide>Slide 4</swiper-slide>
-<swiper-slide>Slide 5</swiper-slide>
-<swiper-slide>Slide 6</swiper-slide>
-<swiper-slide>Slide 7</swiper-slide>
-<swiper-slide>Slide 8</swiper-slide>
-<swiper-slide>Slide 9</swiper-slide>
+<swiper-container
+  class="mySwiper"
+  space-between="30"
+  slides-per-view="auto"
+  pagination="true"
+  pagination-clickable="true"
+>
+  <!-- Zelfgemaakte posts -->
+  <swiper-slide>
+    <a href="/selfmadeDetail" class="carousel-link">
+      <h3>Zelfgemaakte Tattoo's</h3>
+      <img src="#" alt="eigen post">
+    </a>
+  </swiper-slide>
+
+  <% if (styles.includes('natuur')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=nature" class="carousel-link">
+      <h3>Natuur</h3>
+      <img src="#" alt="tattoo met natuur">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('dieren')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=animals" class="carousel-link">
+      <h3>Dieren</h3>
+      <img src="#" alt="tattoo met dieren">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('mythischeSymbolen')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=mythical" class="carousel-link">
+      <h3>Mythische symbolen</h3>
+      <img src="#" alt="tattoo met mythische symbolen">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('geometrischeVormen')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=geometric" class="carousel-link">
+      <h3>Geometrische vormen</h3>
+      <img src="#" alt="tattoo met geometrische vormen">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('emotiesGezichten')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=emotion-and-faces" class="carousel-link">
+      <h3>Emoties & Gezichten</h3>
+      <img src="#" alt="tattoo met emoties en gezichten">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('kunstzinnigeStijlen')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=artistic" class="carousel-link">
+      <h3>Kunstzinnige stijlen</h3>
+      <img src="#" alt="tattoo met kunst">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('sci-fi')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=sci-fi" class="carousel-link">
+      <h3>Sci-fi</h3>
+      <img src="#" alt="sci-fi tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('futuristisch')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=futuristic" class="carousel-link">
+      <h3>Futuristisch</h3>
+      <img src="#" alt="futiristische tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('muziek')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=music" class="carousel-link">
+      <h3>Muziek</h3>
+      <img src="#" alt="tattoo met muziek">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('fineLine')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=fineline" class="carousel-link">
+      <h3>Fine line</h3>
+      <img src="#" alt="fineline tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('traditioneel')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=traditional" class="carousel-link">
+      <h3>Traditioneel</h3>
+      <img src="#" alt="traditionele tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('blackwork')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=blackwork" class="carousel-link">
+      <h3>Blackwork</h3>
+      <img src="#" alt="blackwork tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('watercolor')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=watercolor" class="carousel-link">
+      <h3>Watercolor</h3>
+      <img src="#" alt="watercolor tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('geometrischAbstract')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=geometric-and-abstract" class="carousel-link">
+      <h3>Geometrisch & Abstract</h3>
+      <img src="#" alt="geometrische en abstracte tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('realistisch')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=realistic" class="carousel-link">
+      <h3>Realistisch</h3>
+      <img src="#" alt="realistische tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('dotwork')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=dotwork" class="carousel-link">
+      <h3>Dotwork</h3>
+      <img src="#" alt="dotwork tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (styles.includes('minimalistisch')) { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=minimalistic" class="carousel-link">
+      <h3>Minimalistisch</h3>
+      <img src="#" alt="minimalistische tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (colors === 'zwart-wit') { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=black-and-white" class="carousel-link">
+      <h3>Zwart-wit</h3>
+      <img src="#" alt="zwart wit tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (colors === 'gekleurd') { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=colors" class="carousel-link">
+      <h3>Gekleurd</h3>
+      <img src="#" alt="gekleurde tattoo">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (tattooPlek === 'arm') { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=arm" class="carousel-link">
+      <h3>Arm</h3>
+      <img src="#" alt="arm">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (tattooPlek === 'been') { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=leg" class="carousel-link">
+      <h3>Been</h3>
+      <img src="#" alt="been">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (tattooPlek === 'rug') { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=back" class="carousel-link">
+      <h3>Rug</h3>
+      <img src="#" alt="rug">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (tattooPlek === 'borst') { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=chest" class="carousel-link">
+      <h3>Borst</h3>
+      <img src="#" alt="borst">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (tattooPlek === 'nek') { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=neck" class="carousel-link">
+      <h3>Nek</h3>
+      <img src="#" alt="nek">
+    </a>
+  </swiper-slide>
+
+  <% } %> <% if (tattooPlek === 'gezicht') { %>
+  <swiper-slide>
+    <a href="/carouselDetail?category=face" class="carousel-link">
+      <h3>Gezicht</h3>
+      <img src="#" alt="gezicht">
+    </a>
+  </swiper-slide>
+  <% } %>
 </swiper-container>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-
-

@@ -1,181 +1,156 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- <link rel="stylesheet" href="static/style.css"> -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Big+Shoulders:opsz,wght@10..72,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
-
-    <!-- Codepen.io opdracht: https://swiperjs.com/get-started#swiper-css-stylessize -->
-    <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+  <%- include('partials/head') %>
 </head>
 <body>
     <!-- Codepen.io -->
     <div class="swiper">
-        <form class="swiper-wrapper" action="" method="">
+        <form class="swiper-wrapper" id="questionnaireForm" action="/save-answers" method="POST">
             <section class="swiper-slide" id="question1">
                 <h2>Welke stijlen spreekt je het meest aan? *verplicht</h2>
                 <div class="image-grid">
                     <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="natuur">Natuur
+                        <img src="image/test.png" alt="natuurlijke tattoo">
+                        <input type="checkbox" name="tattooStijl" value="natuur" <% if (styles && styles.includes('natuur')) { %>checked<% } %>>Natuur
                     </label>
-        
+
                     <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="dieren">Dieren
+                        <img src="image/test.png" alt="tattoo met dier">
+                        <input type="checkbox" name="tattooStijl" value="dieren" <% if (styles && styles.includes('dieren')) { %>checked<% } %>>Dieren
                     </label>
-        
+
                     <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="mythischeSymbolen">Mythische symbolen
+                        <img src="image/test.png" alt="tattoo met mythische symbolen">
+                        <input type="checkbox" name="tattooStijl" value="mythischeSymbolen" <% if (styles && styles.includes('mythischeSymbolen')) { %>checked<% } %>>Mythische symbolen
                     </label>
-        
+
                     <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="geometrischeVormen">Geometrische vormen
+                        <img src="image/test.png" alt="tattoo met geometrische vormen">
+                        <input type="checkbox" name="tattooStijl" value="geometrischeVormen" <% if (styles && styles.includes('geometrischeVormen')) { %>checked<% } %>>Geometrische vormen
                     </label>
-        
+
                     <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="emotiesGezichten">Emoties & Gezichten
-                    </label>   
-        
-                    <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="kunstzinnigeStijlen">Kunstzinnige stijlen
+                        <img src="image/test.png" alt="tattoo met emoties en gezichten">
+                        <input type="checkbox" name="tattooStijl" value="emotiesGezichten" <% if (styles && styles.includes('emotiesGezichten')) { %>checked<% } %>>Emoties & Gezichten
                     </label>
-                    
+
                     <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="sci-fi">Sci-fi
+                        <img src="image/test.png" alt="tattoo met kunst">
+                        <input type="checkbox" name="tattooStijl" value="kunstzinnigeStijlen" <% if (styles && styles.includes('kunstzinnigeStijlen')) { %>checked<% } %>>Kunstzinnige stijlen
                     </label>
-        
+
                     <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="futuristisch">Futuristisch
+                        <img src="image/test.png" alt="sci-fi tattoo">
+                        <input type="checkbox" name="tattooStijl" value="sci-fi" <% if (styles && styles.includes('sci-fi')) { %>checked<% } %>>Sci-fi
                     </label>
-        
+
                     <label>
-                        <img src="image/test.png" alt="">
-                        <input type="checkbox" name="tattooStijl" id="muziek">Muziek
+                        <img src="image/test.png" alt="futuristische tattoo">
+                        <input type="checkbox" name="tattooStijl" value="futuristisch" <% if (styles && styles.includes('futuristisch')) { %>checked<% } %>>Futuristisch
+                    </label>
+
+                    <label>
+                        <img src="image/test.png" alt="tattoo met muziek">
+                        <input type="checkbox" name="tattooStijl" value="muziek" <% if (styles && styles.includes('muziek')) { %>checked<% } %>>Muziek
                     </label>
                 </div>
             </section>
-    
+
             <section class="swiper-slide">
                 <h2>Welke stijlen spreekt je het meest aan?</h2>
                 <div class="image-grid">
                     <label>
-                        <img src="#" alt="">
-                        <input type="checkbox" name="tattooStijl" id="fineLine">Fine line
+                        <img src="#" alt="fineline tattoo">
+                        <input type="checkbox" name="tattooStijl" value="fineLine" <% if (styles && styles.includes('fineLine')) { %>checked<% } %>>Fine line
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="checkbox" name="tattooStijl" id="traditioneel">Traditioneel
+                        <img src="#" alt="traditionele tattoo">
+                        <input type="checkbox" name="tattooStijl" value="traditioneel" <% if (styles && styles.includes('traditioneel')) { %>checked<% } %>>Traditioneel
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="checkbox" name="tattooStijl" id="blackwork">Blackwork
+                        <img src="#" alt="blackwork tattoo">
+                        <input type="checkbox" name="tattooStijl" value="blackwork" <% if (styles && styles.includes('blackwork')) { %>checked<% } %>>Blackwork
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="checkbox" name="tattooStijl" id="watercolor">Watercolor
+                        <img src="#" alt="watercolor tattoo">
+                        <input type="checkbox" name="tattooStijl" value="watercolor" <% if (styles && styles.includes('watercolor')) { %>checked<% } %>>Watercolor
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="checkbox" name="tattooStijl" id="geometrischAbstract">Geometrisch & Abstract
+                        <img src="#" alt="geometrische en abstracte tattoo">
+                        <input type="checkbox" name="tattooStijl" value="geometrischAbstract" <% if (styles && styles.includes('geometrischAbstract')) { %>checked<% } %>>Geometrisch & Abstract
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="checkbox" name="tattooStijl" id="realistisch">Realistisch
+                        <img src="#" alt="realistische tattoo">
+                        <input type="checkbox" name="tattooStijl" value="realistisch" <% if (styles && styles.includes('realistisch')) { %>checked<% } %>>Realistisch
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="checkbox" name="tattooStijl" id="dotwork">Dotwork
+                        <img src="#" alt="dotwork tattoo">
+                        <input type="checkbox" name="tattooStijl" value="dotwork" <% if (styles && styles.includes('dotwork')) { %>checked<% } %>>Dotwork
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="checkbox" name="tattooStijl" id="minimalistisch">Minimalistisch
+                        <img src="#" alt="minimalistische tattoo">
+                        <input type="checkbox" name="tattooStijl" value="minimalistisch" <% if (styles && styles.includes('minimalistisch')) { %>checked<% } %>>Minimalistisch
                     </label>
                 </div>
             </section>
-    
+
             <section class="swiper-slide">
                 <h2>Zwart-wit of gekleurd?</h2>
                 <div class="image-grid">
                     <label>
-                        <img src="#" alt="">
-                        <input type="radio" name="tattooKleur" value="zwart-wit">Zwart-wit
+                        <img src="#" alt="zwart wit tattoo">
+                        <input type="radio" name="tattooKleur" value="zwart-wit" <% if (colors === 'zwart-wit') { %>checked<% } %>>Zwart-wit
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="radio" name="tattooKleur" value="gekleurd">Gekleurd
+                        <img src="#" alt="gekleurde tattoo">
+                        <input type="radio" name="tattooKleur" value="gekleurd" <% if (colors === 'gekleurd') { %>checked<% } %>>Gekleurd
                     </label>
                 </div>
             </section>
-    
+
             <section class="swiper-slide">
                 <h2>Op welke plek wil je de tattoo laten zetten?</h2>
                 <div class="image-grid">
                     <label>
-                        <img src="#" alt="">
-                        <input type="radio" name="tattooPlek" value="arm">Arm
+                        <img src="#" alt="arm">
+                        <input type="radio" name="tattooPlek" value="arm" <% if (tattooPlek === 'arm') { %>checked<% } %>>Arm
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="radio" name="tattooPlek" value="been">Been
+                        <img src="#" alt="been">
+                        <input type="radio" name="tattooPlek" value="been" <% if (tattooPlek === 'been') { %>checked<% } %>>Been
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="radio" name="tattooPlek" value="rug">Rug
+                        <img src="#" alt="rug">
+                        <input type="radio" name="tattooPlek" value="rug" <% if (tattooPlek === 'rug') { %>checked<% } %>>Rug
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="radio" name="tattooPlek" value="borst">Borst
+                        <img src="#" alt="borst">
+                        <input type="radio" name="tattooPlek" value="borst" <% if (tattooPlek === 'borst') { %>checked<% } %>>Borst
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="radio" name="tattooPlek" value="nek">Nek
+                        <img src="#" alt="nek">
+                        <input type="radio" name="tattooPlek" value="nek" <% if (tattooPlek === 'nek') { %>checked<% } %>>Nek
                     </label>
-        
+
                     <label>
-                        <img src="#" alt="">
-                        <input type="radio" name="tattooPlek" value="gezicht">Gezicht
+                        <img src="#" alt="gezicht">
+                        <input type="radio" name="tattooPlek" value="gezicht" <% if (tattooPlek === 'gezicht') { %>checked<% } %>>Gezicht
                     </label>
                 </div>
-            </section>
-    
-            <section class="swiper-slide">
-                <h2>Waar woon je?</h2>
-                <h3>Waarom? Zodat InkSpire je content kunnen tonen die relevant is voor jouw locatie.</h4>
-                <h4>Dit betekent dat je bijvoorbeeld tattoo-artiesten te zien krijgt die in jouw omgeving werken, zodat je gemakkelijk een artiest kunt vinden die past bij jouw stijl en wensen.</h5>
-                <label for="autocomplete">
-                    <!-- Google Places API mogelijk hiervoor kunnen gebruiken -->
-                    <input type="search" class="search-bar" placeholder="Voer een woonplaats in"> 
-                    <img src="/static/icons/search.svg" alt="Search Icon">
-                </label>
-    
-                <input type="submit" value="verstuur" disabled>
+                <input type="submit" value="verstuur">
             </section>
         </form>
 
@@ -186,8 +161,7 @@
         </section>
     </div>
 
-    <!-- Codepen.io -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="script/questionnaire"></script>
+    <script src="/static/script/questionnaire.js"></script>
 </body>
 </html>
