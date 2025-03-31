@@ -107,27 +107,5 @@
     </main>
     <footer><%- include('partials/nav') %></footer>
     <script src="/static/script/script.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const params = new URLSearchParams(window.location.search);
-        const imageUrl = params.get("img");
-        const imageTitle = params.get("titel");
-
-        console.log("Image URL:", imageUrl);
-        console.log("Image Title:", imageTitle);
-
-        if (imageUrl) {
-          document.getElementById("selectedImage").src =
-            decodeURIComponent(imageUrl);
-        } else {
-          console.error("Geen afbeelding URL gevonden!");
-        }
-
-        if (imageTitle) {
-          document.getElementById("imageTitle").textContent =
-            decodeURIComponent(imageTitle);
-        }
-      });
-    </script>
   </body>
 </html>

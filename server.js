@@ -772,7 +772,7 @@
     try {
         const img = req.query.img || null;
         const titel = req.query.titel || "Geen titel beschikbaar";
-        const imageUrls = await fetchUnsplashImages(8);
+        const imageUrls = await fetchUnsplashImages(30);
 
         if (!img) {
             return res.render('detailpagina', { img: null, titel: "Geen afbeelding gespecificeerd" });
