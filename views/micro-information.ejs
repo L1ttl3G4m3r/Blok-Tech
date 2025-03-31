@@ -22,7 +22,11 @@
           <% } %>
 
             <h2>Gezet door</h2>
-            <a href="#">@naamGebruiker</a>
+              <% if (typeof username === "undefined") { %>
+                <span>Geen gebruiker gekoppeld</span>
+              <% } else { %>
+                <a href="#">@<%= username %></a>
+              <% } %>
 
             <!-- <h2>Tags</h2> -->
             <ul>

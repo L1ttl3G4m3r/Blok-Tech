@@ -838,6 +838,30 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
+  app.get('/detailpage/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        // First, check in the 'users' collection
+        let user = await users.findById(userId);
+
+        // If not found in 'users', check in 'artists'
+        if (!user) {
+            user = await Artists.findById(userId);
+        }
+
+        // If still not found, set a default message
+        const username = user ? user.name : "Geen gebruiker gekoppeld";
+
+        console.log("Username being sent to EJS:", username); // Debugging log
+
+        res.render('micro-information.ejs', { username: "" });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).send("An error occurred.");
+    }
+});
+
   app.get("/preview", isAuthenticated, (req, res) => {
     res.render("preview", { pageTitle: "Preview" });
   });
