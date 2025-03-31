@@ -1130,10 +1130,14 @@ section.uitlegAfbeelding {
 }
 
 .detailNav img {
-  width: 30px;
+  width: 100%;
   height: auto;
   margin-left: 2em;
   margin-right: 2em;
+}
+
+.detailNav {
+  background: none;
 }
 
 /*************************/
