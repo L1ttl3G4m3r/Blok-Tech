@@ -33,6 +33,7 @@
         <%- include('partials/header') %>
     </header>
     <main>
+      <section class="section-login">
         <div class="form-container">
             <h2 class="form-heading">Registeren als artiest</h2>
             <form action="/registerArtists" id="aanmaakform" method="POST">
@@ -69,6 +70,7 @@
                 </div>
             </form>
         </div>
+      </section>
     </main>
     <script>
         window.mapboxToken = "<%= mapboxToken %>";

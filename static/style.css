@@ -558,35 +558,37 @@ li.artist-item {
   box-shadow: none;
   font-size: 1em;
   margin-top: 1em;
-  transform: scale(1.05); /* Maak de knop iets groter */
-  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
 
 
 /****************/
 /* forms login/register */
 /****************/
+.section-login {
+  margin: 2em;
+}
 h2.form-heading {
   text-align: center;
   margin-bottom: 1em;
   font-size: 1.5em;
 }
 .form-container {
-  margin: 0 auto;
-  width: 80%;
+  width: 100%;
+
 }
 .formgroup {
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
+
 input {
-  width: 100%;
   padding: 1em;
   border: 2px solid var(--color-text);
   background-color: var(--color-background);
   border-radius: 4px;
   color: var(--color-text);
+
 }
 
 .button-group {
@@ -609,6 +611,7 @@ div.form-container a {
 /****************************/
 section.profile-section {
   height: 100vh;
+  margin: 2em;
 }
 .profile-header {
   text-align: center;
@@ -701,11 +704,17 @@ section.profile-section {
 /****************************/
 /* profile form */
 /****************************/
-
+.edit-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 1em;
+  align-items: center;
+}
 .profile-form {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 
 .profile-header h2{
@@ -713,21 +722,20 @@ section.profile-section {
 }
 .form-group {
   margin-bottom: 1em; /* Voeg wat ruimte toe tussen velden */
+  width: 100%;
 }
 .form-group label {
   display: block;
   margin-bottom: 1em;
 }
 .form-group input {
-  width: 25em;
-  padding: 1em;
+
 }
 #editButton {
   font-family: var(--main-font);
-  margin-bottom: 1em;
   background-color: var(--color-button);
   border-radius: 4px;
-  padding: 1em 1.5em;
+  padding: 1em;
   border: none;
   box-shadow: none; /* Verwijder de schaduw */
   cursor: pointer;
@@ -868,6 +876,7 @@ input[type="radio"]:checked::before {
 /****************************/
 .post-section {
   height: 110vh; /* Zorgt ervoor dat de sectie de volledige hoogte van het scherm beslaat */
+  margin: 2em;
 }
 
 .post-form {
@@ -877,9 +886,9 @@ input[type="radio"]:checked::before {
   align-items: center;
   gap: 1em;
 
-
 }
-.post-form label, .form-group label {
+.post-form label,
+.form-group label {
   font-weight: 300;
 }
 .upload-container,
@@ -890,7 +899,7 @@ input[type="radio"]:checked::before {
   display: flex;
   flex-direction: column;
   gap: 0.3em;
-  width: 80%;
+  width: 100%;
 }
 .image-placeholder  {
   flex-direction: column;
