@@ -934,4 +934,43 @@ textarea {
   cursor: pointer;
   font-weight: bold;
 }
+/****************************/
+/* Collection feature*/
+/****************************/
+.tabs {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
 
+.tab {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.tab h2 {
+  margin: 5px 0;
+}
+
+.tab.active {
+  border-bottom: 2px solid var(--button-hover); /* Underline for active tab */
+}
+
+.icon-normal {
+  display: inline-block;
+}
+
+.icon-selected.hidden,
+.icon-normal.hidden {
+  display: none;
+}
+
+h2.selected {
+  color: var(--button-hover);
+  font-weight: bold; /* Maak tekst vetgedrukt */
+}
+.hidden {
+  display: none;
+}
