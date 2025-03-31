@@ -1,10 +1,14 @@
 <ul class="artist-list">
-  <% artists.forEach(artist => { %>
-    <li class="artist-item">
-      <div class="artist-image">
-        <img src="<%= artist.image || 'static/icons/profile/avatar-stock.svg' %>" alt="<%= artist.username %>">
-      </div>
-      <h4 class="artist-name"><%= artist.username %></h4>
-    </li>
-  <% }); %>
+  <% if (typeof artists !== 'undefined' && Array.isArray(artists) && artists.length > 0) { %>
+    <% artists.forEach(artist => { %>
+      <li class="artist-item">
+        <div class="artist-image">
+          <img src="<%= artist.image || 'static/icons/profile/avatar-stock.svg' %>" alt="<%= artist.username %>">
+        </div>
+        <h4 class="artist-name"><%= artist.username %></h4>
+      </li>
+    <% }); %>
+  <% } else { %>
+    <li>Geen artiesten gevonden</li>
+  <% } %>
 </ul>

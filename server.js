@@ -838,7 +838,7 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
-  app.get('/detailpage/:userId', async (req, res) => {
+  app.get('/detailpagina/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
 
@@ -862,29 +862,32 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
 });
 
-app.get('/detailpage/:postId', async (req, res) => {
+app.get('/detailpagina/:postId', async (req, res) => {
   try {
-      const postId = req.params.postId;
+    const postId = req.params.postId;
 
-      // Find the post in the database
-      const post = await posts.findById(postId);
+    // Ensure 'posts' is the correct collection
+    const postsCollection = db.collection("posts"); // Ensure correct collection
 
-      if (!post) {
-          return res.status(404).send("Post not found");
-      }
+    // Find the post in the database
+    const post = await postsCollection.findOne({ _id: new ObjectId(postId) });  // Use findOne() for specific posts
 
-      // Extract tags or set default
-      const tags = Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : [];
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
 
-      console.log("Tags being sent to EJS:", tags); // Debugging log
+    // Extract tags or set default
+    const tags = Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : [];
 
-      res.render('micro-information.ejs', {
-          pageTitle: "Micro Information",
-          tags: []
-      });
+    // Pass the post and its tags to the view
+    res.render('micro-information.ejs', {
+      pageTitle: "Micro Information",
+      post: post,   // Send the post data
+      tags: tags    // Send the tags extracted from the post
+    });
   } catch (error) {
-      console.error("Error fetching post:", error);
-      res.status(500).send("An error occurred.");
+    console.error("Error fetching post:", error);
+    res.status(500).send("An error occurred.");
   }
 });
 
@@ -923,16 +926,23 @@ app.get('/detailpage/:postId', async (req, res) => {
         const img = req.query.img || null;
         const titel = req.query.titel || "Geen titel beschikbaar";
         const imageUrls = await fetchUnsplashImages(30);
+        const Collection = db.collection("artists");
+        const artists = await Collection.find().toArray();
 
         if (!img) {
             return res.render('micro-information', { img: null, titel: "Geen afbeelding gespecificeerd", pageTitle: "Micro Information" });
+        }
+
+        if (!artists || artists.length === 0) {
+          return res.status(404).send("No artists found");
         }
 
         res.render('micro-information.ejs', {
             img,
             titel,
             pageTitle: "Micro Information",
-            gridImages: imageUrls
+            gridImages: imageUrls,
+            artists: artists
         });
     } catch (error) {
         console.error("Error loading index page:", error);

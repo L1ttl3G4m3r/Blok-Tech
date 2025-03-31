@@ -1,59 +1,59 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-  <%- include('partials/head') %>
-</head>
-<body>
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body>
     <header><%- include('partials/micro-header') %></header>
     <main>
-        <section class="microDetail">
-          <h1>
-            <%= typeof titel !== "undefined" ? titel : "Geen titel beschikbaar" %>
-          </h1>
+      <section class="microDetail">
+        <h1>
+          <%= typeof titel !== "undefined" ? titel : "Geen titel beschikbaar" %>
+        </h1>
 
-          <% if (typeof img !== "undefined" && img) { %>
-          <img
-            id="selectedImage"
-            src="<%= img %>"
-            alt="Geselecteerde afbeelding"
-          />
-          <% } else { %>
-          <p>Geen afbeelding gespecificeerd.</p>
+        <% if (typeof img !== "undefined" && img) { %>
+        <img
+          id="selectedImage"
+          src="<%= img %>"
+          alt="Geselecteerde afbeelding"
+        />
+        <% } else { %>
+        <p>Geen afbeelding gespecificeerd.</p>
+        <% } %>
+
+        <h2>Gezet door</h2>
+        <% if (typeof username === "undefined") { %>
+        <span>Geen gebruiker gekoppeld</span>
+        <% } else { %>
+        <a href="#">@<%= username %></a>
+        <% } %>
+
+        <!-- <h2>Tags</h2> -->
+        <ul>
+          <% if (typeof tags !== "undefined" && Array.isArray(tags) &&
+          tags.length > 0) { %> <% tags.forEach(tag => { %>
+          <li><%= tag %></li>
+          <% }); %> <% } else { %>
+          <li>Geen tags gevonden</li>
           <% } %>
+        </ul>
+      </section>
 
-            <h2>Gezet door</h2>
-              <% if (typeof username === "undefined") { %>
-                <span>Geen gebruiker gekoppeld</span>
-              <% } else { %>
-                <a href="#">@<%= username %></a>
-              <% } %>
+      <h2>Artiesten die dit ook kunnen</h2>
+      <%- include('partials/artists') %>
 
-            <!-- <h2>Tags</h2> -->
-            <ul>
-              <% if (typeof tags !== "undefined" && Array.isArray(tags) && tags.length > 0) { %>
-                  <% tags.forEach(tag => { %>
-                      <li><%= tag %></li>
-                  <% }); %>
-              <% } else { %>
-                  <li>Geen tags gevonden</li>
-              <% } %>
-          </ul>
-
-            <h2>Artiesten die dit ook kunnen</h2>
-            <ul>
-                <li><a href="#">@...</a></li>
-                <li><a href="#">@...</a></li>
-                <li><a href="#">@...</a></li>
-            </ul>
-        </section>
-
-        <section class="uitlegAfbeelding">
-            <h3>Uitleg ..</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas temporibus labore cum nobis incidunt suscipit atque odit eius dolore at dicta, nemo illum error culpa sapiente totam! Et, praesentium tenetur!</p>
-        </section>
+      <section class="uitlegAfbeelding">
+        <h3>Uitleg ..</h3>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
+          temporibus labore cum nobis incidunt suscipit atque odit eius dolore
+          at dicta, nemo illum error culpa sapiente totam! Et, praesentium
+          tenetur!
+        </p>
+      </section>
     </main>
     <footer><%- include('partials/nav') %></footer>
 
     <script src="/static/script/script.js"></script>
-</body>
+  </body>
 </html>
