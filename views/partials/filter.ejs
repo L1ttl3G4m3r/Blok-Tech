@@ -1,38 +1,68 @@
 <nav>
   <button id="filterButton">
-    <img src="/static/icons/filter.svg" alt="filter" />
+    <img src="/static/icons/normal/filter.svg" alt="filter" />
   </button>
 </nav>
 
 <div id="filterSidebar" class="sidebar">
   <div class="sidebar-header">
     <h2>Filteren</h2>
-    <button id="closeSidebar" class="close-button">
-      <img src="/static/icons/close.svg" alt="close" />
+    <button id="closeSidebar" class="close-button-filter">
+      <img src="/static/icons/black/close.svg" alt="closebutton" />
     </button>
   </div>
   <div class="sidebar-content">
-    <h3>Stijl</h3>
+    <div class="title-clear">
+    <h3>Stijlen</h3>
+    <button id="clearStyles" class="clear-button">Wissen</button>
+    </div>
     <div class="checkbox-container">
       <label>
-        <input type="checkbox" class="checkbox-checked" />
-        Fine line
+        <input type="checkbox" name="styles" value="classic" />
+        Klassieke stijlen
       </label>
-      <label
-        ><input type="checkbox" class="checkbox-checked" />Traditioneel</label
-      >
-      <label><input type="checkbox" class="checkbox-checked" />Blackwork</label>
-      <label
-        ><input type="checkbox" class="checkbox-checked" />Waterkleur</label
-      >
-      <label
-        ><input type="checkbox" class="checkbox-checked" />Geometrisch</label
-      >
-      <label
-        ><input type="checkbox" class="checkbox-checked" />Minimalistisch</label
-      >
-      <label><input type="checkbox" class="checkbox-checked" />Cartoon</label>
+      <label>
+        <input type="checkbox" name="styles" value="realistic" />
+        Realistische stijlen
+      </label>
+      <label>
+        <input type="checkbox" name="styles" value="modern" />
+        Moderne en experimentele stijlen
+      </label>
+      <label>
+        <input type="checkbox" name="styles" value="minimalistic" />
+        Minimalistische en grafische stijlen
+      </label>
+      <label>
+        <input type="checkbox" name="styles" value="cultural" />
+        Culturele en symbolische stijlen
+      </label>
+      <label>
+        <input type="checkbox" name="styles" value="cartoon" />
+        Cartoon en pop-art stijlen
+      </label>
+      <label>
+        <input type="checkbox" name="styles" value="old" />
+        Oude en alternatieve stijlen
+      </label>
     </div>
-    <button class="filter-button">Toepassen</button>
+    <div class="title-clear">
+      <h3>Kleuren</h3>
+      <button id="clearColors" class="clear-button">Wissen</button>
+    </div>
+
+    <div class="radio-container">
+
+      <label>
+        <input type="radio" name="colors" value="black_and_white" />
+        Zwart wit
+      </label>
+      <label>
+        <input type="radio" name="colors" value="color" />
+        Kleur
+      </label>
+    </div>
+
+    <button id="applyFiltersButton" class="filter-button">Toepassen</button>
   </div>
 </div>

@@ -1,8 +1,9 @@
-<div class="dropdown">
-  <button class="dropbtn">Sorteren</button>
-  <div class="dropdown-content">
-    <a href="#">Nieuw - oud</a>
-    <a href="#">Populair</a>
-  </div>
+<div class="sort-container">
+  <form id="sort-form" action="/index" method="GET">
+    <select id="sort-select" name="sort_by">
+      <option value="relevant" <%= currentSort && currentSort === 'relevant' ? 'selected' : '' %>>Relevantie</option>
+      <option value="latest" <%= currentSort && currentSort === 'latest' ? 'selected' : '' %>>Nieuwste</option>
+    </select>
+    <noscript><input type="submit" value="Sorteer"></noscript>
+  </form>
 </div>
-  

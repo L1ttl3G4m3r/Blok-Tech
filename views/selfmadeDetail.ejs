@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <%- include('partials/head') %>
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header>
+      <%- include('partials/header') %>
+      <h1>Zelfgemaakte Tattoos</h1>
+      <a href="/index">Terug naar home</a>
+    </header>
+
+    <section class="tattoo-gallery">
+      <% if (posts && posts.length > 0) { %>
+          <% posts.forEach(post => { %>
+              <div class="tattoo-item">
+                  <a href="/detailpagina/<%= post._id %>">
+                      <img src="<%= post.photo %>" alt="<%= post.title %>">
+                  </a>
+                  <h4><%= post.title %></h4>
+              </div>
+          <% }); %>
+      <% } else { %>
+          <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
+      <% } %>
+    </section>
+
+
+    <script src="/static/scripts.js"></script>
+  </body>
+</html>

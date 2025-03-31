@@ -1,0 +1,14 @@
+<ul class="studiolist">
+  <% artists.forEach(function(artist) { %>
+    <li>
+      <a href="/artiest/<%= artist._id %>">
+        <% if (artist.studio && artist.studio.name) { %>
+          <h3><%= artist.studio.name %></h3>
+        <% } else { %>
+          <h3>Studio onbekend</h3>
+        <% } %>
+        <p><%= artist.username %></p>
+      </a>
+    </li>
+  <% }); %>
+</ul>

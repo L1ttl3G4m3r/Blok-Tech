@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <%- include('partials/head') %>
 </head>
-<body>
-    <header>
-
-    </header>
     <body>
-        <div class="container">
-            <h2>Register</h2>
-            <form action="/register" id="aanmaakform" method="POST">                
+        <header>
+            <%- include('partials/header') %>
+        </header>
+        <main>
+        <div class="form-container">
+            <h2 class="form-heading">Registeren</h3>
+            <form action="/register" id="aanmaakform" method="POST">
+            <div class="formgroup">
                 <label for="username">Gebruikersnaam</label>
                 <input type="text" name="username" id="username" required>
 
@@ -22,16 +21,18 @@
                 <label for="password">Wachtwoord</label>
                 <input type="password" name="password" id="password" required>
 
-                <label for="password">Verifieer jouw wachtwoord</label>
-                <input type="password" name="confirmPassword" id="password" required>
+                <h4>Wachtwoord moet minimaal 8 tekens bevatten</h4>
 
-                <button type="submit">Maak gebruiker aan</button>
-                <button type="reset">Begin opnieuw</button>
+                <label for="password">Herhaal wachtwoord</label>
+                <input type="password" name="confirmPassword" id="password" required>
+            </div>
+            <div class="button-group">
+                <button class="button-reset" type="reset">Opnieuw</button>
+                <button class="button-cta" type="submit">Registreren</button>
+            </div>
             </form>
         </div>
+    </main>
+    <footer></footer>
     </body>
-    <footer>
-        
-    </footer>
-</body>
 </html>

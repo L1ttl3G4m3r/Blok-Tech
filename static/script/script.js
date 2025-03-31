@@ -1,65 +1,82 @@
+document.addEventListener('DOMContentLoaded', function() {
+  // Element selecties
+  const elements = {
+      navItems: document.querySelectorAll(".nav-item a"),
+      tattooGridImages: document.querySelectorAll('#tattoo-grid img'),
+      profilePhotos: document.querySelectorAll('.profile-photo-container'),
+      photoOptionsMenu: document.getElementById('photoOptionsMenu'),
+      closePhotoMenu: document.getElementById('closePhotoMenu'),
+      form: document.getElementById('updateProfileForm'),
 
-const filterButton = document.getElementById('filterButton');
-const filterSidebar = document.getElementById('filterSidebar');
-const closeButton = document.getElementById('closeSidebar');
+      editButton: document.getElementById('editButton'),
+      saveButton: document.getElementById('saveButton'),
+      usernameInput: document.getElementById('username'),
+      emailInput: document.getElementById('email'),
+      passwordInput: document.getElementById('password'),
+      studioName: document.getElementById('studioname'),
+      studioAddres: document.getElementById('studioAddres'),
+  };
 
-filterButton.addEventListener('click', () => {
-    if (filterSidebar.style.width === '340px') {
-        filterSidebar.style.width = '0';
-    } else {
-        filterSidebar.style.width = '340px';
-    }
-});
-
-closeButton.addEventListener('click', () => {
-    filterSidebar.style.width = '0';
-});
-// code bron: perplexity.ai //
-let currentSort = null;
-
-document.querySelector('.dropbtn').addEventListener('click', function() {
-  document.querySelector('.dropdown-content').classList.toggle('show');
-});
-
-document.querySelectorAll('.dropdown-content a').forEach(function(item) {
-  item.addEventListener('click', function(e) {
-    e.preventDefault();
-    const sortType = this.dataset.sort;
-
-    if (currentSort === sortType) {
-      // Sortering ongedaan maken
-      currentSort = null;
-      document.querySelector('.dropbtn').textContent = 'Sorteren';
-      this.classList.remove('selected');
-    } else {
-      // Nieuwe sortering toepassen
-      currentSort = sortType;
-      document.querySelector('.dropbtn').textContent = this.textContent;
-      document.querySelectorAll('.dropdown-content a').forEach(function(link) {
-        link.classList.remove('selected');
-      });
-      this.classList.add('selected');
-    }
-
-    // Hier kun je de sorteerlogica toevoegen
-    console.log('Huidige sortering: ' + (currentSort || 'geen'));
-  });
-});
-
-window.addEventListener('click', function(e) {
-  if (!e.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName('dropdown-content');
-    for (var i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+  // Navigatie actief maken
+  elements.navItems.forEach(item => {
+      if (item.href === window.location.href) {
+          item.parentElement.classList.add("active");
       }
-    }
-  }
-});
-// Icons opslaan bij foto's
-document.querySelectorAll('.icon-box').forEach(box => {
-    box.addEventListener('click', function() {
-      this.classList.toggle('active');
-    });
   });
+
+  elements.tattooGridImages.forEach((img, index) => {
+    img.addEventListener('click', function() {
+        window.location.href = `/detail/${index}`;
+    });
+});
+
+  // Profielfoto menu functionaliteit
+  elements.profilePhotos.forEach(photo => {
+      photo.addEventListener('click', function() {
+          elements.photoOptionsMenu.style.display = 'flex';
+      });
+  });
+
+  elements.closePhotoMenu?.addEventListener('click', function() {
+      elements.photoOptionsMenu.style.display = 'none';
+  });
+
+  // Formulier functionaliteit
+  elements.editButton?.addEventListener('click', function () {
+      elements.usernameInput.disabled = false;
+      elements.emailInput.disabled = false;
+      elements.passwordInput.disabled = false;
+      elements.saveButton.disabled = false;
+      elements.studioName.disabled = false;
+      elements.studioAddres.disabled = false;
+  });
+
+  elements.form?.addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Hier komt de logica voor het verwerken van het formulier
+      console.log('Formulier verzonden');
+  });
+});
+
+document.querySelectorAll('.add-to-collection').forEach(button => {
+  button.addEventListener('click', async () => {
+    const imageUrl = button.getAttribute('data-url');
+
+    try {
+      const response = await fetch('/add-to-collection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageUrl })
+      });
+
+      if (response.ok) {
+        alert('Image added to your collection!');
+      } else {
+        alert('Failed to add image.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred.');
+    }
+  });
+});

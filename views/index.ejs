@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html lang="nl">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="static/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Big+Shoulders:opsz,wght@10..72,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+    <%- include('partials/head') %>
   </head>
   <body>
-    <!-- Header -->
     <header><%- include('partials/header') %></header>
-
     <main>
-      <!-- Titel -->
+      <% var userPreferences = userPreferences || {}; %>
+      <% var isArtist = typeof isArtist !== 'undefined' ? isArtist : false; %>
       <section class="intro">
         <h1>Inspiration for your tattoo</h1>
       </section>
-
-      <!-- Zoekfunctionaliteit -->
-      <section class="search"><%- include('partials/searchbar') %></section>
-      <section class="filtersorting">
-        <%- include('partials/sorting') %>
-        <%- include('partials/filter') %> 
-      </section>
-
-      <!-- Carousel met unieke ideeën -->
       <section class="carousel-section">
-        <div class="textcontainer">
-          <h2>Unieke ideeën</h2>
-          <a href="" alt="">Zie alle</a>
-        </div>
-        <div class="carousel"><%- include('partials/carousel') %></div>
-      </section>
-      <section class="carousel-container">
-       <%- include('partials/carouselvertical') %>
+        <section class="carousel" id="tattoo-carousel">
+            <% if (!userPreferences || !userPreferences.preferences || !userPreferences.preferences.tattooStijl || userPreferences.preferences.tattooStijl.length === 0) { %>
+            <div class="zero-state">
+                <h3>
+                    Geen gepersonaliseerde tattoo's gevonden. Vul de vragenlijst in voor suggesties.
+                </h3>
+                <a href="/questionnaire" class="preference-button">Naar vragenlijst</a>
+            </div>
+            <% } else { %>
+            <%- include('partials/carousel', { styles: userPreferences.preferences.tattooStijl, colors: userPreferences.preferences.tattooKleur, tattooPlek: userPreferences.preferences.tattooPlek, woonplaats: userPreferences.preferences.woonplaats }) %>
+            <% } %>
+        </section>
     </section>
+      <section class="filtersorting">
+      <%- include('partials/sorting', { currentSort }) %>
+    </section>
+    <section class="search">
+      <%- include('partials/searchbar') %>
+      <%- include('partials/filter') %>
+    </section>
+
+
+      <section class="tattoo-grid" id="tattoo-grid">
+        <% if (gridImages && gridImages.length > 0) { %> <%
+        gridImages.forEach(image => { %>
+        <img
+          src="<%= image.url %>"
+          alt="<%= image.alt_description || 'Tattoo Image' %>"
+          data-id="<%= image.id %>"
+        />
+        <% }) %> <% } else { %>
+        <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
+        <% } %>
+        <div
+          id="imageUrlsData"
+          data-image-urls="<%= JSON.stringify(gridImages) %>"
+        ></div>
+      </section>
     </main>
 
-    <!-- Footer -->
-    <footer><%- include('partials/nav') %></footer>
+    <footer>
+      <% if (isArtist) { %> <%- include('partials/navA') %> <% } else { %> <%-
+      include('partials/nav') %> <% } %>
+    </footer>
 
-    <!-- Scripts -->
-    <script src="server.js"></script>
-
-    <script src="/static/script.js"></script>
+    <script src="/static/script/filter.js"></script>
+    <script src="/static/script/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
   </body>
 </html>
-=======
-    <script src="/static/script/script.js"></script>
-    <script src="/static/script/addAfbeelding.js"></script>
-</body>
-</html>
-

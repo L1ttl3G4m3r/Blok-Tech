@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inkspire</title>
-    <link rel="stylesheet" href="/static/begin.css">
-</head>
-<body>
-    <div class="background-container" id="backgroundContainer"></div>
-    
+  <head>
+    <%- include('partials/head') %>
+    <link rel="stylesheet" href="/static/begin.css" />
+  </head>
+
+  <body>
+    <header><%- include('partials/header') %></header>
+    <div class="background-container" id="backgroundContainer">
+      <% for(let i = 0; i < 7; i++) { %>
+      <div class="image-column">
+        <% imageUrls.slice(i*2, i*2+2).forEach(image => { %>
+        <div class="background-image" style="background-image: url('<%= image.url %>')"></div>
+        <% }) %>
+      </div>
+      <% } %>
+    </div>
     <main>
-        <img src="." alt="Logo">
-        <h1>Inkspire</h1>
-        <h2>slogan/beschrijving</h2>
-    
-        <button><a href="/log-in">Inloggen</a></button>
-        <button><a href="/register">Maak een account aan</a></button>
-        <button><a href="/registerArtists">Maak een artiestenaccount aan</a></button>
+      <div class="buttoncontainer">
+        <a href="/register" class="button-cta2">Registreren bezoeker</a>
+        <a href="/registerArtists" class="button-cta2">Registreren artiest</a >
+        <a href="/log-in" class="button-cta">Inloggen</a>
+      </div>
     </main>
-</body>
+
+    <div
+      id="imageUrlsContainer"
+      data-image-urls="<%= encodeURIComponent(JSON.stringify(imageUrls)) %>">
+    </div>
+    <script>
+      window.imageUrls = JSON.parse(
+        decodeURIComponent(
+          document.getElementById("imageUrlsContainer").dataset.imageUrls
+        )
+      );
+    </script>
+     <script src="/static/script/beginBackground.js"></script>
+  </body>
 </html>

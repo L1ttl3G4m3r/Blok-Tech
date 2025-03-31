@@ -16,26 +16,38 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "stylelint": "npx stylelint **/*.css",
+    "eslint": "npx eslint **/*.js",
+    "lint": "concurrently \"npm run eslint\" \"npm run stylelint\"",
+    "lintfix": "eslint --fix **/*.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "connect-mongo": "^5.1.0",
+    "cors": "^2.8.5",
     "crypt": "^0.0.2",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
-
     "express-session": "^1.18.1",
-    "mongodb": "^6.13.1",
+    "mongodb": "^6.14.2",
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^2.7.0",
     "nodemailer": "^6.10.0",
+    "sessions": "^0.0.2-7",
     "swiper": "^11.2.5",
+    "unsplash-js": "^7.0.19",
     "validator": "^13.12.0",
     "xss": "^1.0.15"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@eslint/js": "^9.22.0",
+    "eslint": "^9.22.0",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.9",
+    "stylelint": "^16.16.0",
+    "stylelint-config-standard": "^37.0.0",
+    "typescript-eslint": "^8.27.0"
   }
 }
