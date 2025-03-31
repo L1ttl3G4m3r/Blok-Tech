@@ -48,7 +48,8 @@ body {
   color: var(--color-text);
 }
 
-a {
+
+/* a {
   text-decoration: none;
   color: var(--color-text);
 }
@@ -56,7 +57,7 @@ a {
 ul, ol {
   list-style-type: none;
   padding: 0;
-}
+} */
 
 /****************/
 /* logo */
@@ -1120,6 +1121,20 @@ section.uitlegAfbeelding {
 }
 
 
+/*********************/
+/* header-detail.ejs */
+/*********************/
+.detailNav ul {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.detailNav img {
+  width: 30px;
+  height: auto;
+  margin-left: 2em;
+  margin-right: 2em;
+}
 
 /*************************/
 /* grid detailInformatie */
@@ -1177,12 +1192,6 @@ section.detailInformatie h1 {
   grid-row-end: 4;
 }
 
-section.detailInformatie button {
-  background: none;
-  border: none;
-  color: var(--color-text);
-}
-
 /*****************************/
 /* gerelateerdeContent scrol */
 /*****************************/
@@ -1207,11 +1216,82 @@ section.gerelateerdeContent ul {
   margin-right: 2em;
 }
 
-/*********************/
-/* header-detail.ejs */
-/*********************/
-.detailNav ul {
-  display: flex;
-  justify-content: space-between;
+/*****************/
+/* section.delen */
+/*****************/
+section.delen {
+  background-color: var(--color-text);
+  color: var(--color-background);
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
 }
 
+.delen > div {
+  display: flex;
+  justify-content: center;
+}
+
+section.delen ul {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+section.delen ul img {
+  margin-bottom: 2em;
+}
+
+/* werkt niet */
+section.delen,
+section.previewUitleg {
+  position: fixed;
+	left: 0;
+	right: 0;
+	top: 30em;
+	bottom: 0;
+
+  transform: translateY(100%);
+	transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+
+	background: var(--color-background);
+}
+
+.delen.toonMenu {
+	transform: translateY(0);
+}
+
+.previewUitleg.toonPreview {
+	transform: translateY(0);
+}
+
+/*************************/
+/* section.previewUitleg */
+/*************************/
+section.previewUitleg {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+  margin-left: 0em;
+  margin-right: 0em;
+  background-color: var(--color-text);
+  color: var(--color-background);
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
+}
+
+section.previewUitleg a, section.previewUitleg p {
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+section.previewUitleg a {
+  background-color: var(--color-button);
+  color: var(--color-background);
+  border: none;
+  width: 22em;
+  padding: 1em;
+  border-radius: .5em;
+  text-align: center;
+  margin-bottom: 2em;
+}

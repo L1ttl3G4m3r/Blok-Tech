@@ -116,15 +116,15 @@
     
             <!-- icoontjes -->
             <a href="#">
-                <img src="static/icons/profile.svg" alt="">
+                <img src="static/icons/normal/profile.svg" alt="">
             <h4>naam gebruiker</h4>
             </a>
-            <!-- <button>
-                <img id="openDelen" src="#" alt="Delen">
-            </button> -->
-            <%- include('partials/share') %>
             <button>
-                <img src="static/icons/collection.svg" alt="Opslaan">
+                <img class="openDelen" src="static/icons/normal/share.svg" alt="Delen">
+            </button>
+            <!-- <%- include('partials/share') %> -->
+            <button>
+                <img class="opslaan" src="static/icons/normal/collection.svg" alt="Opslaan">
             </button>
         </section>
     
@@ -180,6 +180,42 @@
                     </a>
                 </li>
             </ul>
+        </section>
+
+        <section class="delen">
+            <div>
+                <img class="sluitDelen" src="static/icons/black/close2.svg" alt="sluiten">
+                <h3>Delen</h3>
+            </div>
+            <ul>
+                <li>
+                    <a href="#">
+                        <img src="static/socials/facebook.svg" alt="Facebook">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="static/socials/instagram.svg" alt="Instagram">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="static/socials/linkedin.svg" alt="LinkedIn">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="static/socials/twitter.svg" alt="Twitter">
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="previewUitleg">
+            <img class="sluitPreview" src="static/icons/black/close2.svg" alt="sluiten">
+            <h3>Uitleg Tattoo Preview</h3>
+            <p>Je kunt met behulp van je camera een preview krijgen van hoe deze tattoo op jouw lichaam zit!</p>
+            <a href="#">Naar camera</a>
         </section>
     </main>
     <footer><%- include('partials/nav') %></footer>
