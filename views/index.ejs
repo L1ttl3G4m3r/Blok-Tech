@@ -6,6 +6,8 @@
   <body>
     <header><%- include('partials/header') %></header>
     <main>
+      <% var userPreferences = userPreferences || {}; %>
+      <% var isArtist = typeof isArtist !== 'undefined' ? isArtist : false; %>
       <section class="intro">
         <h1>Inspiration for your tattoo</h1>
       </section>
