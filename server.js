@@ -768,15 +768,26 @@
     }
   });
 
-  app.get('/detailpagina', (req, res) => {
-    const img = req.query.img || null;
-    const titel = req.query.titel || "Geen titel beschikbaar";
+  app.get('/detailpagina', async (req, res) => {  // Voeg 'async' toe hier
+    try {
+        const img = req.query.img || null;
+        const titel = req.query.titel || "Geen titel beschikbaar";
+        const imageUrls = await fetchUnsplashImages(8);
 
-    if (!img) {
-        return res.render('detailpagina', { img: null, titel: "Geen afbeelding gespecificeerd" });
+        if (!img) {
+            return res.render('detailpagina', { img: null, titel: "Geen afbeelding gespecificeerd" });
+        }
+
+        res.render('detailpagina', {
+            img,
+            titel,
+            pageTitle: "Detailpagina",
+            gridImages: imageUrls
+        });
+    } catch (error) {
+        console.error("Error loading index page:", error);
+        res.status(500).send("Er is een fout opgetreden.");
     }
-
-    res.render('detailpagina', { img, titel: titel || "Geen titel beschikbaar", pageTitle: "Detailpagina" });
 });
 
 app.get('/detail/:id', isAuthenticated, async (req, res) => {

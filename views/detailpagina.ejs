@@ -1,127 +1,114 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-  <%- include('partials/head') %>
-</head>
-<body>
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body>
     <header><%- include('partials/header-detail') %></header>
     <main>
-        <section class="detailInformatie">
-          <h1><%= typeof titel !== "undefined" ? titel : "Geen titel beschikbaar" %></h1>
+      <section class="detailInformatie">
+        <h1>
+          <%= typeof titel !== "undefined" ? titel : "Geen titel beschikbaar" %>
+        </h1>
 
-          <% if (typeof img !== "undefined" && img) { %>
-            <img id="selectedImage" src="<%= img %>" alt="Geselecteerde afbeelding">
+        <% if (typeof img !== "undefined" && img) { %>
+        <img
+          id="selectedImage"
+          src="<%= img %>"
+          alt="Geselecteerde afbeelding"
+        />
         <% } else { %>
-            <p>Geen afbeelding gespecificeerd.</p>
+        <p>Geen afbeelding gespecificeerd.</p>
         <% } %>
 
-            <!-- icoontjes -->
+        <!-- icoontjes -->
+        <a href="#">
+          <img src="/static/icons/normal/profile.svg" alt="" />
+          <h4>naam gebruiker</h4>
+        </a>
+        <button>
+          <img
+            class="openDelen"
+            src="/static/icons/normal/share.svg"
+            alt="Delen"
+          />
+        </button>
+        <!-- <%- include('partials/share') %> -->
+        <button>
+          <img
+            class="opslaan"
+            src="/static/icons/normal/collection.svg"
+            alt="Opslaan"
+          />
+        </button>
+      </section>
+
+      <h3>Meer om te verkennen</h3>
+      <section class="tattoo-grid" id="tattoo-grid">
+        <% if (gridImages && gridImages.length > 0) { %> <%
+        gridImages.forEach(image => { %>
+        <img
+          src="<%= image.url %>"
+          alt="<%= image.alt_description || 'Tattoo Image' %>"
+          data-id="<%= image.id %>"
+          class="clickable-image"
+        />
+        <% }) %> <% } else { %>
+        <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
+        <% } %>
+      </section>
+
+      <section class="delen">
+        <div>
+          <img
+            class="sluitDelen"
+            src="static/icons/black/close.svg"
+            alt="sluiten"
+          />
+          <h3>Delen</h3>
+        </div>
+        <ul>
+          <li>
             <a href="#">
-                <img src="/static/icons/normal/profile.svg" alt="">
-            <h4>naam gebruiker</h4>
+              <img src="static/socials/facebook.svg" alt="Facebook" />
             </a>
-            <button>
-                <img class="openDelen" src="/static/icons/normal/share.svg" alt="Delen">
-            </button>
-            <!-- <%- include('partials/share') %> -->
-            <button>
-                <img class="opslaan" src="/static/icons/normal/collection.svg" alt="Opslaan">
-            </button>
-        </section>
+          </li>
+          <li>
+            <a href="#">
+              <img src="static/socials/instagram.svg" alt="Instagram" />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="static/socials/linkedin.svg" alt="LinkedIn" />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="static/socials/twitter.svg" alt="Twitter" />
+            </a>
+          </li>
+        </ul>
+      </section>
 
-        <section class="gerelateerdeContent">
-            <h3>Meer om te verkennen</h3>
-            <ul>
-                <li>
-                    <a href="#">
-                        <img src="#" alt="">
-                        naamplaatje
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="#" alt="">
-                        naamplaatje
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="#" alt="">
-                        naamplaatje
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="#" alt="">
-                        naamplaatje
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="#" alt="">
-                        naamplaatje
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="#" alt="">
-                        naamplaatje
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="#" alt="">
-                        naamplaatje
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="#" alt="">
-                        naamplaatje
-                    </a>
-                </li>
-            </ul>
-        </section>
-
-        <section class="delen">
-            <div>
-                <img class="sluitDelen" src="static/icons/black/close.svg" alt="sluiten">
-                <h3>Delen</h3>
-            </div>
-            <ul>
-                <li>
-                    <a href="#">
-                        <img src="static/socials/facebook.svg" alt="Facebook">
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="static/socials/instagram.svg" alt="Instagram">
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="static/socials/linkedin.svg" alt="LinkedIn">
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="static/socials/twitter.svg" alt="Twitter">
-                    </a>
-                </li>
-            </ul>
-        </section>
-
-        <section class="previewUitleg">
-            <img class="sluitPreview" src="static/icons/black/close.svg" alt="sluiten">
-            <h3>Uitleg Tattoo Preview</h3>
-            <p>Je kunt met behulp van je camera een preview krijgen van hoe deze tattoo op jouw lichaam zit!</p>
-            <a href="#">Naar camera</a>
-        </section>
+      <section class="previewUitleg">
+        <img
+          class="sluitPreview"
+          src="static/icons/black/close.svg"
+          alt="sluiten"
+        />
+        <h3>Uitleg Tattoo Preview</h3>
+        <p>
+          Je kunt met behulp van je camera een preview krijgen van hoe deze
+          tattoo op jouw lichaam zit!
+        </p>
+        <a href="#">Naar camera</a>
+      </section>
     </main>
     <footer><%- include('partials/nav') %></footer>
+    <script src="/static/script/script.js"></script>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", function () {
         const params = new URLSearchParams(window.location.search);
         const imageUrl = params.get("img");
         const imageTitle = params.get("titel");
@@ -130,15 +117,17 @@
         console.log("Image Title:", imageTitle);
 
         if (imageUrl) {
-            document.getElementById("selectedImage").src = decodeURIComponent(imageUrl);
+          document.getElementById("selectedImage").src =
+            decodeURIComponent(imageUrl);
         } else {
-            console.error("Geen afbeelding URL gevonden!");
+          console.error("Geen afbeelding URL gevonden!");
         }
 
         if (imageTitle) {
-            document.getElementById("imageTitle").textContent = decodeURIComponent(imageTitle);
+          document.getElementById("imageTitle").textContent =
+            decodeURIComponent(imageTitle);
         }
-    });
+      });
     </script>
-</body>
+  </body>
 </html>
