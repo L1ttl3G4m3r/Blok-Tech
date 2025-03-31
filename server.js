@@ -1009,7 +1009,6 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
       return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
   }});
 
-
   app.post("/upload-photo", upload.single("photo"), async (req, res) => {
     try {
       if (!req.session.userId) {
