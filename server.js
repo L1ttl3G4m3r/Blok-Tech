@@ -862,6 +862,32 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
 });
 
+app.get('/detailpage/:postId', async (req, res) => {
+  try {
+      const postId = req.params.postId;
+
+      // Find the post in the database
+      const post = await posts.findById(postId);
+
+      if (!post) {
+          return res.status(404).send("Post not found");
+      }
+
+      // Extract tags or set default
+      const tags = Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : [];
+
+      console.log("Tags being sent to EJS:", tags); // Debugging log
+
+      res.render('micro-information.ejs', {
+          pageTitle: "Micro Information",
+          tags: []
+      });
+  } catch (error) {
+      console.error("Error fetching post:", error);
+      res.status(500).send("An error occurred.");
+  }
+});
+
   app.get("/preview", isAuthenticated, (req, res) => {
     res.render("preview", { pageTitle: "Preview" });
   });

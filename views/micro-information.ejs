@@ -30,10 +30,14 @@
 
             <!-- <h2>Tags</h2> -->
             <ul>
-                <li>Tag 1</li>
-                <li>Tag 2</li>
-                <li>Tag 3</li>
-            </ul>
+              <% if (typeof tags !== "undefined" && Array.isArray(tags) && tags.length > 0) { %>
+                  <% tags.forEach(tag => { %>
+                      <li><%= tag %></li>
+                  <% }); %>
+              <% } else { %>
+                  <li>Geen tags gevonden</li>
+              <% } %>
+          </ul>
 
             <h2>Artiesten die dit ook kunnen</h2>
             <ul>
@@ -41,14 +45,6 @@
                 <li><a href="#">@...</a></li>
                 <li><a href="#">@...</a></li>
             </ul>
-            <form id="postForm" enctype="multipart/form-data">
-              <div class="tags-container">
-                <label for="tagsInput">Tags:</label>
-                <div id="tagsList" class="tags-list"></div>
-                <input type="text" id="tagsInput" placeholder="Voeg een tag toe en druk op Enter">
-                <input type="hidden" id="hiddenTagsInput" name="tags">
-            </div>
-            </form>
         </section>
 
         <section class="uitlegAfbeelding">
