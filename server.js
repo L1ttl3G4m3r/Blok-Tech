@@ -838,59 +838,6 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
-  app.get('/detailpagina/:userId', async (req, res) => {
-    try {
-        const userId = req.params.userId;
-
-        // First, check in the 'users' collection
-        let user = await users.findById(userId);
-
-        // If not found in 'users', check in 'artists'
-        if (!user) {
-            user = await Artists.findById(userId);
-        }
-
-        // If still not found, set a default message
-        const username = user ? user.name : "Geen gebruiker gekoppeld";
-
-        console.log("Username being sent to EJS:", username); // Debugging log
-
-        res.render('micro-information.ejs', { username: "" });
-    } catch (error) {
-        console.error("Error fetching user:", error);
-        res.status(500).send("An error occurred.");
-    }
-});
-
-app.get('/detailpagina/:postId', async (req, res) => {
-  try {
-    const postId = req.params.postId;
-
-    // Ensure 'posts' is the correct collection
-    const postsCollection = db.collection("posts"); // Ensure correct collection
-
-    // Find the post in the database
-    const post = await postsCollection.findOne({ _id: new ObjectId(postId) });  // Use findOne() for specific posts
-
-    if (!post) {
-      return res.status(404).send("Post not found");
-    }
-
-    // Extract tags or set default
-    const tags = Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : [];
-
-    // Pass the post and its tags to the view
-    res.render('micro-information.ejs', {
-      pageTitle: "Micro Information",
-      post: post,   // Send the post data
-      tags: tags    // Send the tags extracted from the post
-    });
-  } catch (error) {
-    console.error("Error fetching post:", error);
-    res.status(500).send("An error occurred.");
-  }
-});
-
   app.get("/preview", isAuthenticated, (req, res) => {
     res.render("preview", { pageTitle: "Preview" });
   });
@@ -925,27 +872,51 @@ app.get('/detailpagina/:postId', async (req, res) => {
     try {
         const img = req.query.img || null;
         const titel = req.query.titel || "Geen titel beschikbaar";
-        const imageUrls = await fetchUnsplashImages(30);
-        const Collection = db.collection("artists");
-        const artists = await Collection.find().toArray();
 
-        if (!img) {
-            return res.render('micro-information', { img: null, titel: "Geen afbeelding gespecificeerd", pageTitle: "Micro Information" });
+        const usersCollection = db.collection("users");
+        const postsCollection = db.collection("posts");
+        const artistsCollection = db.collection("artists");
+
+        const userId = req.params.userId; // Check of deze correct uit params komt
+        const postId = req.params.postId; // Check of deze correct uit params komt
+
+        let user = null;
+        if (userId) {
+            user = await usersCollection.findOne({ _id: new ObjectId(userId) });
         }
 
+        if (!user) {
+            user = { name: "Geen gebruiker gekoppeld" }; // Standaardwaarde als user niet wordt gevonden
+        }
+
+        let post = null;
+        if (postId) {
+            post = await postsCollection.findOne({ _id: new ObjectId(postId) });
+        }
+
+        if (!post) {
+            post = { tags: [], message: "Geen post gevonden" }; // Standaardwaarde als post niet wordt gevonden
+        }
+
+        const tags = Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : ["Geen tags gevonden"];
+
+        const artists = await artistsCollection.find().toArray();
         if (!artists || artists.length === 0) {
-          return res.status(404).send("No artists found");
+            artists.push({ name: "Geen artiesten gevonden", image: "static/icons/profile/avatar-stock.svg" });
         }
 
         res.render('micro-information.ejs', {
             img,
             titel,
             pageTitle: "Micro Information",
-            gridImages: imageUrls,
+            username: user.name,
+            post: post,
+            tags: tags,
             artists: artists
         });
+
     } catch (error) {
-        console.error("Error loading index page:", error);
+        console.error("Error loading page:", error);
         res.status(500).send("Er is een fout opgetreden.");
     }
 });
