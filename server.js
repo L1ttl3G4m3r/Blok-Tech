@@ -868,6 +868,28 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
+  app.get('/microinteraction', async (req, res) => {
+    try {
+        const img = req.query.img || null;
+        const titel = req.query.titel || "Geen titel beschikbaar";
+        const imageUrls = await fetchUnsplashImages(30);
+
+        if (!img) {
+            return res.render('micro-information', { img: null, titel: "Geen afbeelding gespecificeerd", pageTitle: "Micro Information" });
+        }
+
+        res.render('micro-information.ejs', {
+            img,
+            titel,
+            pageTitle: "Micro Information",
+            gridImages: imageUrls
+        });
+    } catch (error) {
+        console.error("Error loading index page:", error);
+        res.status(500).send("Er is een fout opgetreden.");
+    }
+});
+
   app.get("/collectie-bezoeker", isAuthenticated, async (req, res) => {
     try {
       const collection = db.collection("users");

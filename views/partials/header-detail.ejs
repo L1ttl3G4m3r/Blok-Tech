@@ -1,7 +1,7 @@
 <nav class="detailNav">
     <ul>
         <li>
-            <a href="#">
+            <a href="javascript:history.back()">
                 <img src="/static/icons/normal/back.svg" alt="Terug">
             </a>
         </li>
@@ -16,8 +16,8 @@
             </button>
         </li>
         <li>
-            <a href="#">
-                <img src="/static/icons/normal/micro-detail.svg" alt="micro detail informatie">
+          <a href="/microinteraction?img=<%= encodeURIComponent(img) %>&titel=<%= encodeURIComponent(titel) %>">
+            <img src="/static/icons/normal/micro-detail.svg" alt="micro detail informatie">
             </a>
         </li>
     </ul>
