@@ -870,7 +870,7 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
-  app.get("/collectie-bezoeker", isAuthenticated, async (req, res) => {
+  app.get("/collectie", isAuthenticated, async (req, res) => {
     try {
       const collection = db.collection("users");
       const user = await collection.findOne({
@@ -885,7 +885,7 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
         console.warn(`No userImages array found for user ${req.session.userId}`);
       }
 
-      res.render("collectie-bezoeker.ejs", {
+      res.render("collection.ejs", {
         pageTitle: "Collectie Bezoeker",
         username: req.session.username,
         userImages: userImages,
