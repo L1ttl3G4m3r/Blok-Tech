@@ -145,17 +145,18 @@
 
   app.get("/index", isAuthenticated, async (req, res) => {
     try {
-      const { ObjectId } = require("mongodb"); // Zorg dat ObjectId slechts eenmaal wordt gedeclareerd.
-      const currentSort = req.query.sort_by || 'relevant'; // Verwijder dubbele declaratie van currentSort
+      const { ObjectId } = require("mongodb");
+      const currentSort = req.query.sort_by || 'relevant';
       const usersCollection = db.collection("users");
       const artistsCollection = db.collection("artists");
+      const userPreferences = req.session?.userPreferences || {};
+      const isArtist = req.session?.user?.isArtist || false;
 
       if (!db) throw new Error("Database connection is not established");
 
       let user = null;
-      let collectionName = "users"; // Dit is momenteel niet nodig, maar kan later handig zijn voor logica
+      let collectionName = "users";
 
-      // Zoeken naar de gebruiker in de users collectie
       try {
         user = await usersCollection.findOne({
           _id: new ObjectId(req.session.userId),
@@ -164,38 +165,40 @@
         console.log("Error fetching user from users collection:", error);
       }
 
-      // Als de gebruiker niet is gevonden, probeer dan de artists collectie
       if (!user) {
         try {
           user = await artistsCollection.findOne({
             _id: new ObjectId(req.session.userId),
           });
-          collectionName = "artists"; // Je kunt later beslissen wat je hiermee wilt doen
+          collectionName = "artists";
         } catch (error) {
           console.log("Error fetching user from artists collection:", error);
         }
       }
 
-      // Als de gebruiker nog steeds niet is gevonden, gooi een fout
       if (!user) throw new Error("User not found");
 
       const postsCollection = db.collection("posts");
 
-      // Haal gebruikersvoorkeuren op
-      const styles = req.session.userPreferences?.tattooStijl || [];
+      // Haal de query parameters van de filters en zoekterm
+      const query = req.query.q || "";  // Zoekterm uit de query
+      const styles = req.query.styles ? req.query.styles.split(",") : [];
       const colors = req.query.colors || "";
       const tattooPlek = req.query.tattooPlek || "";
       const woonplaats = req.query.woonplaats || "";
 
       console.log("Query parameters:", {
+        query,
         styles,
         colors,
         tattooPlek,
         woonplaats,
       });
 
-      // Bouw de zoekopdracht voor Unsplash op basis van stijlen en kleuren
-      let query = "tattoo";
+      // Start de zoekopdracht standaard op "tattoo"
+      let searchQuery = query ? query : "tattoo";  // Als er een zoekterm is, gebruik die, anders "tattoo"
+
+      // Voeg stijlen toe aan de zoekopdracht
       if (styles.length > 0) {
         const styleQueries = styles.map((style) => {
           switch (style) {
@@ -209,20 +212,28 @@
             default: return "tattoo";
           }
         });
-        query = styleQueries.join(" ");
+        searchQuery += ` ${styleQueries.join(" ")}`;
       }
 
-      // Voeg kleuren toe aan de query
+      // Voeg kleur toe aan de zoekopdracht
       if (colors === "black_and_white") {
-        query += " black and white tattoo";
+        searchQuery += " black and white tattoo";
       } else if (colors === "color") {
-        query += " colorful tattoo";
+        searchQuery += " colorful tattoo";
       }
 
-      console.log("Unsplash query:", query);
+      // Voeg tattooPlek en woonplaats toe aan de zoekopdracht
+      if (tattooPlek) {
+        searchQuery += ` ${tattooPlek} tattoo`;
+      }
+      if (woonplaats) {
+        searchQuery += ` ${woonplaats}`;
+      }
+
+      console.log("Unsplash query:", searchQuery);
 
       // Haal Unsplash afbeeldingen op
-      const imageUrls = await fetchUnsplashImages(query, 28, currentSort);
+      const imageUrls = await fetchUnsplashImages(searchQuery, 28, currentSort);
       console.log("Fetched Unsplash images:", imageUrls);
 
       // Haal de posts op uit de database en filter ze op stijl
@@ -237,11 +248,11 @@
 
       // Render de pagina met de juiste data
       res.render("index.ejs", {
-        pageTitle: "Home",
+        pageTitle: query ? `Zoekresultaten voor "${query}"` : "Home",  // Als er een zoekterm is, geef een aangepaste titel
         username: req.session.username,
-        gridImages: imageUrls,
+        gridImages: imageUrls,  // Hier stuur je de Unsplash afbeeldingen naar de client
         user,
-        currentSort, // Gebruik de al gedefinieerde currentSort
+        currentSort,
         isArtist: req.session.isArtist,
         posts: filteredPosts,
         userPreferences: user || {},
@@ -468,7 +479,7 @@
 
       user = await artistsCollection.findOne({ email });
       if (user && (await bcrypt.compare(password, user.password))) {
-        req.session.userId = userId.toString();
+        req.session.userId = user._id.toString();
         req.session.username = user.username;
         req.session.email = user.email;
         req.session.isArtist = true;
@@ -476,6 +487,7 @@
       }
 
       return res.status(400).send("Incorrect e-mail of wachtwoord");
+
     } catch (error) {
       console.error("Login error:", error);
       res.status(500).send("Er is een fout opgetreden bij het inloggen");
@@ -820,30 +832,6 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     res.render("preview", { pageTitle: "Preview" });
   });
 
-  app.get("/search", isAuthenticated, async (req, res) => {
-    try {
-      const query = req.query.q || "";
-      const sortBy = req.query.sort_by || "relevant";
-
-      if (!query) {
-        return res.status(400).send("Zoekterm is vereist");
-      }
-
-      const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
-      res.render("index.ejs", {
-        pageTitle: `Zoekresultaten voor "${query}"`,
-        username: req.session.username,
-        gridImages: imageUrls,
-        currentSort: sortBy,
-      });
-    } catch (error) {
-      console.error("Error fetching search results:", error);
-      res
-        .status(500)
-        .send("Er is een fout opgetreden bij het ophalen van zoekresultaten");
-    }
-  });
-
   app.get("/search-artists", isAuthenticated, async (req, res) => {
     try {
       const query = req.query.q || "";
@@ -896,6 +884,85 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
+  app.get("/collectieArtist", isAuthenticated, async (req, res) => {
+    try {
+      const collection = db.collection("artists");
+      const user = await collection.findOne({
+        _id: new ObjectId(req.session.userId),
+      });
+
+      let artistImages = [];
+
+      if (user && user.artistImages && Array.isArray(user.artistImages)) {
+        artistImages = user.artistImages;
+      } else {
+        console.warn(`No userImages array found for user ${req.session.userId}`);
+      }
+
+      res.render("collectieArtist.ejs", {
+        pageTitle: "Collectie Artist",
+        username: req.session.username,
+        artistImages: artistImages,
+      });
+    } catch (error) {
+      console.error("Error fetching user's images:", error);
+      res.status(500).send("An error occurred while loading the page.");
+    }
+  });
+
+  app.post('/add-to-collection', isAuthenticated, async (req, res) => {
+    try {
+      const { imageUrl } = req.body;
+
+      if (!imageUrl) {
+        return res.status(400).send('Image URL is required');
+      }
+
+      const usersCollection = db.collection('users');
+      const artistsCollection = db.collection('artists');
+      const userId = req.session.userId;
+
+      if (!userId) {
+        return res.status(401).send('User not authenticated');
+      }
+
+      if (!ObjectId.isValid(userId)) {
+        return res.status(400).send('Invalid user ID');
+      }
+
+      let userUpdateSuccess = false;
+      let artistUpdateSuccess = false;
+
+      const userResult = await usersCollection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $addToSet: { userImages: imageUrl } }
+      );
+
+      if (userResult.modifiedCount > 0) {
+        userUpdateSuccess = true;
+      }
+
+      const artistResult = await artistsCollection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $addToSet: { artistImages: imageUrl } }
+      );
+
+      if (artistResult.modifiedCount > 0) {
+        artistUpdateSuccess = true;
+      }
+
+      if (!userUpdateSuccess && !artistUpdateSuccess) {
+        return res.status(404).send('No changes made to either collection');
+      }
+
+      res.status(200).send('Image added successfully');
+    } catch (error) {
+      console.error('Error adding to collection:', error);
+      res.status(500).send('Internal server error');
+    }
+  });
+
+
   app.get('/profiel', async (req, res) => {
     if (!req.session.userId) {
       return res.redirect('/login');
@@ -913,6 +980,33 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
 
     res.render('profile.ejs', {
       pageTitle: 'Profiel',
+      user: {
+        userId: req.session.userId,
+        username: req.session.username || 'Gast',
+        email: req.session.email || '',
+        isArtist: req.session.isArtist || false,
+        profilePhoto: req.session.profilePhoto
+      }
+    });
+  });
+
+  app.get('/profielArtist', async (req, res) => {
+    if (!req.session.userId) {
+      return res.redirect('/login');
+    }
+
+    // Haal de meest recente gebruiker op uit de database
+    const usersCollection = db.collection("artists");
+    const user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
+
+    // Zorg dat er een standaard foto wordt gebruikt als er geen profielfoto is
+    const profilePhoto = user?.profilePhoto || "/static/icons/profile/avatar-stock.svg";
+
+    // Update de sessie met de juiste profielfoto
+    req.session.profilePhoto = profilePhoto;
+
+    res.render('profileArtists.ejs', {
+      pageTitle: 'Profiel Artiesten',
       user: {
         userId: req.session.userId,
         username: req.session.username || 'Gast',
@@ -975,12 +1069,10 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
           return res.status(500).json({ success: false, message: 'Fout bij het toevoegen van de post aan de database' });
       }
 
-      } catch (error) {
-          console.error('Fout bij het opslaan van de post:', error);
-          return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
-      }
-    })
-
+  } catch (error) {
+      console.error('Fout bij het opslaan van de post:', error);
+      return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
+  }});
 
   app.post("/upload-photo", upload.single("photo"), async (req, res) => {
     try {
