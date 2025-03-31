@@ -574,7 +574,7 @@
     try {
       const collection = db.collection("artists");
       const artists = await collection.find().toArray();
-      res.render("artiesten.ejs", {
+      res.render("artist-search.ejs", {
         pageTitle: "Artiesten",
         artists: artists,
         currentSort: "relevant",

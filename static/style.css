@@ -47,6 +47,10 @@ body {
   font-weight: 500;
   color: var(--color-text);
 }
+main {
+padding-bottom: 6em;
+}
+
 /****************/
 /* logo */
 /****************/
@@ -69,6 +73,7 @@ footer {
   width: 100vw;
   z-index: 1000;
   background-color: var(--color-background);
+  height: 6em;
 }
 .navbar {
   display: flex;
@@ -120,7 +125,7 @@ footer {
 section.search {
   display: flex;
   justify-content: space-between;
-  margin: 0 1.5em 1.5em 0.5em;
+  margin: 0.5em;
 }
 section.search-artists {
   display: flex;
@@ -128,7 +133,7 @@ section.search-artists {
 }
 
 input[type="search"] {
-  width: 20em;
+  width: 16em;
   padding: 0 2.5em;
   height: 3em;
   font-size: 1em;
@@ -178,21 +183,20 @@ section.filtersorting {
   margin: 0 0.5em;
 }
 nav {
-  padding: 0 1.2em;
   display: flex;
   justify-content: flex-end;
 }
 
 #filterButton {
   cursor: pointer;
-  background-color: var(--color-background);
   border: none;
+  background: none;
 }
 #filterButton img {
-  width: 3em;
+  width: 4em;
   height: auto;
   border: 2px solid var(--color-text);
-  border-radius: 40px;
+  border-radius: 8em;
 }
 
 .sidebar {
@@ -536,26 +540,28 @@ li.artist-item {
 #saveButton:disabled {
   background-color: var(--disabled-button);
   color: var(--disabled-text);
-  padding: 1em 11em;
+  padding: 1em 9em;
   border-radius: 4px;
   font-family: var(--main-font);
   border: none;
   box-shadow: none;
+  font-size: 1em;
+  margin-top: 1em;
 }
 #saveButton:not(:disabled) {
   background-color: var(--color-button);
-  padding: 1em 11em;
+  padding: 1em 9em;
   border-radius: 4px;
   color: var(--color-text);
   font-family: var(--main-font);
   border: none;
   box-shadow: none;
-}
-#saveButton:not(:disabled):hover {
-  background-color: var(--button-hover);
+  font-size: 1em;
+  margin-top: 1em;
   transform: scale(1.05); /* Maak de knop iets groter */
   transition: all 0.3s ease; /* Voeg een soepele overgang toe */
 }
+
 
 /****************/
 /* forms login/register */
@@ -695,11 +701,13 @@ section.profile-section {
 /****************************/
 /* profile form */
 /****************************/
+
 .profile-form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .profile-header h2{
   margin-top: 1em;
 }
@@ -717,12 +725,14 @@ section.profile-section {
 #editButton {
   font-family: var(--main-font);
   margin-bottom: 1em;
-  background: none; /* Verwijder de achtergrond */
-  border: none; /* Verwijder de rand */
+  background-color: var(--color-button);
+  border-radius: 4px;
+  padding: 1em 1.5em;
+  border: none;
   box-shadow: none; /* Verwijder de schaduw */
   cursor: pointer;
   color: var(--color-text);
-  text-decoration: underline;
+  font-size: 0.8em;
 }
 
 /****************************/
@@ -867,6 +877,7 @@ input[type="radio"]:checked::before {
   align-items: center;
   gap: 1em;
 
+
 }
 .post-form label, .form-group label {
   font-weight: 300;
@@ -982,6 +993,7 @@ h2.selected {
   margin-top: 2em;
 }
 
-.content h2, p {
+.content h2,
+.content p {
   text-align: center;
 }

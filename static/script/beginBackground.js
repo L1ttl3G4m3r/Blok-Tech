@@ -1,6 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   const backgroundContainer = document.getElementById('backgroundContainer');
   const allImages = window.imageUrls; // Gebruik de globale variabele
+  const tattooGridImages = document.querySelectorAll('#tattoo-grid img');
+
+  // Tattoo grid klikfunctionaliteit
+  tattooGridImages.forEach((img, index) => {
+      img.addEventListener('click', () => {
+          window.location.href = `/detail/${index}`;
+      });
+  });
 
   function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
