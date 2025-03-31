@@ -7,11 +7,14 @@
     <header><%- include('partials/header-detail') %></header>
     <main>
         <section class="detailInformatie">
-            <!-- titel plaatje -->
-            <h1>titel van de afbeelding</h1>
+          <h1><%= typeof titel !== "undefined" ? titel : "Geen titel beschikbaar" %></h1>
 
-            <!-- plaatje waarop geklikt is -->
-            <img src="#" alt="">
+          <% if (typeof img !== "undefined" && img) { %>
+            <img id="selectedImage" src="<%= img %>" alt="Geselecteerde afbeelding">
+        <% } else { %>
+            <p>Geen afbeelding gespecificeerd.</p>
+        <% } %>
+        </section>
 
             <!-- icoontjes -->
             <a href="#">
@@ -118,5 +121,25 @@
         </section>
     </main>
     <footer><%- include('partials/nav') %></footer>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const params = new URLSearchParams(window.location.search);
+        const imageUrl = params.get("img");
+        const imageTitle = params.get("titel");
+
+        console.log("Image URL:", imageUrl);
+        console.log("Image Title:", imageTitle);
+
+        if (imageUrl) {
+            document.getElementById("selectedImage").src = decodeURIComponent(imageUrl);
+        } else {
+            console.error("Geen afbeelding URL gevonden!");
+        }
+
+        if (imageTitle) {
+            document.getElementById("imageTitle").textContent = decodeURIComponent(imageTitle);
+        }
+    });
+    </script>
 </body>
 </html>

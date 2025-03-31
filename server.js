@@ -768,17 +768,16 @@
     }
   });
 
-  app.get("/detailpagina", (req, res) => {
-    const imageUrl = req.query.image;
-    if (!imageUrl) {
-      return res.status(400).send("Geen afbeelding gespecificeerd");
+  app.get('/detailpagina', (req, res) => {
+    const img = req.query.img || null;
+    const titel = req.query.titel || "Geen titel beschikbaar";
+
+    if (!img) {
+        return res.render('detailpagina', { img: null, titel: "Geen afbeelding gespecificeerd" });
     }
 
-    res.render("detailpagina.ejs", {
-      pageTitle: "Tattoo Detail",
-      imageUrl,
-    });
-  });
+    res.render('detailpagina', { img, titel: titel || "Geen titel beschikbaar", pageTitle: "Detailpagina" });
+});
 
 app.get('/detail/:id', isAuthenticated, async (req, res) => {
   try {
