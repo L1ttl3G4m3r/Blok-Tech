@@ -49,7 +49,7 @@ body {
 }
 
 
-/* a {
+a {
   text-decoration: none;
   color: var(--color-text);
 }
@@ -57,7 +57,7 @@ body {
 ul, ol {
   list-style-type: none;
   padding: 0;
-} */
+}
 
 /****************/
 /* logo */
