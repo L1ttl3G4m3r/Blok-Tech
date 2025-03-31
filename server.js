@@ -479,7 +479,7 @@
 
       user = await artistsCollection.findOne({ email });
       if (user && (await bcrypt.compare(password, user.password))) {
-        req.session.userId = userId.toString();
+        req.session.userId = user._id.toString();
         req.session.username = user.username;
         req.session.email = user.email;
         req.session.isArtist = true;
@@ -487,6 +487,7 @@
       }
 
       return res.status(400).send("Incorrect e-mail of wachtwoord");
+
     } catch (error) {
       console.error("Login error:", error);
       res.status(500).send("Er is een fout opgetreden bij het inloggen");
@@ -929,6 +930,33 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
 
     res.render('profile.ejs', {
       pageTitle: 'Profiel',
+      user: {
+        userId: req.session.userId,
+        username: req.session.username || 'Gast',
+        email: req.session.email || '',
+        isArtist: req.session.isArtist || false,
+        profilePhoto: req.session.profilePhoto
+      }
+    });
+  });
+
+  app.get('/profielArtist', async (req, res) => {
+    if (!req.session.userId) {
+      return res.redirect('/login');
+    }
+
+    // Haal de meest recente gebruiker op uit de database
+    const usersCollection = db.collection("artists");
+    const user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
+
+    // Zorg dat er een standaard foto wordt gebruikt als er geen profielfoto is
+    const profilePhoto = user?.profilePhoto || "/static/icons/profile/avatar-stock.svg";
+
+    // Update de sessie met de juiste profielfoto
+    req.session.profilePhoto = profilePhoto;
+
+    res.render('profileArtists.ejs', {
+      pageTitle: 'Profiel Artiesten',
       user: {
         userId: req.session.userId,
         username: req.session.username || 'Gast',
