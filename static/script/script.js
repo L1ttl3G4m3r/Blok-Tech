@@ -24,12 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   });
 
-  // Tattoo grid klikbaar maken
-  elements.tattooGridImages.forEach(img => {
-      img.addEventListener('click', function() {
-          window.location.href = `/detailpagina/${encodeURIComponent(this.dataset.id)}`;
-      });
-  });
+  elements.tattooGridImages.forEach((img, index) => {
+    img.addEventListener('click', function() {
+        window.location.href = `/detail/${index}`;
+    });
+});
 
   // Profielfoto menu functionaliteit
   elements.profilePhotos.forEach(photo => {

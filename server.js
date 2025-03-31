@@ -768,9 +768,32 @@
     });
   });
 
-  app.get("/detail/:id", isAuthenticated, (req, res) => {
-    res.render("detailpagina", { id: req.params.id, pageTitle: "Detailpagina" });
-  });
+app.get('/detail/:id', isAuthenticated, async (req, res) => {
+  try {
+      const imageId = req.params.id;
+      const imageUrls = await fetchUnsplashImages('tattoo', 30, 'relevant');
+      const selectedImage = imageUrls.find((image, index) => index.toString() === imageId);
+
+
+      if (!selectedImage) {
+          return res.status(404).send("Image not found");
+      }
+      console.log(selectedImage);
+
+      res.render('detailpagina.ejs', {
+          pageTitle: 'Detailpagina',
+          image: selectedImage,
+          artist_username: selectedImage.artist_username,
+          artist_name: selectedImage.artist_name
+
+      });
+
+  } catch (error) {
+      console.error("Error fetching image details:", error);
+      res.status(500).send("An error occurred while loading the image details");
+  }
+});
+
 
   app.get("/detailpagina/:id", async (req, res) => {
     try {
@@ -952,11 +975,12 @@
           return res.status(500).json({ success: false, message: 'Fout bij het toevoegen van de post aan de database' });
       }
 
-  } catch (error) {
-      console.error('Fout bij het opslaan van de post:', error);
-      return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
-  }
-  });
+      } catch (error) {
+          console.error('Fout bij het opslaan van de post:', error);
+          return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
+      }
+    })
+
 
   app.post("/upload-photo", upload.single("photo"), async (req, res) => {
     try {
