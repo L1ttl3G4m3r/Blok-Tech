@@ -1,5 +1,3 @@
-import { initializeTabs } from './tabs.js';
-
 document.addEventListener('DOMContentLoaded', function () {
     const elements = {
         navItems: document.querySelectorAll(".nav-item a"),

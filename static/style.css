@@ -939,21 +939,24 @@ textarea {
 /****************************/
 .tabs {
   display: flex;
-  list-style: none;
-  padding: 0;
+  list-style-type: none;
+  justify-content: center;
 }
-
 .tab {
   cursor: pointer;
-  padding: 10px;
+  padding: 1em;
   text-align: center;
   position: relative;
+  border-bottom: 2px solid var(--color-text); /* Underline for active tab */
 }
-
 .tab h2 {
   margin: 5px 0;
+  font-size: 1.4em;
 }
-
+.tab img {
+  height: 4em;
+  width: 4em;
+}
 .tab.active {
   border-bottom: 2px solid var(--button-hover); /* Underline for active tab */
 }
@@ -973,4 +976,12 @@ h2.selected {
 }
 .hidden {
   display: none;
+}
+
+.content {
+  margin-top: 2em;
+}
+
+.content h2, p {
+  text-align: center;
 }

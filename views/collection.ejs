@@ -5,8 +5,8 @@
 </head>
 <body>
 
-
-
+  <header><%- include('partials/header') %></header>
+<main>
       <ul class="tabs">
       <li class="tab active" data-tab="collections">
           <img src="/static/icons//normal/collection.svg" alt="Collectie" class="icon-normal">
@@ -16,7 +16,7 @@
       <li class="tab" data-tab="posts">
           <img src="/static/icons/normal/map.svg" alt="Post collectie" class="icon-normal">
           <img src="/static/icons/selected/map-selected.svg" alt="Post collectie geselecteerd" class="icon-selected hidden">
-          <h2>Posts</h2>
+          <h2> Jouw posts</h2>
       </li>
   </ul>
 
@@ -38,12 +38,13 @@
       <h2>Your Posts</h2>
       <!-- Dynamische inhoud -->
   </section>
+</main>
   <footer>
     <%- include('partials/nav') %>
   </footer>
   <!-- Scripts -->
-  <script type="module" src="/static/script/tabs.js"></script>
-  <script type="module" src="/static/script/script.js"></script>
+  <script src="/static/script/tabs.js"></script>
+  <script src="/static/script/script.js"></script>
 </body>
 </html>
 </body>

@@ -42,6 +42,3 @@ function initializeTabs() {
       });
   });
 }
-
-// Zorg ervoor dat deze functie beschikbaar is voor andere bestanden
-export { initializeTabs };
