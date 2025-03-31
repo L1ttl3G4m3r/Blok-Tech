@@ -4,9 +4,20 @@
   <%- include('partials/head') %>
 </head>
 <body>
-    <h1>Welcome, <%= username %>!</h1>
-
-    <div class="user-images">
+    <ul class="tabs">
+      <li class="tab active" data-tab="collections">
+        <img src="/static/icons/collection.svg" alt="Collectie">
+        <img src="/static/icons/selected/collection-selected.svg" alt="Collectie geselecteerd">
+        <h2>Collecties</h2>
+      </li>
+      <li class="tab" data-tab="posts">Posts
+        <img src="/static/icons/normal/map.svg" alt="Post collectie">
+        <img src="/static/icons/selected/map-selected.svg" alt="Post collectie geselecteerd">
+        <h2>Posts</h2>
+      </li>
+      </ul>
+    <section class="content" id="collections">
+      <div class="user-images">
         <h2>Your Images:</h2>
         <% if (userImages && userImages.length > 0) { %>
             <% userImages.forEach(function(imageUrl) { %>
@@ -16,6 +27,15 @@
             <p>No images available.</p>
         <% } %>
     </div>
+  </section>
+    <section class="content hidden" id="posts">
+
+    </section>
+    <footer>
+      <%- include('partials/nav') %>
+    </footer>
+
+
 </body>
 </html>
 
