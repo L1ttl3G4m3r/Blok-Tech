@@ -12,6 +12,11 @@
     <h1>Artist: <%= artist_name %></h1>
     <p><%= image.alt_description %></p>
     <!-- Add more details as needed -->
+    <button
+    class="add-to-collection"
+    data-url="<%= image.url %>">
+    Add to Collection
+  </button>
 </main>
 
   <footer>

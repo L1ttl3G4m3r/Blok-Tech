@@ -896,6 +896,35 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
+  app.post('/add-to-collection', isAuthenticated, async (req, res) => {
+    try {
+      const { imageUrl } = req.body;
+
+      if (!imageUrl) {
+        return res.status(400).send('Image URL is required');
+      }
+
+      const usersCollection = db.collection('users');
+      const userId = req.session.userId;
+
+      // Update the user's collection array
+      const result = await usersCollection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $addToSet: { userImages: imageUrl } } // $addToSet avoids duplicates
+      );
+
+      if (result.modifiedCount === 0) {
+        return res.status(404).send('User not found or no changes made');
+      }
+
+      res.status(200).send('Image added successfully');
+    } catch (error) {
+      console.error('Error adding to collection:', error);
+      res.status(500).send('Internal server error');
+    }
+  });
+
+
   app.get('/profiel', async (req, res) => {
     if (!req.session.userId) {
       return res.redirect('/login');
@@ -975,12 +1004,10 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
           return res.status(500).json({ success: false, message: 'Fout bij het toevoegen van de post aan de database' });
       }
 
-      } catch (error) {
-          console.error('Fout bij het opslaan van de post:', error);
-          return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
-      }
-    })
-
+  } catch (error) {
+      console.error('Fout bij het opslaan van de post:', error);
+      return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
+  }});
 
   app.post("/upload-photo", upload.single("photo"), async (req, res) => {
     try {
