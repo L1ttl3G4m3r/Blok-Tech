@@ -1056,7 +1056,6 @@ section.microDetail {
   grid-template-columns: 2fr 1fr;
   grid-template-rows: .5fr .5fr .5fr .5fr .5fr .5fr;
   margin: 2em;
-  /* gap: 1em; */
   column-gap: .5em;
 }
 
@@ -1108,7 +1107,7 @@ section.uitlegAfbeelding {
 
 .microNav ul {
   display: flex;
-  /* justify-content: space-evenly; */
+
   gap: 8em;
   margin-left: 2em;
 }
