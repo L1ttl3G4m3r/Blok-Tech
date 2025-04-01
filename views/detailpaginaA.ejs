@@ -9,7 +9,21 @@
   <main>
     <h1><%= artist.username %></h1>
     <p><strong>Studio:</strong> <%= artist.studio.name %></p>
+    <p>Address: <%= artist.studio.address %></p>
     <!-- Voeg hier meer details toe over de artiest -->
+    <img src="<%= artist.profilePhoto %>" alt="<%= artist.username %>" />
+
+
+    <h2>Collectie</h2>
+  <div class="artist-images">
+    <% if (artistImages && artistImages.length > 0) { %>
+      <% artistImages.forEach(function(imageUrl) { %>
+          <img src="<%= imageUrl %>" alt="User Image" width="200">
+      <% }); %>
+  <% } else { %>
+      <p>No images available.</p>
+  <% } %>
+  </div>
   </main>
 
   <footer>
@@ -19,3 +33,4 @@
   <script src="/static/script/script.js"></script>
 </body>
 </html>
+

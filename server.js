@@ -574,7 +574,7 @@
     try {
       const collection = db.collection("artists");
       const artists = await collection.find().toArray();
-      res.render("artiesten.ejs", {
+      res.render("artist-search.ejs", {
         pageTitle: "Artiesten",
         artists: artists,
         currentSort: "relevant",
@@ -921,7 +921,7 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
 });
 
-  app.get("/collectie-bezoeker", isAuthenticated, async (req, res) => {
+  app.get("/collectie", isAuthenticated, async (req, res) => {
     try {
       const collection = db.collection("users");
       const user = await collection.findOne({
@@ -936,7 +936,7 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
         console.warn(`No userImages array found for user ${req.session.userId}`);
       }
 
-      res.render("collectie-bezoeker.ejs", {
+      res.render("collection.ejs", {
         pageTitle: "Collectie Bezoeker",
         username: req.session.username,
         userImages: userImages,
@@ -947,6 +947,59 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
+  app.get("/collectieArtist", isAuthenticated, async (req, res) => {
+    try {
+      const collection = db.collection("artists");
+      const user = await collection.findOne({
+        _id: new ObjectId(req.session.userId),
+      });
+
+      let artistImages = [];
+
+      if (user && user.artistImages && Array.isArray(user.artistImages)) {
+        artistImages = user.artistImages;
+      } else {
+        console.warn(`No userImages array found for user ${req.session.userId}`);
+      }
+
+      res.render("collectieArtist.ejs", {
+        pageTitle: "Collectie Artist",
+        username: req.session.username,
+        artistImages: artistImages,
+      });
+    } catch (error) {
+      console.error("Error fetching user's images:", error);
+      res.status(500).send("An error occurred while loading the page.");
+    }
+  });
+
+
+  app.get("/artist/:id", isAuthenticated, async (req, res) => {
+    try {
+      const collection = db.collection("artists");
+      const artist = await collection.findOne({
+        _id: new ObjectId(req.params.id),
+      });
+
+      if (!artist) {
+        return res.status(404).send("Artiest niet gevonden");
+      }
+
+      // Pass artist and their images to the template
+      res.render("detailpaginaA.ejs", {
+        pageTitle: `Artiest: ${artist.username}`,
+        artist: artist,
+        artistImages: artist.artistImages || [], // Ensure an empty array if no images exist
+      });
+    } catch (error) {
+      console.error("Fout bij het ophalen van artiest details:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
+    }
+  });
+
+
+
+
   app.post('/add-to-collection', isAuthenticated, async (req, res) => {
     try {
       const { imageUrl } = req.body;
@@ -956,16 +1009,40 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
       }
 
       const usersCollection = db.collection('users');
+      const artistsCollection = db.collection('artists');
       const userId = req.session.userId;
 
-      // Update the user's collection array
-      const result = await usersCollection.updateOne(
+      if (!userId) {
+        return res.status(401).send('User not authenticated');
+      }
+
+      if (!ObjectId.isValid(userId)) {
+        return res.status(400).send('Invalid user ID');
+      }
+
+      let userUpdateSuccess = false;
+      let artistUpdateSuccess = false;
+
+      const userResult = await usersCollection.updateOne(
         { _id: new ObjectId(userId) },
-        { $addToSet: { userImages: imageUrl } } // $addToSet avoids duplicates
+        { $addToSet: { userImages: imageUrl } }
       );
 
-      if (result.modifiedCount === 0) {
-        return res.status(404).send('User not found or no changes made');
+      if (userResult.modifiedCount > 0) {
+        userUpdateSuccess = true;
+      }
+
+      const artistResult = await artistsCollection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $addToSet: { artistImages: imageUrl } }
+      );
+
+      if (artistResult.modifiedCount > 0) {
+        artistUpdateSuccess = true;
+      }
+
+      if (!userUpdateSuccess && !artistUpdateSuccess) {
+        return res.status(404).send('No changes made to either collection');
       }
 
       res.status(200).send('Image added successfully');

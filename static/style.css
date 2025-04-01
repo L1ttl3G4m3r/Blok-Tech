@@ -47,7 +47,9 @@ body {
   font-weight: 500;
   color: var(--color-text);
 }
-
+main {
+padding-bottom: 6em;
+}
 
 a {
   text-decoration: none;
@@ -81,6 +83,7 @@ footer {
   width: 100vw;
   z-index: 1000;
   background-color: var(--color-background);
+  height: 6em;
 }
 .navbar {
   display: flex;
@@ -132,7 +135,7 @@ footer {
 section.search {
   display: flex;
   justify-content: space-between;
-  margin: 0 1.5em 1.5em 0.5em;
+  margin: 0.5em;
 }
 
 section.search-artists {
@@ -141,7 +144,7 @@ section.search-artists {
 }
 
 input[type="search"] {
-  width: 20em;
+  width: 16em;
   padding: 0 2.5em;
   height: 3em;
   font-size: 1em;
@@ -196,24 +199,22 @@ section.filtersorting {
   align-items: center;
   margin: 0 0.5em;
 }
-
-/* nav {
-  padding: 0 1.2em;
+nav {
   display: flex;
   justify-content: flex-end;
-} */
+}
 
 #filterButton {
   cursor: pointer;
-  background-color: var(--color-background);
   border: none;
+  background: none;
 }
 
 #filterButton img {
   width: 3em;
   height: auto;
   border: 2px solid var(--color-text);
-  border-radius: 40px;
+  border-radius: 8em;
 }
 
 .sidebar {
@@ -483,7 +484,7 @@ li.artist-item {
 /* Buttons */
 /****************/
 .button-cta {
-  width: 20.5em;
+  width: 100%;
   padding: 0.8em 0;
   border-radius: 4px;
   background-color: var(--color-button);
@@ -498,7 +499,7 @@ li.artist-item {
 }
 .button-cta2 {
   background-color: var(--color-text);
-  width: 20.5em;
+  width: 100%;
   padding: 0.8em 0;
   font-size: 1em;
   margin: 1em 0;
@@ -512,7 +513,7 @@ li.artist-item {
 }
 .button-reset {
   background-color: var(--color-text);
-  width: 20.5em;
+  width: 100%;
   padding: 0.8em 0;
   margin: 1em 0;
   font-size: 1em;
@@ -557,51 +558,57 @@ li.artist-item {
 #saveButton:disabled {
   background-color: var(--disabled-button);
   color: var(--disabled-text);
-  padding: 1em 11em;
+  width: 100%;
+  padding: 0.8em 0;
   border-radius: 4px;
   font-family: var(--main-font);
   border: none;
   box-shadow: none;
+  font-size: 1em;
+  margin-top: 1em;
 }
 #saveButton:not(:disabled) {
   background-color: var(--color-button);
-  padding: 1em 11em;
+  width: 100%;
+  padding: 0.8em 0;
   border-radius: 4px;
   color: var(--color-text);
   font-family: var(--main-font);
   border: none;
   box-shadow: none;
+  font-size: 1em;
+  margin-top: 1em;
 }
-#saveButton:not(:disabled):hover {
-  background-color: var(--button-hover);
-  transform: scale(1.05); /* Maak de knop iets groter */
-  transition: all 0.3s ease; /* Voeg een soepele overgang toe */
-}
+
 
 /****************/
 /* forms login/register */
 /****************/
+.section-login {
+  margin: 2em;
+}
 h2.form-heading {
   text-align: center;
   margin-bottom: 1em;
   font-size: 1.5em;
 }
 .form-container {
-  margin: 0 auto;
-  width: 80%;
+  width: 100%;
+
 }
 .formgroup {
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
+
 input {
-  width: 100%;
   padding: 1em;
   border: 2px solid var(--color-text);
   background-color: var(--color-background);
   border-radius: 4px;
   color: var(--color-text);
+
 }
 
 .button-group {
@@ -624,6 +631,7 @@ div.form-container a {
 /****************************/
 section.profile-section {
   height: 100vh;
+  margin: 2em;
 }
 .profile-header {
   text-align: center;
@@ -717,34 +725,40 @@ section.profile-section {
 /****************************/
 /* profile form */
 /****************************/
+.profile-section {
+  margin: 2em;
+}
 .profile-form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .profile-header h2{
   margin-top: 1em;
 }
 .form-group {
   margin-bottom: 1em; /* Voeg wat ruimte toe tussen velden */
+  width: 100%;
+}
+.form-group input {
+width: 100%;
 }
 .form-group label {
   display: block;
   margin-bottom: 1em;
 }
-.form-group input {
-  width: 25em;
-  padding: 1em;
-}
+
 #editButton {
   font-family: var(--main-font);
-  margin-bottom: 1em;
-  background: none; /* Verwijder de achtergrond */
-  border: none; /* Verwijder de rand */
+  background-color: var(--color-button);
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  border: none;
   box-shadow: none; /* Verwijder de schaduw */
   cursor: pointer;
   color: var(--color-text);
-  text-decoration: underline;
+  font-size: 0.8em;
 }
 
 /****************************/
@@ -880,6 +894,7 @@ input[type="radio"]:checked::before {
 /****************************/
 .post-section {
   height: 110vh; /* Zorgt ervoor dat de sectie de volledige hoogte van het scherm beslaat */
+  margin: 2em;
 }
 
 
@@ -891,18 +906,20 @@ input[type="radio"]:checked::before {
   gap: 1em;
 
 }
-.post-form label, .form-group label {
+.post-form label,
+.form-group label {
   font-weight: 300;
 }
 .upload-container,
 .description-container,
 .tags-container,
 .studio-search-container,
-.studio-info {
+.studio-info,
+.search-container {
   display: flex;
   flex-direction: column;
   gap: 0.3em;
-  width: 80%;
+  width: 100%;
 }
 .image-placeholder  {
   flex-direction: column;
@@ -1192,3 +1209,55 @@ section.delen {
 	transform: translateY(0);
 }
 
+/****************************/
+/* Collection feature*/
+/****************************/
+.tabs {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+}
+.tab {
+  cursor: pointer;
+  padding: 1em;
+  text-align: center;
+  position: relative;
+  border-bottom: 2px solid var(--color-text); /* Underline for active tab */
+}
+.tab h2 {
+  margin: 0.2em 0;
+  font-size: 1.4em;
+}
+.tab img {
+  height: 4em;
+  width: 4em;
+}
+.tab.active {
+  border-bottom: 2px solid var(--button-hover); /* Underline for active tab */
+}
+
+.icon-normal {
+  display: inline-block;
+}
+
+.icon-selected.hidden,
+.icon-normal.hidden {
+  display: none;
+}
+
+h2.selected {
+  color: var(--button-hover);
+  font-weight: bold; /* Maak tekst vetgedrukt */
+}
+.hidden {
+  display: none;
+}
+
+.content {
+  margin-top: 2em;
+}
+
+.content h2,
+.content p {
+  text-align: center;
+}

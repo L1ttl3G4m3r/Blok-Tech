@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-
+// perplexity.ai //
   // Actie voor "Maak foto met camera"
   takePhoto.addEventListener("click", function () {
     console.log("Maak foto met camera");
