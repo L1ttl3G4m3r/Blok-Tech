@@ -193,7 +193,7 @@ nav {
   background: none;
 }
 #filterButton img {
-  width: 4em;
+  width: 3em;
   height: auto;
   border: 2px solid var(--color-text);
   border-radius: 8em;
@@ -466,7 +466,7 @@ li.artist-item {
 /* Buttons */
 /****************/
 .button-cta {
-  width: 20.5em;
+  width: 100%;
   padding: 0.8em 0;
   border-radius: 4px;
   background-color: var(--color-button);
@@ -481,7 +481,7 @@ li.artist-item {
 }
 .button-cta2 {
   background-color: var(--color-text);
-  width: 20.5em;
+  width: 100%;
   padding: 0.8em 0;
   font-size: 1em;
   margin: 1em 0;
@@ -495,7 +495,7 @@ li.artist-item {
 }
 .button-reset {
   background-color: var(--color-text);
-  width: 20.5em;
+  width: 100%;
   padding: 0.8em 0;
   margin: 1em 0;
   font-size: 1em;
@@ -540,7 +540,8 @@ li.artist-item {
 #saveButton:disabled {
   background-color: var(--disabled-button);
   color: var(--disabled-text);
-  padding: 1em 9em;
+  width: 100%;
+  padding: 0.8em 0;
   border-radius: 4px;
   font-family: var(--main-font);
   border: none;
@@ -550,7 +551,8 @@ li.artist-item {
 }
 #saveButton:not(:disabled) {
   background-color: var(--color-button);
-  padding: 1em 9em;
+  width: 100%;
+  padding: 0.8em 0;
   border-radius: 4px;
   color: var(--color-text);
   font-family: var(--main-font);
@@ -704,17 +706,13 @@ section.profile-section {
 /****************************/
 /* profile form */
 /****************************/
-.edit-container {
-  display: flex;
-  justify-content: space-around;
-  gap: 1em;
-  align-items: center;
+.profile-section {
+  margin: 2em;
 }
 .profile-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .profile-header h2{
@@ -724,18 +722,19 @@ section.profile-section {
   margin-bottom: 1em; /* Voeg wat ruimte toe tussen velden */
   width: 100%;
 }
+.form-group input {
+width: 100%;
+}
 .form-group label {
   display: block;
   margin-bottom: 1em;
 }
-.form-group input {
 
-}
 #editButton {
   font-family: var(--main-font);
   background-color: var(--color-button);
   border-radius: 4px;
-  padding: 1em;
+  padding: 0.5em 1em;
   border: none;
   box-shadow: none; /* Verwijder de schaduw */
   cursor: pointer;
@@ -895,7 +894,8 @@ input[type="radio"]:checked::before {
 .description-container,
 .tags-container,
 .studio-search-container,
-.studio-info {
+.studio-info,
+.search-container {
   display: flex;
   flex-direction: column;
   gap: 0.3em;
@@ -970,7 +970,7 @@ textarea {
   border-bottom: 2px solid var(--color-text); /* Underline for active tab */
 }
 .tab h2 {
-  margin: 5px 0;
+  margin: 0.2em 0;
   font-size: 1.4em;
 }
 .tab img {
