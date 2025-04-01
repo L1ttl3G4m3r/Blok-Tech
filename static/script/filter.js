@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
     clearColorsButton: document.getElementById('clearColors'),
   };
 
+  // Zorg ervoor dat het filtermenu standaard ingeklapt is
+  if (elements.filterSidebar) {
+    elements.filterSidebar.style.width = '0';
+  }
+
   // Filter Sidebar functionaliteit
   elements.filterButton?.addEventListener('click', (event) => {
     event.preventDefault();
