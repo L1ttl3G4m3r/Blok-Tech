@@ -7,34 +7,31 @@
     <header><%- include('partials/micro-header') %></header>
     <main>
       <section class="microDetail">
-        <!-- De tekst geen titel beschikbaar komt niet op het scherm te staan -->
         <h1>
-          <%= typeof titel !== "undefined" ? titel : "Geen titel beschikbaar" %>
+          <%= typeof titel !== "undefined" && titel !== null ? titel : "Geen titel beschikbaar" %>
         </h1>
 
+        <!-- Voeg de username hier toe -->
+        <h2>Geplaatst door: <%= username %></h2>
+
         <% if (typeof img !== "undefined" && img) { %>
-        <img
-          id="selectedImage"
-          src="<%= img %>"
-          alt="Geselecteerde afbeelding"
-        />
+          <img
+            id="selectedImage"
+            src="<%= img %>"
+            alt="<%= titel || 'Afbeelding' %>"
+          />
         <% } else { %>
-        <p>Geen afbeelding gespecificeerd.</p>
+          <p>Geen afbeelding gespecificeerd.</p>
         <% } %>
 
-        <h2>Gezet door</h2>
-        <% if (typeof username === "undefined") { %>
-        <span>Geen gebruiker gekoppeld</span>
-        <% } else { %>
-        <a href="#">@<%= username %></a>
-        <% } %>
-
+        <h2>Tags</h2>
         <ul>
-          <% if (typeof tags !== "undefined" && Array.isArray(tags) &&
-          tags.length > 0) { %> <% tags.forEach(tag => { %>
-          <li><%= tag %></li>
-          <% }); %> <% } else { %>
-          <li>Geen tags gevonden</li>
+          <% if (Array.isArray(tags) && tags.length > 0) { %>
+            <% tags.forEach(tag => { %>
+              <li><%= tag %></li>
+            <% }); %>
+          <% } else { %>
+            <li>Geen tags gevonden</li>
           <% } %>
         </ul>
       </section>
@@ -42,24 +39,10 @@
       <h2 class="artistHeader">Artiesten die dit ook kunnen</h2>
       <%- include('partials/artists') %>
 
-      <!-- voor Visible of invisible moet een andere class -->
-      <!-- Ook werkt het niet nu -->
-      <form class=post-form id="postForm" enctype="multipart/form-data" method="POST">
-        <div class="tags-container">
-          <label for="tagsInput">Tags</label>
-          <div id="tagsList" class="tags-list"></div>
-          <input type="text" id="tagsInput" placeholder="Voeg een tag toe en druk op Enter">
-          <input type="hidden" id="hiddenTagsInput" name="tags">
-      </div>
-      </form>
-
       <section class="uitlegAfbeelding">
-        <h3>Uitleg ..</h3>
+        <h3>Beschrijving</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-          temporibus labore cum nobis incidunt suscipit atque odit eius dolore
-          at dicta, nemo illum error culpa sapiente totam! Et, praesentium
-          tenetur!
+          <%= typeof post.description !== "undefined" && post.description !== null && post.description !== "" ? post.description : "Geen beschrijving beschikbaar" %>
         </p>
       </section>
     </main>

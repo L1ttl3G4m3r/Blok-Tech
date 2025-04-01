@@ -17,16 +17,15 @@
       <% if (posts && posts.length > 0) { %>
           <% posts.forEach(post => { %>
               <div class="tattoo-item">
-                  <a class="post-link" data-id="<%= post._id %>" data-photo="<%= post.photo %>" data-title="<%= post.title %>">
-                      <img src="<%= post.photo %>" alt="<%= post.title %>">
-                  </a>
-                  <h4><%= post.title %></h4>
+                <a class="post-link" href="/detailpagina?img=<%= post.photo %>&postId=<%= post._id %>&title=<%= post.title %>&description=<%= post.description %>&tags=<%= JSON.stringify(post.tags) %>">
+                  <img src="<%= post.photo %>" alt="<%= post.title %>">
+                </a>
               </div>
           <% }); %>
       <% } else { %>
           <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
       <% } %>
-  </section>
+    </section>
 
     <script src="/static/script/detailPages.js"></script>
   </body>
