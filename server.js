@@ -880,12 +880,9 @@ app.get("/microinformation", async (req, res) => {
     const postId = req.query.postId || null;
 
     // Verbinding met de juiste MongoDB collecties
-    const usersCollection = db.collection("users");
+    const usersCollection = db.collection("users");  // Of "artists" als de gebruiker daar staat
     const postsCollection = db.collection("posts");
     const artistsCollection = db.collection("artists");
-
-    let username = "Geen gebruiker gekoppeld";  // Default als de gebruiker niet gevonden wordt
-    let foundUser = false;
 
     // Functie om te controleren of een string een geldige ObjectId is
     const isValidObjectId = (id) => {
@@ -900,15 +897,6 @@ app.get("/microinformation", async (req, res) => {
 
     if (!post) {
       post = { tags: [], description: "Geen beschrijving beschikbaar" };  // Standaardwaarde als post niet wordt gevonden
-    }
-
-    // Haal de gebruiker op (je zou userId ook kunnen doorsturen als query parameter)
-    const userId = post.userId; // Als het post-object een userId heeft
-    if (userId && isValidObjectId(userId)) {
-      const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
-      if (user) {
-        username = user.name || "Geen naam beschikbaar";
-      }
     }
 
     // Tags
@@ -928,7 +916,6 @@ app.get("/microinformation", async (req, res) => {
       img,
       titel,
       pageTitle: "Micro Information",
-      username,   // Voeg de username toe
       post,       // Voeg de post toe
       tags,       // Voeg tags toe
       artists,    // Voeg artiesten toe
