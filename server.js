@@ -880,7 +880,6 @@ app.get("/microinformation", async (req, res) => {
     const postId = req.query.postId || null;
 
     // Verbinding met de juiste MongoDB collecties
-    const usersCollection = db.collection("users");  // Of "artists" als de gebruiker daar staat
     const postsCollection = db.collection("posts");
     const artistsCollection = db.collection("artists");
 
