@@ -7,6 +7,7 @@
     <header><%- include('partials/micro-header') %></header>
     <main>
       <section class="microDetail">
+        <!-- De tekst geen titel beschikbaar komt niet op het scherm te staan -->
         <h1>
           <%= typeof titel !== "undefined" ? titel : "Geen titel beschikbaar" %>
         </h1>
@@ -28,7 +29,6 @@
         <a href="#">@<%= username %></a>
         <% } %>
 
-        <!-- <h2>Tags</h2> -->
         <ul>
           <% if (typeof tags !== "undefined" && Array.isArray(tags) &&
           tags.length > 0) { %> <% tags.forEach(tag => { %>
@@ -39,7 +39,7 @@
         </ul>
       </section>
 
-      <h2>Artiesten die dit ook kunnen</h2>
+      <h2 class="artistHeader">Artiesten die dit ook kunnen</h2>
       <%- include('partials/artists') %>
 
       <section class="uitlegAfbeelding">

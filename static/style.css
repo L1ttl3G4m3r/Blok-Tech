@@ -429,6 +429,7 @@ ul.artist-list {
   scroll-snap-type: x mandatory;
   padding: 1em 0;
   list-style-type: none;
+  margin-left: 2em;
 }
 
 li.artist-item {
@@ -964,9 +965,10 @@ textarea {
 section.microDetail {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: .5fr .5fr .5fr .5fr .5fr .5fr;
+  grid-template-rows: .5fr .5fr .5fr .5fr;
   margin: 2em;
   column-gap: .5em;
+  align-items: center;
 }
 
 section.microDetail img {
@@ -979,32 +981,38 @@ section.microDetail img {
   height: auto;
 }
 
-section.microDetail > a {
+section.microDetail h1 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+section.microDetail h2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+section.microDetail a {
   grid-column-start: 2;
   grid-row-start: 3;
-}
-
-section.microDetail ul:first-of-type {
-  grid-row-start: 4;
-  grid-column-start: 1;
-  grid-column-end: -1;
-}
-
-section.microDetail h2:last-of-type {
-  grid-column-start: 1;
-  grid-column-end: -1;
-  grid-row-start: 5;
-}
-
-section.microDetail ul:last-of-type {
-  grid-row-start: 6;
-  grid-column-start: 1;
-  grid-column-end: -1;
+  grid-row-start: 3;
+  grid-row-end: 4;
 }
 
 section.microDetail ul {
+  grid-row-start: 4;
+  grid-column-start: 1;
+  grid-column-end: -1;
+
   display: flex;
   gap: 1.5em;
+}
+
+.artistHeader {
+  margin-left: 2em;
 }
 
 section.uitlegAfbeelding {
@@ -1015,22 +1023,18 @@ section.uitlegAfbeelding {
   padding: 1em;
 }
 
+/********************************************/
+/* header-detail.ejs & header-mircro detail */
+/********************************************/
 .microNav ul {
   display: flex;
-
-  gap: 8em;
+  gap: 5em;
+  align-items: center;
+  margin-top: 1.5em;
   margin-left: 2em;
+  margin-right: 2em;
 }
 
-.microNav img {
-  width: 30px;
-  height: auto;
-}
-
-
-/*********************/
-/* header-detail.ejs */
-/*********************/
 .detailNav ul {
   display: flex;
   justify-content: space-between;
@@ -1040,12 +1044,12 @@ section.uitlegAfbeelding {
   margin-right: 2em;
 }
 
-.detailNav img {
+.detailNav img, .microNav img {
   width: 100%;
   height: auto;
 }
 
-.detailNav ul li:nth-of-type(2) img {
+.detailNav ul li:nth-of-type(2) img, .microNav ul li:nth-of-type(2) img {
   width: 10em;
   height: auto;
 }
@@ -1120,25 +1124,24 @@ section.detailInformatie h1 {
 /*****************************/
 /* gerelateerdeContent scrol */
 /*****************************/
-section.gerelateerdeContent img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-section.gerelateerdeContent h3 {
-  margin-left: 2em;
-  margin-right: 2em;
-  border-top: 1px solid var(--color-text);
-  padding-top: 1em;
-}
-
-section.gerelateerdeContent ul {
+section.tattoo-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1em;
   margin-left: 2em;
   margin-right: 2em;
+}
+
+section.tattoo-grid img {
+  width: 100%;
+  height: auto;
+}
+
+.headerTattoo-grid {
+  margin-left: 2em;
+  margin-right: 2em;
+  border-top: 1px solid var(--color-text);
+  padding-top: 1em;
 }
 
 /*****************/
@@ -1165,9 +1168,7 @@ section.delen ul img {
   margin-bottom: 2em;
 }
 
-/* werkt niet */
-section.delen,
-section.previewUitleg {
+section.delen {
   position: fixed;
 	left: 0;
 	right: 0;
@@ -1185,38 +1186,3 @@ section.previewUitleg {
 	transform: translateY(0);
 }
 
-.previewUitleg.toonPreview {
-	transform: translateY(0);
-}
-
-/*************************/
-/* section.previewUitleg */
-/*************************/
-section.previewUitleg {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  text-align: center;
-  margin-left: 0em;
-  margin-right: 0em;
-  background-color: var(--color-text);
-  color: var(--color-background);
-  border-top-left-radius: 2em;
-  border-top-right-radius: 2em;
-}
-
-section.previewUitleg a, section.previewUitleg p {
-  margin-left: 2em;
-  margin-right: 2em;
-}
-
-section.previewUitleg a {
-  background-color: var(--color-button);
-  color: var(--color-background);
-  border: none;
-  width: 22em;
-  padding: 1em;
-  border-radius: .5em;
-  text-align: center;
-  margin-bottom: 2em;
-}

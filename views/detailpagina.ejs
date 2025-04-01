@@ -33,7 +33,7 @@
             alt="Delen"
           />
         </button>
-        <!-- <%- include('partials/share') %> -->
+
         <button>
           <img
             class="opslaan"
@@ -43,7 +43,7 @@
         </button>
       </section>
 
-      <h3>Meer om te verkennen</h3>
+      <h3 class="headerTattoo-grid">Meer om te verkennen</h3>
       <section class="tattoo-grid" id="tattoo-grid">
         <% if (gridImages && gridImages.length > 0) { %> <%
         gridImages.forEach(image => { %>
@@ -90,22 +90,8 @@
           </li>
         </ul>
       </section>
-
-      <section class="previewUitleg">
-        <img
-          class="sluitPreview"
-          src="static/icons/black/close.svg"
-          alt="sluiten"
-        />
-        <h3>Uitleg Tattoo Preview</h3>
-        <p>
-          Je kunt met behulp van je camera een preview krijgen van hoe deze
-          tattoo op jouw lichaam zit!
-        </p>
-        <a href="#">Naar camera</a>
-      </section>
     </main>
     <footer><%- include('partials/nav') %></footer>
-    <script src="/static/script/script.js"></script>
+    <script src="/static/script/saveImage.js"></script>
   </body>
 </html>
