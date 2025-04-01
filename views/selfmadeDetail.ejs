@@ -13,11 +13,11 @@
       <h1>Zelfgemaakte Tattoos</h1>
     </header>
 
-    <section class="tattoo-gallery">
+    <section class="tattoo-grid" id="tattoo-grid">
       <% if (posts && posts.length > 0) { %>
           <% posts.forEach(post => { %>
               <div class="tattoo-item">
-                  <a href="/detailpagina/<%= post._id %>">
+                  <a class="post-link" data-id="<%= post._id %>" data-photo="<%= post.photo %>" data-title="<%= post.title %>">
                       <img src="<%= post.photo %>" alt="<%= post.title %>">
                   </a>
                   <h4><%= post.title %></h4>
@@ -26,8 +26,7 @@
       <% } else { %>
           <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
       <% } %>
-    </section>
-
+  </section>
 
     <script src="/static/script/detailPages.js"></script>
   </body>
