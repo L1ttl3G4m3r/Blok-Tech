@@ -1147,16 +1147,16 @@ section.tattoo-grid img {
 /*****************/
 /* section.delen */
 /*****************/
-section.delen {
-  background-color: var(--color-text);
-  color: var(--color-background);
-  border-top-left-radius: 2em;
-  border-top-right-radius: 2em;
-}
-
 .delen > div {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 7.5em;
+}
+
+.delen > div img {
+  width: 3em;
+  height: auto;
+  margin-left: 2em;
 }
 
 section.delen ul {
@@ -1165,6 +1165,8 @@ section.delen ul {
 }
 
 section.delen ul img {
+  width: 3em;
+  margin-top: 2em;
   margin-bottom: 2em;
 }
 
@@ -1172,7 +1174,7 @@ section.delen {
   position: fixed;
 	left: 0;
 	right: 0;
-	top: 30em;
+	top: 38em;
 	bottom: 0;
 
   transform: translateY(100%);
@@ -1183,6 +1185,10 @@ section.delen {
 }
 
 .delen.toonMenu {
+  background-color: var(--color-text);
+  color: var(--color-background);
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
 	transform: translateY(0);
 }
 
