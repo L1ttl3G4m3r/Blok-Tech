@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Profiel bewerkbaar maken
   editButton?.addEventListener('click', () => {
-      const fields = [usernameInput, emailInput, passwordInput, studioName, studioAddress];
+      const fields = [usernameInput, emailInput, passwordInput];
 
       fields.forEach(field => field.disabled = false);
       if (saveButton) saveButton.disabled = false;
