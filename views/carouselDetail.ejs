@@ -13,11 +13,11 @@
       <h1>Zelfgemaakte Tattoos</h1>
     </header>
 
-    <section class="tattoo-gallery">
+    <section class="tattoo-grid" id="tattoo-grid">
       <% if (imageUrls && imageUrls.length > 0) { %>
           <% imageUrls.forEach(image => { %>
               <div class="tattoo-item">
-                  <a href="/detailpagina?image=<%= encodeURIComponent(image.url) %>">
+                  <a href="/detailpagina?image=<%= encodeURIComponent(image.url) %>" class="carousel-link" data-url="<%= image.url %>" data-title="<%= image.alt_description || 'Tattoo afbeelding' %>">
                       <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo afbeelding' %>">
                   </a>
               </div>
