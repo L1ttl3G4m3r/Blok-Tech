@@ -45,16 +45,17 @@
 
       <h3 class="headerTattoo-grid">Meer om te verkennen</h3>
       <section class="tattoo-grid" id="tattoo-grid">
-        <% if (gridImages && gridImages.length > 0) { %> <%
-        gridImages.forEach(image => { %>
-        <img
-          src="<%= image.url %>"
-          alt="<%= image.alt_description || 'Tattoo Image' %>"
-          data-id="<%= image.id %>"
-          class="clickable-image"
-        />
-        <% }) %> <% } else { %>
-        <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
+        <% if (typeof gridImages !== 'undefined' && Array.isArray(gridImages) && gridImages.length > 0) { %>
+          <% gridImages.forEach(image => { %>
+            <img
+              src="<%= image.url %>"
+              alt="<%= image.alt_description || 'Tattoo Image' %>"
+              data-id="<%= image.id %>"
+              class="clickable-image"
+            />
+          <% }) %>
+        <% } else { %>
+          <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
         <% } %>
       </section>
 
@@ -94,5 +95,6 @@
     <footer><%- include('partials/nav') %></footer>
     <script src="/static/script/saveImage.js"></script>
     <script src="/static/script/share.js"></script>
+    <script src="/static/script/script.js"></script>
   </body>
 </html>

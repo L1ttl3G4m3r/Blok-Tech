@@ -195,10 +195,8 @@
         woonplaats,
       });
 
-      // Start de zoekopdracht standaard op "tattoo"
-      let searchQuery = query ? query : "tattoo";  // Als er een zoekterm is, gebruik die, anders "tattoo"
+      let searchQuery = query ? query : "tattoo";
 
-      // Voeg stijlen toe aan de zoekopdracht
       if (styles.length > 0) {
         const styleQueries = styles.map((style) => {
           switch (style) {
@@ -768,7 +766,7 @@
     }
   });
 
-  app.get('/detailpagina', async (req, res) => {  // Voeg 'async' toe hier
+  app.get('/detailpagina', async (req, res) => {
     try {
         const img = req.query.img || null;
         const titel = req.query.titel || "Geen titel beschikbaar";
