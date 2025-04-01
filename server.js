@@ -910,6 +910,33 @@ app.get('/detail/:id', isAuthenticated, async (req, res) => {
     }
   });
 
+
+  app.get("/artist/:id", isAuthenticated, async (req, res) => {
+    try {
+      const collection = db.collection("artists");
+      const artist = await collection.findOne({
+        _id: new ObjectId(req.params.id),
+      });
+
+      if (!artist) {
+        return res.status(404).send("Artiest niet gevonden");
+      }
+
+      // Pass artist and their images to the template
+      res.render("detailpaginaA.ejs", {
+        pageTitle: `Artiest: ${artist.username}`,
+        artist: artist,
+        artistImages: artist.artistImages || [], // Ensure an empty array if no images exist
+      });
+    } catch (error) {
+      console.error("Fout bij het ophalen van artiest details:", error);
+      res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
+    }
+  });
+
+
+
+
   app.post('/add-to-collection', isAuthenticated, async (req, res) => {
     try {
       const { imageUrl } = req.body;
