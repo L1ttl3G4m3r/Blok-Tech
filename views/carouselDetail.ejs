@@ -6,9 +6,11 @@
   </head>
   <body>
     <header class="headerIndex">
+      <a href="javascript:history.back()">
+        <img src="/static/icons/normal/back.svg" alt="Terug">
+      </a>
       <%- include('partials/header') %>
-      <h1>Tattoos: <%= category %></h1>
-      <a href="/index">Terug naar home</a>
+      <h1>Zelfgemaakte Tattoos</h1>
     </header>
 
     <section class="tattoo-gallery">
@@ -25,6 +27,6 @@
       <% } %>
     </section>
 
-    <script src="/static/script/script.js"></script>
+    <script src="/static/script/detailPages.js"></script>
   </body>
 </html>
