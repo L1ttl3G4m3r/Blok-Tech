@@ -42,6 +42,17 @@
       <h2 class="artistHeader">Artiesten die dit ook kunnen</h2>
       <%- include('partials/artists') %>
 
+      <!-- voor Visible of invisible moet een andere class -->
+      <!-- Ook werkt het niet nu -->
+      <form class=post-form id="postForm" enctype="multipart/form-data" method="POST">
+        <div class="tags-container">
+          <label for="tagsInput">Tags</label>
+          <div id="tagsList" class="tags-list"></div>
+          <input type="text" id="tagsInput" placeholder="Voeg een tag toe en druk op Enter">
+          <input type="hidden" id="hiddenTagsInput" name="tags">
+      </div>
+      </form>
+
       <section class="uitlegAfbeelding">
         <h3>Uitleg ..</h3>
         <p>
