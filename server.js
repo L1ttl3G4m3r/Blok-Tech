@@ -1003,9 +1003,7 @@ app.get("/artist/:id", isAuthenticated, async (req, res) => {
     });
   } catch (error) {
     console.error("Fout bij het ophalen van artiest details:", error);
-    res
-      .status(500)
-      .send("Er is een fout opgetreden bij het laden van de artiestenpagina");
+    res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
   }
 });
 
