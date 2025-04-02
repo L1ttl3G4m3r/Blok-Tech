@@ -11,30 +11,32 @@
       <li class="tab active" data-tab="collections">
           <img src="/static/icons//normal/collection.svg" alt="Collectie" class="icon-normal">
           <img src="/static/icons/selected/collection-selected.svg" alt="Collectie geselecteerd" class="icon-selected hidden">
+          <h2>Collectie</h2>
       </li>
       <li class="tab" data-tab="posts">
           <img src="/static/icons/normal/map.svg" alt="Post collectie" class="icon-normal">
           <img src="/static/icons/selected/map-selected.svg" alt="Post collectie geselecteerd" class="icon-selected hidden">
+          <h2>Posts</h2>
       </li>
   </ul>
 
   <section class="content" id="collections">
-      <div class="user-images">
-          <h2>Your Images</h2>
+      <div class="tattoo-grid">
       <% if (userImages && userImages.length > 0) { %>
         <% userImages.forEach(function(imageUrl) { %>
-          <img src="<%= imageUrl %>" alt="User Image" width="200">
+          <img src="<%= imageUrl %>" alt="User Image">
         <% }); %>
       <% } else { %>
         <p>No images available.</p>
       <% } %>
-          <!-- Dynamische inhoud -->
       </div>
   </section>
 
   <section class="content hidden" id="posts">
-      <h2>Your Posts</h2>
-      <!-- Dynamische inhoud -->
+    <h2>Jouw posts</h2>
+    <div class="collection-grid">
+
+    </div>
   </section>
 </main>
   <footer>
