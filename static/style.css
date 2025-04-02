@@ -348,6 +348,10 @@ swiper-container {
   height: 100%;
 }
 
+.swiper-slide h2 {
+  margin-top: 2em;
+}
+
 swiper-slide img {
   display: block;
   width: 100%;
