@@ -7,10 +7,17 @@
 >
   <!-- Zelfgemaakte posts -->
   <swiper-slide>
-    <a href="/selfmadeDetail" class="carousel-link">
-      <h3>Zelfgemaakte Tattoo's</h3>
-      <img src="#" alt="eigen post">
-    </a>
+    <% if (posts && posts.length > 0) { %>
+      <% posts.forEach(post => { %>
+          <div class="tattoo-item">
+            <a class="post-link" href="/selfmadeDetail" class="carousel-link">
+              <img src="<%= post.photo %>" alt="<%= post.title %>">
+            </a>
+          </div>
+      <% }); %>
+  <% } else { %>
+      <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
+  <% } %>
   </swiper-slide>
 
   <% if (styles.includes('natuur')) { %>

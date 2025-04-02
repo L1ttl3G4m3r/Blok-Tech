@@ -198,7 +198,7 @@ section.filtersorting {
   align-items: center;
   margin: 0 0.5em;
 }
-nav {
+.filterNav {
   display: flex;
   justify-content: flex-end;
 }
