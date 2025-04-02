@@ -48,7 +48,7 @@ body {
   color: var(--color-text);
 }
 main {
-padding-bottom: 6em;
+padding-bottom: 7em;
 }
 
 a {
@@ -83,13 +83,12 @@ footer {
   width: 100vw;
   z-index: 1000;
   background-color: var(--color-background);
-  height: 6em;
+  height: 7em;
 }
 .navbar {
   display: flex;
   justify-content: space-around;
   list-style-type: none;
-  margin-bottom: 1em;
 }
 .nav-item a {
   display: flex;
