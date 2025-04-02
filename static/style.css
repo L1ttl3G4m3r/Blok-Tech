@@ -51,16 +51,26 @@ main {
 padding-bottom: 7em;
 }
 
+a {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+ul, ol {
+  list-style-type: none;
+  padding: 0;
+}
+
 /****************/
 /* logo */
 /****************/
-header {
+.headerIndex {
   top: 0;
   display: flex;
   justify-content: center;
   margin: 1.5em 0;
 }
-header img {
+.headerIndex img {
   width: 10em;
   height: auto;
 }
@@ -126,6 +136,7 @@ section.search {
   justify-content: space-between;
   margin: 0.5em;
 }
+
 section.search-artists {
   display: flex;
   justify-content: center;
@@ -141,11 +152,13 @@ input[type="search"] {
   border: 2px solid var(--color-text);
   background-color: var(--color-background);
 }
+
 #search-results {
   background-color: var(--color-text);
   border-radius: 4px;
 
 }
+
 #search-results a {
   color: var(--color-background);
   margin: 1em;
@@ -154,15 +167,18 @@ input[type="search"] {
 .search-container {
   position: relative;
 }
+
 .search-icon {
   position: absolute;
   top: 0;
   left: 0;
 }
+
 .search-icon img {
   width: 3em;
   height: 3em;
 }
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -172,6 +188,7 @@ input[type="search"] {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
 }
+
 /****************/
 /* Filter function */
 /****************/
@@ -191,6 +208,7 @@ nav {
   border: none;
   background: none;
 }
+
 #filterButton img {
   width: 3em;
   height: auto;
@@ -217,7 +235,6 @@ nav {
     width: 70%; /* Sidebar neemt 50% van het scherm in beslag */
   }
 }
-
 
 /* Media query voor mobiele schermen */
 @media (max-width: 768px) {
@@ -412,6 +429,7 @@ ul.artist-list {
   scroll-snap-type: x mandatory;
   padding: 1em 0;
   list-style-type: none;
+  margin-left: 2em;
 }
 
 li.artist-item {
@@ -630,6 +648,7 @@ section.profile-section {
   display: inline-block;
   cursor: pointer;
 }
+
 .photo-overlay {
   position: absolute;
   top: 0;
@@ -877,6 +896,7 @@ input[type="radio"]:checked::before {
   margin: 2em;
 }
 
+
 .post-form {
   border-radius: 0.5em;
   display: flex;
@@ -953,6 +973,241 @@ textarea {
   cursor: pointer;
   font-weight: bold;
 }
+
+
+/***************/
+/* micropagina */
+/***************/
+section.microDetail {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: .5fr .5fr .5fr .5fr;
+  margin: 2em;
+  column-gap: .5em;
+  align-items: center;
+}
+
+section.microDetail img {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 4;
+
+  width: 100%;
+  height: auto;
+}
+
+section.microDetail h1 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+section.microDetail h2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+section.microDetail a {
+  grid-column-start: 2;
+  grid-row-start: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+
+section.microDetail ul {
+  grid-row-start: 4;
+  grid-column-start: 1;
+  grid-column-end: -1;
+
+  display: flex;
+  gap: 1.5em;
+}
+
+.artistHeader {
+  margin-left: 2em;
+}
+
+section.uitlegAfbeelding {
+  margin-left: 2em;
+  margin-right: 2em;
+  border: 2px solid var(--color-text);
+  border-radius: 1em;
+  padding: 1em;
+}
+
+/********************************************/
+/* header-detail.ejs & header-mircro detail */
+/********************************************/
+.microNav ul {
+  display: flex;
+  gap: 5em;
+  align-items: center;
+  margin-top: 1.5em;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.detailNav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5em;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.detailNav img, .microNav img {
+  width: 100%;
+  height: auto;
+}
+
+.detailNav ul li:nth-of-type(2) img, .microNav ul li:nth-of-type(2) img {
+  width: 10em;
+  height: auto;
+}
+
+.detailNav button, .detailInformatie button {
+  background: none;
+  border: none;
+}
+
+/*************************/
+/* grid detailInformatie */
+/*************************/
+section.detailInformatie {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  margin: 2em;
+  row-gap: .5em;
+}
+
+section.detailInformatie > img:first-of-type {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 1;
+  grid-row-end: 2;
+
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+section.detailInformatie a {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  display: flex;
+  align-items: center;
+}
+
+
+section.detailInformatie a > img, section.detailInformatie button:last-of-type > img {
+  width: 3em;
+  height: auto;
+}
+
+section.detailInformatie button:first-of-type {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  text-align: right;
+}
+
+section.detailInformatie button:last-of-type {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  text-align: right;
+}
+
+section.detailInformatie h1 {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+
+/*****************************/
+/* gerelateerdeContent scrol */
+/*****************************/
+section.tattoo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+section.tattoo-grid img {
+  width: 100%;
+  height: auto;
+}
+
+.headerTattoo-grid {
+  margin-left: 2em;
+  margin-right: 2em;
+  border-top: 1px solid var(--color-text);
+  padding-top: 1em;
+}
+
+/*****************/
+/* section.delen */
+/*****************/
+.delen > div {
+  display: flex;
+  align-items: center;
+  gap: 7.5em;
+}
+
+.delen > div img {
+  width: 3em;
+  height: auto;
+  margin-left: 2em;
+}
+
+section.delen ul {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+section.delen ul img {
+  width: 3em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+section.delen {
+  position: fixed;
+	left: 0;
+	right: 0;
+	top: 38em;
+	bottom: 0;
+
+  transform: translateY(100%);
+	transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+
+	background: var(--color-background);
+}
+
+.delen.toonMenu {
+  background-color: var(--color-text);
+  color: var(--color-background);
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
+	transform: translateY(0);
+}
+
 /****************************/
 /* Collection feature*/
 /****************************/

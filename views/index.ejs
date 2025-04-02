@@ -4,7 +4,7 @@
     <%- include('partials/head') %>
   </head>
   <body>
-    <header><%- include('partials/header') %></header>
+    <header class="headerIndex"><%- include('partials/header') %></header>
     <main>
       <% var userPreferences = userPreferences || {}; %>
       <% var isArtist = typeof isArtist !== 'undefined' ? isArtist : false; %>
@@ -34,22 +34,21 @@
     </section>
 
 
-      <section class="tattoo-grid" id="tattoo-grid">
-        <% if (gridImages && gridImages.length > 0) { %> <%
-        gridImages.forEach(image => { %>
-        <img
-          src="<%= image.url %>"
-          alt="<%= image.alt_description || 'Tattoo Image' %>"
-          data-id="<%= image.id %>"
-        />
-        <% }) %> <% } else { %>
-        <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
-        <% } %>
-        <div
-          id="imageUrlsData"
-          data-image-urls="<%= JSON.stringify(gridImages) %>"
-        ></div>
-      </section>
+    <section class="tattoo-grid" id="tattoo-grid">
+      <% if (gridImages && gridImages.length > 0) { %>
+          <% gridImages.forEach(image => { %>
+              <img
+                  src="<%= image.url %>"
+                  alt="<%= image.alt_description || 'Tattoo Image' %>"
+                  data-id="<%= image.id %>"
+                  class="clickable-image"
+              />
+          <% }) %>
+      <% } else { %>
+          <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
+      <% } %>
+    </section>
+
     </main>
 
     <footer>
@@ -59,6 +58,7 @@
 
     <script src="/static/script/filter.js"></script>
     <script src="/static/script/nav.js"></script>
+    <script src="/static/script/detailPages.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <script src="/static/script/addAfbeelding.js"></script>
   </body>

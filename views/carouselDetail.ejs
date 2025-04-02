@@ -3,20 +3,21 @@
   <head>
     <%- include('partials/head') %>
     <title><%= pageTitle %></title>
-    <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <header>
+    <header class="headerIndex">
+      <a href="javascript:history.back()">
+        <img src="/static/icons/normal/back.svg" alt="Terug">
+      </a>
       <%- include('partials/header') %>
-      <h1>Tattoos: <%= category %></h1>
-      <a href="/index">Terug naar home</a>
+      <h1>Zelfgemaakte Tattoos</h1>
     </header>
 
-    <section class="tattoo-gallery">
+    <section class="tattoo-grid" id="tattoo-grid">
       <% if (imageUrls && imageUrls.length > 0) { %>
           <% imageUrls.forEach(image => { %>
               <div class="tattoo-item">
-                  <a href="/detailpagina?image=<%= encodeURIComponent(image.url) %>">
+                  <a class="carousel-link" data-url="<%= image.url %>" data-title="<%= image.alt_description || 'Tattoo afbeelding' %>">
                       <img src="<%= image.url %>" alt="<%= image.alt_description || 'Tattoo afbeelding' %>">
                   </a>
               </div>
@@ -26,7 +27,6 @@
       <% } %>
     </section>
 
-
-    <script src="/static/scripts.js"></script>
+    <script src="/static/script/detailPages.js"></script>
   </body>
 </html>
