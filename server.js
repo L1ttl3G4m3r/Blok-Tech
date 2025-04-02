@@ -935,6 +935,8 @@ app.get("/microinformation", async (req, res) => {
 app.get("/collectie", isAuthenticated, async (req, res) => {
   try {
     const collection = db.collection("users");
+    const postsCollection = db.collection("posts");
+    const selfmadePosts = await postsCollection.find().toArray();
     const user = await collection.findOne({
       _id: new ObjectId(req.session.userId),
     });
