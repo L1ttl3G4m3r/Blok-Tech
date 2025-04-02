@@ -7,17 +7,17 @@
 >
   <!-- Zelfgemaakte posts -->
   <swiper-slide>
+    <!-- https://chatgpt.com/c/67ed281b-395c-8004-a807-9423e6ca8703 -->
     <% if (posts && posts.length > 0) { %>
-      <% posts.forEach(post => { %>
-          <div class="tattoo-item">
-            <a class="post-link" href="/selfmadeDetail" class="carousel-link">
-              <img src="<%= post.photo %>" alt="<%= post.title %>">
-            </a>
-          </div>
-      <% }); %>
-  <% } else { %>
+      <% const randomPost = posts[Math.floor(Math.random() * posts.length)]; %>
+      <div class="tattoo-item">
+        <a class="post-link" href="/selfmadeDetail" class="carousel-link">
+          <img src="<%= randomPost.photo %>" alt="<%= randomPost.title %>">
+        </a>
+      </div>
+    <% } else { %>
       <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
-  <% } %>
+    <% } %>
   </swiper-slide>
 
   <% if (styles.includes('natuur')) { %>

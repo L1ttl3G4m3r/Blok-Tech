@@ -369,6 +369,7 @@ swiper-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 4px;
 }
 
 swiper-slide {
@@ -1090,6 +1091,7 @@ section.detailInformatie > img:first-of-type {
   align-items: center;
   width: 100%;
   height: auto;
+  border-radius: 4px;
 }
 
 section.detailInformatie a {
