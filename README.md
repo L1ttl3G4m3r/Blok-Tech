@@ -78,7 +78,7 @@ Christian de With (Back-end) - christian.de.with@hva.nl
 
 Tess Wieman (Front-end) - tess.wieman@hva.nl
 
-Mick van der Linden (Front-end) - email@example.com
+Mick van der Linden (Front-end) - mick.van.der.linden2@hva.nl
 
 
 ## Licensie
