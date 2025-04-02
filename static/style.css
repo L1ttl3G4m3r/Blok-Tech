@@ -150,35 +150,27 @@ input[type="search"] {
   border-radius: 4px;
   color: var(--color-text);
   border: 2px solid var(--color-text);
-  background-color: var(--color-background);
 }
-
 #search-results {
   background-color: var(--color-text);
   border-radius: 4px;
-
 }
-
 #search-results a {
   color: var(--color-background);
   margin: 1em;
 }
-
 .search-container {
   position: relative;
 }
-
 .search-icon {
   position: absolute;
   top: 0;
   left: 0;
 }
-
 .search-icon img {
   width: 3em;
   height: 3em;
 }
-
 .visually-hidden {
   position: absolute;
   width: 1px;
