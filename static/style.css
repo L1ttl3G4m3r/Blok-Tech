@@ -1255,7 +1255,9 @@ h2.selected {
 .hidden {
   display: none;
 }
+.collection-grid {
 
+}
 .content {
   margin-top: 2em;
 }

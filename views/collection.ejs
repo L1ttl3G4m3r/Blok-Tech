@@ -19,11 +19,11 @@
   </ul>
 
   <section class="content" id="collections">
-      <div class="user-images">
-          <h2>Your Images</h2>
+    <h2>Jouw collectie</h2>
+      <div class="collection-grid">
       <% if (userImages && userImages.length > 0) { %>
         <% userImages.forEach(function(imageUrl) { %>
-          <img src="<%= imageUrl %>" alt="User Image" width="200">
+          <img src="<%= imageUrl %>" alt="User Image">
         <% }); %>
       <% } else { %>
         <p>No images available.</p>
