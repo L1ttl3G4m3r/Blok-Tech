@@ -3,7 +3,6 @@
 </div>
 <br>
 
-
 <!-- Logo Section  -->
 <div align="center">
     <a href="your_github_user_name" target="_blank">
@@ -12,34 +11,28 @@
     </a>
 </div>
 
-
 <!-- Project title-->
 <div align="center">
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=4000&pause=5000&background=FFFFFF00&center=true&vCenter=true&multiline=true&width=435&lines=Tattoo-Project">
 </div>
 
-
-## Inhoudsopgave
-1. [Over](#over)
-2. [Gemaakt met](#gemaakt-met)
-3. [Ontwikkelaars](#ontwikkelaars)
-4. [Dankbetuigingen](#dankbetuigingen)
+## Table of Contents
+1. [About](#about)
+2. [Built With](#built-with)
+3. [Developers](#developers)
+4. [Acknowledgments](#acknowledgments)
 5. [Contact](#contact)
-6. [Licensie](#licensie)
+6. [License](#license)
 
+<p align="right"><a href="#table-of-contents">Back to Top ⬆️</a></p>
 
-<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
+## About
 
+We are creating a matching website. This is our idea:
 
-## Over
+Tattoo composition = By presenting a number of ideas based on interests and preferences, it's easier to determine which tattoo people want. We chose this idea because of its originality. It is unique and gives us the opportunity to go in many directions, despite the specification, which will challenge us.
 
-Wij maken een matching website. Dit is ons idee:
-
-Tattoo samenstellen = Door interesses en voorkeuren een aantal ideeën voorgeschoteld krijgen om zo makkelijker te kunnen bepalen welke tattoo mensen willen zetten. Dit idee hebben we gekozen vanwege orginaliteit. Het is uniek en geeft ons de kans om desondanks de specificering toch veel kanten op te kunnen die ons uitdaging gaan kunnen geven.
-
-
-
-## Gemaakt met
+## Built With
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
@@ -49,26 +42,21 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * NodeJS
 * MongoDB
 
-<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#table-of-contents">Back to Top ⬆️</a></p>
 
-
-
-## Ontwikkelaars
+## Developers
 
 <a href="https://github.com/L1ttl3G4m3r/Blok-Tech/contributors">
-  <img src="https://github.com/user-attachments/assets/c6bb56ff-0e88-4e87-96a0-202d1629e354" alt="alle ontwikkelaars" />
+  <img src="https://github.com/user-attachments/assets/c6bb56ff-0e88-4e87-96a0-202d1629e354" alt="all developers" />
 </a>
 
-<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#table-of-contents">Back to Top ⬆️</a></p>
 
+## Acknowledgments
 
-## Dankbetuigingen
-<!--Gebruik deze plek voor bronnen en helpvolle informatie die je hebt vergaard-->
 * [Perplexity.ai](https://www.perplexity.ai/)
 
-<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
-
-
+<p align="right"><a href="#table-of-contents">Back to Top ⬆️</a></p>
 
 ## Contact
 
@@ -80,10 +68,8 @@ Tess Wieman (Front-end) - tess.wieman@hva.nl
 
 Mick van der Linden (Front-end) - mick.van.der.linden2@hva.nl
 
+## License
 
-## Licensie
+- [MIT License](./LICENSE.txt)
 
-- [MIT Licensie](./LICENSE.txt)
-
-<!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#inhoudsopgave">Terug naar boven ⬆️</a></p>
+<p align="right"><a href="#table-of-contents">Back to Top ⬆️</a></p>
