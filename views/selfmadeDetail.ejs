@@ -5,17 +5,14 @@
     <title><%= pageTitle %></title>
   </head>
   <body>
-    <header class="headerIndex">
-      <a href="javascript:history.back()">
-        <img src="/static/icons/normal/back.svg" alt="Terug">
-      </a>
-      <%- include('partials/header') %>
-      <h1>Zelfgemaakte Tattoos</h1>
+    <header>
+      <%- include('partials/micro-header') %>
     </header>
 
+    <h1>Zelfgemaakte Tattoos</h1>
     <section class="tattoo-grid" id="tattoo-grid">
       <% if (posts && posts.length > 0) { %>
-          <% posts.forEach(post => { %>
+          <<% posts.forEach(post => { %>>
               <div class="tattoo-item">
                 <a class="post-link" href="/detailpagina?img=<%= post.photo %>&postId=<%= post._id %>&title=<%= post.title %>&description=<%= post.description %>&tags=<%= JSON.stringify(post.tags) %>">
                   <img src="<%= post.photo %>" alt="<%= post.title %>">

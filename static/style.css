@@ -150,35 +150,27 @@ input[type="search"] {
   border-radius: 4px;
   color: var(--color-text);
   border: 2px solid var(--color-text);
-  background-color: var(--color-background);
 }
-
 #search-results {
   background-color: var(--color-text);
   border-radius: 4px;
-
 }
-
 #search-results a {
   color: var(--color-background);
   margin: 1em;
 }
-
 .search-container {
   position: relative;
 }
-
 .search-icon {
   position: absolute;
   top: 0;
   left: 0;
 }
-
 .search-icon img {
   width: 3em;
   height: 3em;
 }
-
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -198,7 +190,7 @@ section.filtersorting {
   align-items: center;
   margin: 0 0.5em;
 }
-nav {
+.filterNav {
   display: flex;
   justify-content: flex-end;
 }
@@ -377,6 +369,7 @@ swiper-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 4px;
 }
 
 swiper-slide {
@@ -1098,6 +1091,7 @@ section.detailInformatie > img:first-of-type {
   align-items: center;
   width: 100%;
   height: auto;
+  border-radius: 4px;
 }
 
 section.detailInformatie a {
