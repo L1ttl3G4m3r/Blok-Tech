@@ -1241,7 +1241,9 @@ section.delen {
 .icon-normal.hidden {
   display: none;
 }
-
+.tab h2 {
+  font-size: 0.9em;
+}
 h2.selected {
   color: var(--button-hover);
   font-weight: bold; /* Maak tekst vetgedrukt */
@@ -1250,7 +1252,14 @@ h2.selected {
   display: none;
 }
 .collection-grid {
-
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5em;
+  margin: 0.5em;
+}
+.collection-grid img {
+  width: 11em;
+  border-radius: 4px;
 }
 .content {
   margin-top: 2em;
