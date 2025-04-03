@@ -24,7 +24,7 @@
       <div class="tattoo-grid">
       <% if (userImages && userImages.length > 0) { %>
         <% userImages.forEach(function(imageUrl) { %>
-          <img src="<%= imageUrl %>" alt="User Image">
+          <img src="<%= imageUrl %>" alt="<%= imageUrl.alt_description || 'Tattoo Image' %>">
         <% }); %>
       <% } else { %>
         <p>No images available.</p>

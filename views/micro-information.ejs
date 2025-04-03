@@ -7,10 +7,6 @@
     <header><%- include('partials/micro-header') %></header>
     <main>
       <section class="microDetail">
-        <h1>
-          <%= typeof titel !== "undefined" && titel !== null ? titel : "Geen titel beschikbaar" %>
-        </h1>
-
         <% if (typeof img !== "undefined" && img) { %>
           <img
             id="selectedImage"
@@ -21,6 +17,7 @@
           <p>Geen afbeelding gespecificeerd.</p>
         <% } %>
 
+        <h2>Tags</h2>
         <ul>
           <% if (Array.isArray(tags) && tags.length > 0) { %>
             <% tags.forEach(tag => { %>
@@ -32,15 +29,15 @@
         </ul>
       </section>
 
-      <h2 class="artistHeader">Artiesten die dit ook kunnen</h2>
-      <%- include('partials/artists') %>
-
       <section class="uitlegAfbeelding">
         <h3>Beschrijving</h3>
         <p>
           <%= typeof post.description !== "undefined" && post.description !== null && post.description !== "" ? post.description : "Geen beschrijving beschikbaar" %>
         </p>
       </section>
+
+      <h2 class="artistHeader">Artiesten die dit ook kunnen</h2>
+      <%- include('partials/artists') %>
     </main>
     <footer><%- include('partials/nav') %></footer>
 
