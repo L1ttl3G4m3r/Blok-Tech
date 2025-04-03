@@ -968,51 +968,39 @@ textarea {
 /***************/
 section.microDetail {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: .5fr .5fr .5fr .5fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr .5fr .5fr;
   margin: 2em;
-  column-gap: .5em;
   align-items: center;
 }
 
 section.microDetail img {
   grid-column-start: 1;
-  grid-column-end: 2;
+  grid-column-end: -1;
   grid-row-start: 1;
-  grid-row-end: 4;
+  grid-row-end: 2;
 
   width: 100%;
   height: auto;
 }
 
-section.microDetail h1 {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 2;
-}
-
 section.microDetail h2 {
-  grid-column-start: 2;
-  grid-column-end: 3;
+  grid-column-start: 1;
+  grid-column-end: -1;
   grid-row-start: 2;
   grid-row-end: 3;
 }
 
-section.microDetail a {
-  grid-column-start: 2;
-  grid-row-start: 3;
-  grid-row-start: 3;
-  grid-row-end: 4;
-}
-
 section.microDetail ul {
-  grid-row-start: 4;
   grid-column-start: 1;
   grid-column-end: -1;
 
+  grid-row-start: 3;
+  grid-row-end: -1;
+
   display: flex;
   gap: 1.5em;
+  flex-wrap: wrap;
 }
 
 .artistHeader {
@@ -1020,8 +1008,7 @@ section.microDetail ul {
 }
 
 section.uitlegAfbeelding {
-  margin-left: 2em;
-  margin-right: 2em;
+  margin: 2em;
   border: 2px solid var(--color-text);
   border-radius: 1em;
   padding: 1em;
