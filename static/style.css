@@ -969,7 +969,7 @@ textarea {
 section.microDetail {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 2fr .5fr .5fr;
+  grid-template-rows: 2fr .3fr .3fr;
   margin: 2em;
   align-items: center;
 }
