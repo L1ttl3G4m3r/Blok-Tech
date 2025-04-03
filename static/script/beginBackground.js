@@ -28,40 +28,48 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
 
-  function setImageHeight(image) {
-      const img = new Image();
-      img.onload = function() {
-          const aspectRatio = this.height / this.width;
-          image.style.paddingBottom = `${aspectRatio * 100}%`;
-      }
-      img.src = image.style.backgroundImage.replace(/url\(['"]?(.+?)['"]?\)/, '$1');
-  }
-
-  function fillColumns() {
+  function addImagesToColumns() {
       const columns = document.querySelectorAll('.image-column');
       shuffleArray(allImages);
 
       columns.forEach((column, columnIndex) => {
-          column.innerHTML = '';
           for (let i = 0; i < 5; i++) {
               const imageIndex = (columnIndex * 5 + i) % allImages.length;
-              const newImage = document.createElement('div');
-              newImage.className = 'background-image';
-              newImage.style.backgroundImage = `url('${allImages[imageIndex].url}')`;
-              column.appendChild(newImage);
-              setImageHeight(newImage);
+              const imgElement = document.createElement('img');
+              imgElement.className = 'background-image';
+              imgElement.src = allImages[imageIndex].url;
+              imgElement.loading = 'lazy'; // Lazy loading
+              imgElement.alt = 'Tattoo image';
+              column.appendChild(imgElement);
           }
       });
+
+      observeLastRow();
+  }
+
+  function observeLastRow() {
+      const lastImages = document.querySelectorAll('.image-column img:last-child');
+      if (lastImages.length === 0) return;
+
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  addImagesToColumns(); // Voeg nieuwe afbeeldingen toe als de laatste rij zichtbaar wordt
+              }
+          });
+      }, {
+          root: null,
+          threshold: 0.01 // Activeer zodra 1% van de laatste rij zichtbaar is
+      });
+
+      lastImages.forEach(img => observer.observe(img));
   }
 
   function initializeBackground() {
       createImageColumns();
-      fillColumns();
+      addImagesToColumns();
   }
 
   initializeBackground();
-  setInterval(fillColumns, 30000); // Vul opnieuw elke 30 seconden
-
   window.addEventListener('resize', initializeBackground);
-
 });
