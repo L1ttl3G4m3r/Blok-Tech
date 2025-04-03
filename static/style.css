@@ -26,7 +26,7 @@
   --border-button: 4px;
   --focus-item: #0035c7;
   --disabled-button: #454545;
-  --disabled-text: #A9A9A9;
+  --disabled-text: #a9a9a9;
 }
 /****************/
 /* Algemeen */
@@ -48,7 +48,7 @@ body {
   color: var(--color-text);
 }
 main {
-padding-bottom: 7em;
+  padding-bottom: 7em;
 }
 
 a {
@@ -56,7 +56,8 @@ a {
   color: var(--color-text);
 }
 
-ul, ol {
+ul,
+ol {
   list-style-type: none;
   padding: 0;
 }
@@ -252,7 +253,7 @@ section.filtersorting {
   border-radius: 2px;
   color: var(--color-text);
   font-family: var(--main-font);
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 .close-button-filter {
   background: none;
@@ -310,7 +311,7 @@ section.filtersorting {
   font-size: 1em;
   border: none;
   border-radius: 4px;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .radio-container input[type="radio"] {
   background-color: var(--color-text);
@@ -389,7 +390,6 @@ select {
   object-fit: cover;
   cursor: pointer;
   border-radius: 4px;
-
 }
 .tattoo-grid p {
   text-align: center;
@@ -483,7 +483,7 @@ li.artist-item {
   text-decoration: none;
   color: var(--color-text);
   border: none;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .button-cta2 {
   background-color: var(--color-text);
@@ -497,7 +497,7 @@ li.artist-item {
   color: var(--color-background);
   border-radius: 4px;
   border: none;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .button-reset {
   background-color: var(--color-text);
@@ -580,7 +580,6 @@ h2.form-heading {
 }
 .form-container {
   width: 100%;
-
 }
 .formgroup {
   display: flex;
@@ -594,7 +593,6 @@ input {
   background-color: var(--color-background);
   border-radius: 4px;
   color: var(--color-text);
-
 }
 
 .button-group {
@@ -642,7 +640,7 @@ section.profile-section {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   opacity: 0;
   transition: opacity 0.3s;
@@ -723,7 +721,7 @@ section.profile-section {
   align-items: center;
 }
 
-.profile-header h2{
+.profile-header h2 {
   margin-top: 1em;
 }
 .form-group {
@@ -731,7 +729,7 @@ section.profile-section {
   width: 100%;
 }
 .form-group input {
-width: 100%;
+  width: 100%;
 }
 .form-group label {
   display: block;
@@ -886,14 +884,12 @@ input[type="radio"]:checked::before {
   margin: 2em;
 }
 
-
 .post-form {
   border-radius: 0.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1em;
-
 }
 .post-form label,
 .form-group label {
@@ -910,7 +906,7 @@ input[type="radio"]:checked::before {
   gap: 0.3em;
   width: 100%;
 }
-.image-placeholder  {
+.image-placeholder {
   flex-direction: column;
 }
 textarea {
@@ -964,14 +960,13 @@ textarea {
   font-weight: bold;
 }
 
-
 /***************/
 /* micropagina */
 /***************/
 section.microDetail {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 2fr .3fr .3fr;
+  grid-template-rows: 2fr 0.3fr 0.3fr;
   margin: 2em;
   align-items: center;
 }
@@ -1037,17 +1032,20 @@ section.explainImage {
   margin-right: 2em;
 }
 
-.detailNav img, .microNav img {
+.detailNav img,
+.microNav img {
   width: 100%;
   height: auto;
 }
 
-.detailNav ul li:nth-of-type(2) img, .microNav ul li:nth-of-type(2) img {
+.detailNav ul li:nth-of-type(2) img,
+.microNav ul li:nth-of-type(2) img {
   width: 10em;
   height: auto;
 }
 
-.detailNav button, .detailInformation button {
+.detailNav button,
+.detailInformation button {
   background: none;
   border: none;
 }
@@ -1059,7 +1057,7 @@ section.detailInformation {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   margin: 2em;
-  row-gap: .5em;
+  row-gap: 0.5em;
 }
 
 section.detailInformation > img:first-of-type {
@@ -1084,8 +1082,8 @@ section.detailInformation a {
   align-items: center;
 }
 
-
-section.detailInformation a > img, section.detailInformation button:last-of-type > img {
+section.detailInformation a > img,
+section.detailInformation button:last-of-type > img {
   width: 3em;
   height: auto;
 }
@@ -1158,23 +1156,23 @@ section.share ul img {
 
 section.share {
   position: fixed;
-	left: 0;
-	right: 0;
-	top: 48em;
-	bottom: 0;
+  left: 0;
+  right: 0;
+  top: 48em;
+  bottom: 0;
   z-index: 2000;
 
   transform: translateY(100%);
-	transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   cursor: pointer;
 
-	background: var(--color-background);
+  background: var(--color-background);
 }
 
 .share.toonMenu {
   background-color: var(--color-text);
   color: var(--color-background);
-	transform: translateY(0);
+  transform: translateY(0);
 }
 
 /******************/
