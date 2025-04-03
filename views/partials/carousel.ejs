@@ -1,226 +1,238 @@
-<swiper-container
-  class="mySwiper"
-  space-between="30"
-  slides-per-view="auto"
-  pagination="true"
-  pagination-clickable="true"
->
-  <!-- Zelfgemaakte posts -->
-  <swiper-slide>
-    <!-- https://chatgpt.com/c/67ed281b-395c-8004-a807-9423e6ca8703 -->
-    <% if (posts && posts.length > 0) { %>
-      <% const randomPost = posts[Math.floor(Math.random() * posts.length)]; %>
-      <div class="tattoo-item">
-        <a class="post-link" href="/selfmadeDetail" class="carousel-link">
-          <img src="<%= randomPost.photo %>" alt="<%= randomPost.title %>">
-        </a>
-      </div>
-    <% } else { %>
-      <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
-    <% } %>
-  </swiper-slide>
+<ul class="artist-list">
+  <% if (posts && posts.length > 0) { %>
+    <% const randomPost = posts[Math.floor(Math.random() * posts.length)]; %>
+  <li class="artist-item">
+    <a class="gridCarrousel" href="/selfmadeDetail">
+      <h3>Toegevoegde posts</h3>
+      <img src="<%= randomPost.photo %>" alt="<%= randomPost.title %>">
+    </a>
+  </li>
+  <% } else { %>
+    <p>Er zijn nog geen zelfgemaakte tatoeages toegevoegd.</p>
+  <% } %>
 
   <% if (styles.includes('natuur')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=nature" class="carousel-link">
+  <li class="artist-item">
+    <a class="gridCarrousel" href="/carouselDetail?category=nature">
       <h3>Natuur</h3>
       <img src="static/vragenlijst/question1/natureTattoo.svg" alt="tattoo met natuur">
     </a>
-  </swiper-slide>
+  </li>
+  <% } %>
 
-  <% } %> <% if (styles.includes('dieren')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=animals" class="carousel-link">
+  <% if (styles.includes('dieren')) { %>
+  <li class="artist-item">
+    <a class="gridCarrousel" href="/carouselDetail?category=animals">
       <h3>Dieren</h3>
       <img src="static/vragenlijst/question1/animalTattoo.svg" alt="tattoo met dieren">
     </a>
-  </swiper-slide>
+  </li>
+  <% } %>
 
-  <% } %> <% if (styles.includes('mythischeSymbolen')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=mythical" class="carousel-link">
+  <% if (styles.includes('mythischeSymbolen')) { %>
+  <li class="artist-item">
+    <a class="gridCarrousel" href="/carouselDetail?category=mythical">
       <h3>Mythische symbolen</h3>
       <img src="static/vragenlijst/question1/mythicalTattoo.svg" alt="tattoo met mythische symbolen">
     </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('geometrischeVormen')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=geometric" class="carousel-link">
-      <h3>Geometrische vormen</h3>
-      <img src="static/vragenlijst/question1/geometricalTattoo.svg" alt="tattoo met geometrische vormen">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('emotiesGezichten')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=emotion-and-faces" class="carousel-link">
-      <h3>Emoties & Gezichten</h3>
-      <img src="static/vragenlijst/question1/facesTattoo.svg" alt="tattoo met emoties en gezichten">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('kunstzinnigeStijlen')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=artistic" class="carousel-link">
-      <h3>Kunstzinnige stijlen</h3>
-      <img src="static/vragenlijst/question1/artisticTattoo.svg" alt="tattoo met kunst">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('sci-fi')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=sci-fi" class="carousel-link">
-      <h3>Sci-fi</h3>
-      <img src="static/vragenlijst/question1/sci-fiTattoo.svg" alt="sci-fi tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('futuristisch')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=futuristic" class="carousel-link">
-      <h3>Futuristisch</h3>
-      <img src="static/vragenlijst/question1/futuristicTattoo.svg" alt="futiristische tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('muziek')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=music" class="carousel-link">
-      <h3>Muziek</h3>
-      <img src="static/vragenlijst/question1/musicTattoo.svg" alt="tattoo met muziek">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('fineLine')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=fineline" class="carousel-link">
-      <h3>Fine line</h3>
-      <img src="static/vragenlijst/question2/fine-lineTattoo.svg" alt="fineline tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('traditioneel')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=traditional" class="carousel-link">
-      <h3>Traditioneel</h3>
-      <img src="static/vragenlijst/question2/traditionalTattoo.svg" alt="traditionele tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('blackwork')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=blackwork" class="carousel-link">
-      <h3>Blackwork</h3>
-      <img src="static/vragenlijst/question2/blackworkTattoo.svg" alt="blackwork tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('watercolor')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=watercolor" class="carousel-link">
-      <h3>Watercolor</h3>
-      <img src="static/vragenlijst/question2/watercolorTattoo.svg" alt="watercolor tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('geometrischAbstract')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=geometric-and-abstract" class="carousel-link">
-      <h3>Geometrisch & Abstract</h3>
-      <img src="static/vragenlijst/question2/geometrical-abstractTattoo.svg" alt="geometrische en abstracte tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('realistisch')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=realistic" class="carousel-link">
-      <h3>Realistisch</h3>
-      <img src="static/vragenlijst/question2/realisticTattoo.svg" alt="realistische tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('dotwork')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=dotwork" class="carousel-link">
-      <h3>Dotwork</h3>
-      <img src="static/vragenlijst/question2/dotworkTattoo.svg" alt="dotwork tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (styles.includes('minimalistisch')) { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=minimalistic" class="carousel-link">
-      <h3>Minimalistisch</h3>
-      <img src="static/vragenlijst/question2/minimalisticTattoo.svg" alt="minimalistische tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (colors === 'zwart-wit') { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=black-and-white" class="carousel-link">
-      <h3>Zwart-wit</h3>
-      <img src="static/vragenlijst/question3/black-whiteTattoo.svg" alt="zwart wit tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (colors === 'gekleurd') { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=colors" class="carousel-link">
-      <h3>Gekleurd</h3>
-      <img src="static/vragenlijst/question3/colorTattoo.svg" alt="gekleurde tattoo">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (tattooPlek === 'arm') { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=arm" class="carousel-link">
-      <h3>Arm</h3>
-      <img src="static/vragenlijst/question4/armTattoo.svg" alt="arm">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (tattooPlek === 'been') { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=leg" class="carousel-link">
-      <h3>Been</h3>
-      <img src="static/vragenlijst/question4/legTattoo.svg" alt="been">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (tattooPlek === 'rug') { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=back" class="carousel-link">
-      <h3>Rug</h3>
-      <img src="static/vragenlijst/question4/backTattoo.svg" alt="rug">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (tattooPlek === 'borst') { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=chest" class="carousel-link">
-      <h3>Borst</h3>
-      <img src="static/vragenlijst/question4/chestTattoo.svg" alt="borst">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (tattooPlek === 'nek') { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=neck" class="carousel-link">
-      <h3>Nek</h3>
-      <img src="static/vragenlijst/question4/neckTattoo.svg" alt="nek">
-    </a>
-  </swiper-slide>
-
-  <% } %> <% if (tattooPlek === 'gezicht') { %>
-  <swiper-slide>
-    <a href="/carouselDetail?category=face" class="carousel-link">
-      <h3>Gezicht</h3>
-      <img src="static/vragenlijst/question4/facialTattoo.svg" alt="gezicht">
-    </a>
-  </swiper-slide>
+  </li>
   <% } %>
-</swiper-container>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+  <% if (styles.includes('geometrischeVormen')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=geometric">
+        <h3>Geometrische vormen</h3>
+        <img src="static/vragenlijst/question1/geometricalTattoo.svg" alt="tattoo met geometrische vormen">
+      </a>
+  </li>
+  <% } %>
 
+  <% if (styles.includes('emotiesGezichten')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=emotion-and-faces">
+        <h3>Emoties & Gezichten</h3>
+        <img src="static/vragenlijst/question1/facesTattoo.svg" alt="tattoo met emoties en gezichten">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('kunstzinnigeStijlen')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=artistic">
+        <h3>Kunstzinnige stijlen</h3>
+        <img src="static/vragenlijst/question1/artisticTattoo.svg" alt="tattoo met kunst">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('sci-fi')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=sci-fi">
+        <h3>Sci-fi</h3>
+        <img src="static/vragenlijst/question1/sci-fiTattoo.svg" alt="sci-fi tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('futuristisch')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=futuristic">
+        <h3>Futuristisch</h3>
+        <img src="static/vragenlijst/question1/futuristicTattoo.svg" alt="futiristische tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('muziek')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=music">
+        <h3>Muziek</h3>
+        <img src="static/vragenlijst/question1/musicTattoo.svg" alt="tattoo met muziek">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('fineLine')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=fineline">
+        <h3>Fine line</h3>
+        <img src="static/vragenlijst/question2/fine-lineTattoo.svg" alt="fineline tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('traditioneel')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=traditional">
+        <h3>Traditioneel</h3>
+        <img src="static/vragenlijst/question2/traditionalTattoo.svg" alt="traditionele tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('blackwork')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=blackwork">
+        <h3>Blackwork</h3>
+        <img src="static/vragenlijst/question2/blackworkTattoo.svg" alt="blackwork tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('watercolor')) { %>
+    <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=watercolor">
+        <h3>Watercolor</h3>
+        <img src="static/vragenlijst/question2/watercolorTattoo.svg" alt="watercolor tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('geometrischAbstract')) { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=geometric-and-abstract">
+        <h3>Geometrisch & Abstract</h3>
+        <img src="static/vragenlijst/question2/geometrical-abstractTattoo.svg" alt="geometrische en abstracte tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('realistisch')) { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=realistic">
+        <h3>Realistisch</h3>
+        <img src="static/vragenlijst/question2/realisticTattoo.svg" alt="realistische tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (styles.includes('dotwork')) { %>
+      <li class="artist-item">
+        <a class="gridCarrousel" href="/carouselDetail?category=dotwork">
+          <h3>Dotwork</h3>
+          <img src="static/vragenlijst/question2/dotworkTattoo.svg" alt="dotwork tattoo">
+        </a>
+      </li>
+    <% } %>
+
+    <% if (styles.includes('minimalistisch')) { %>
+      <li class="artist-item">
+        <a class="gridCarrousel" href="/carouselDetail?category=minimalistic">
+          <h3>Minimalistisch</h3>
+          <img src="static/vragenlijst/question2/minimalisticTattoo.svg" alt="minimalistische tattoo">
+        </a>
+      </li>
+    <% } %>
+
+    <% if (colors === 'zwart-wit') { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=black-and-white">
+        <h3>Zwart-wit</h3>
+        <img src="static/vragenlijst/question3/black-whiteTattoo.svg" alt="zwart wit tattoo">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (colors === 'gekleurd') { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=colors">
+        <h3>Gekleurd</h3>
+        <img src="static/vragenlijst/question3/colorTattoo.svg" alt="gekleurde tattoo">
+      </a>
+    </li>
+    <% } %>
+
+    <% if (tattooPlek === 'arm') { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=arm">
+        <h3>Arm</h3>
+        <img src="static/vragenlijst/question4/armTattoo.svg" alt="arm">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (tattooPlek === 'been') { %>
+      <li class="artist-item">
+        <a class="gridCarrousel" href="/carouselDetail?category=leg">
+          <h3>Been</h3>
+          <img src="static/vragenlijst/question4/legTattoo.svg" alt="been">
+        </a>
+      </li>
+    <% } %>
+
+  <% if (tattooPlek === 'rug') { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=back">
+        <h3>Rug</h3>
+        <img src="static/vragenlijst/question4/backTattoo.svg" alt="rug">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (tattooPlek === 'borst') { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=chest">
+        <h3>Borst</h3>
+        <img src="static/vragenlijst/question4/chestTattoo.svg" alt="borst">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (tattooPlek === 'nek') { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=neck">
+        <h3>Nek</h3>
+        <img src="static/vragenlijst/question4/neckTattoo.svg" alt="nek">
+      </a>
+    </li>
+  <% } %>
+
+  <% if (tattooPlek === 'gezicht') { %>
+      <li class="artist-item">
+      <a class="gridCarrousel" href="/carouselDetail?category=face">
+        <h3>Gezicht</h3>
+        <img src="static/vragenlijst/question4/facialTattoo.svg" alt="gezicht">
+      </a>
+    </li>
+  <% } %>
+</ul>

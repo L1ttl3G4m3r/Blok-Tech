@@ -340,41 +340,34 @@ select {
   color: var(--color-text);
 }
 
-/****************/
-/* Carousel */
-/****************/
-section.carousel-section {
-  margin-top: 2em;
-}
-.textcontainer {
-  display: flex;
-  justify-content: space-between;
-  margin: 1em 2em;
-  align-items: center;
-}
-.textcontainer a {
-  color: var(--color-text);
-}
-swiper-container {
-  width: 100%;
-  height: 100%;
+/******************/
+/* Carousel index */
+/******************/
+/* Het gebruikt ook de artist-list CSS */
+
+.gridCarrousel {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr 2fr;
 }
 
-.swiper-slide h2 {
-  margin-top: 2em;
+.gridCarrousel h3 {
+  grid-row-start: 2;
+  text-align: center;
+  padding: 1em;
 }
 
-swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.gridCarrousel img {
   border-radius: 4px;
+  width: 7em;
+  height: auto;
 }
 
-swiper-slide {
-  width: 80%;
+.gridCarrousel img:first-of-type {
+  width: 7em;
+  height: 7em;
 }
+
 /****************/
 /* tattoo grid */
 /****************/
