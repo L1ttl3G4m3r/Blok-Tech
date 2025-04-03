@@ -11,17 +11,17 @@ const { MongoClient, ObjectId } = require("mongodb");
 const fetch = require("node-fetch");
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs"); 
+const fs = require("fs");
 
 const app = express();
 const port = process.env.PORT || 9000;
 
-// Wijzig storage configuratie
+// storage config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      const uploadPath = path.join(__dirname, "uploads"); // Absolute pad
+      const uploadPath = path.join(__dirname, "uploads");
       if (!fs.existsSync(uploadPath)) {
-          fs.mkdirSync(uploadPath, { recursive: true }); // Maak map aan indien niet bestaat
+          fs.mkdirSync(uploadPath, { recursive: true });
           console.log(`Map aangemaakt: ${uploadPath}`);
       }
       cb(null, uploadPath);
@@ -187,8 +187,7 @@ app.get("/index", isAuthenticated, async (req, res) => {
 
     const postsCollection = db.collection("posts");
 
-    // Haal de query parameters van de filters en zoekterm
-    const query = req.query.q || ""; // Zoekterm uit de query
+    const query = req.query.q || "";
     const styles = req.query.styles ? req.query.styles.split(",") : [];
     const colors = req.query.colors || "";
     const tattooPlek = req.query.tattooPlek || "";
@@ -228,14 +227,12 @@ app.get("/index", isAuthenticated, async (req, res) => {
       searchQuery += ` ${styleQueries.join(" ")}`;
     }
 
-    // Voeg kleur toe aan de zoekopdracht
     if (colors === "black_and_white") {
       searchQuery += " black and white tattoo";
     } else if (colors === "color") {
       searchQuery += " colorful tattoo";
     }
 
-    // Voeg tattooPlek en woonplaats toe aan de zoekopdracht
     if (tattooPlek) {
       searchQuery += ` ${tattooPlek} tattoo`;
     }
@@ -245,11 +242,9 @@ app.get("/index", isAuthenticated, async (req, res) => {
 
     console.log("Unsplash query:", searchQuery);
 
-    // Haal Unsplash afbeeldingen op
     const imageUrls = await fetchUnsplashImages(searchQuery, 28, currentSort);
     console.log("Fetched Unsplash images:", imageUrls);
 
-    // Haal de posts op uit de database en filter ze op stijl
     let filteredPosts = await postsCollection.find().toArray();
     if (user?.tattooStijl) {
       filteredPosts = filteredPosts.filter((post) =>
@@ -259,11 +254,9 @@ app.get("/index", isAuthenticated, async (req, res) => {
 
     console.log("Filtered posts:", filteredPosts);
 
-    // Render de pagina met de juiste data
     res.render("index.ejs", {
-      pageTitle: query ? `Zoekresultaten voor "${query}"` : "Home", // Als er een zoekterm is, geef een aangepaste titel
-      username: req.session.username,
-      gridImages: imageUrls, // Hier stuur je de Unsplash afbeeldingen naar de client
+      pageTitle: query ? `Zoekresultaten voor "${query}"` : "Home",
+      gridImages: imageUrls, 
       user,
       currentSort,
       isArtist: req.session.isArtist,
