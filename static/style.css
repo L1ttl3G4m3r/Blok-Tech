@@ -368,38 +368,6 @@ select {
   height: 7em;
 }
 
-/* section.carousel-section {
-  margin-top: 2em;
-}
-.textcontainer {
-  display: flex;
-  justify-content: space-between;
-  margin: 1em 2em;
-  align-items: center;
-}
-.textcontainer a {
-  color: var(--color-text);
-}
-swiper-container {
-  width: 100%;
-  height: 100%;
-}
-
-.swiper-slide h2 {
-  margin-top: 2em;
-}
-
-swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-swiper-slide {
-  width: 80%;
-} */
 /****************/
 /* tattoo grid */
 /****************/
