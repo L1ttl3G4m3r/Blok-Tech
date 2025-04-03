@@ -4,18 +4,23 @@
   <%- include('partials/head') %>
 </head>
 <body>
-  <header><%- include('partials/header') %></header>
+  <header><%- include('partials/micro-header') %></header>
 
   <main>
-    <h1><%= artist.username %></h1>
-    <p><strong>Studio:</strong> <%= artist.studio.name %></p>
-    <p>Address: <%= artist.studio.address %></p>
-    <!-- Voeg hier meer details toe over de artiest -->
-    <img src="<%= artist.profilePhoto %>" alt="<%= artist.username %>" />
+    <section class="artistSection">
+    <img src="<%= artist.artistImages %>" alt="<%= artist.username %>" />
 
+    <div class="artistInfo">
+    <h2><%= artist.username %></h2>
+    <p><strong>Studio</strong> <%= artist.studio.name %></p>
+    <p><strong>Adres</strong> <%= artist.studio.address %></p>
+  </div>
 
+  </section>
+
+<section class="collectionSection">
     <h2>Collectie</h2>
-  <div class="artist-images">
+  <div class="tattoo-grid">
     <% if (artistImages && artistImages.length > 0) { %>
       <% artistImages.forEach(function(imageUrl) { %>
           <img src="<%= imageUrl %>" alt="User Image" width="200">
@@ -24,12 +29,12 @@
       <p>No images available.</p>
   <% } %>
   </div>
+
+</section>
   </main>
 
   <footer>
     <%- include('partials/nav') %>
   </footer>
-
-  <script src="/static/script/script.js"></script>
 </body>
 </html>

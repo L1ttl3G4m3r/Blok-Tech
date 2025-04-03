@@ -60,7 +60,6 @@ ul, ol {
   list-style-type: none;
   padding: 0;
 }
-
 /****************/
 /* logo */
 /****************/
@@ -659,6 +658,9 @@ section.profile-section {
 /****************************/
 /* profile menu photo */
 /****************************/
+.textcontainer {
+  margin-left: 2em;
+}
 .photo-options-menu {
   position: fixed;
   bottom: 0;
@@ -969,7 +971,7 @@ textarea {
 section.microDetail {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 2fr .5fr .5fr;
+  grid-template-rows: 2fr .3fr .3fr;
   margin: 2em;
   align-items: center;
 }
@@ -1007,7 +1009,7 @@ section.microDetail ul {
   margin-left: 2em;
 }
 
-section.uitlegAfbeelding {
+section.explainImage {
   margin: 2em;
   border: 2px solid var(--color-text);
   border-radius: 1em;
@@ -1045,22 +1047,22 @@ section.uitlegAfbeelding {
   height: auto;
 }
 
-.detailNav button, .detailInformatie button {
+.detailNav button, .detailInformation button {
   background: none;
   border: none;
 }
 
 /*************************/
-/* grid detailInformatie */
+/* grid detailInformation */
 /*************************/
-section.detailInformatie {
+section.detailInformation {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   margin: 2em;
   row-gap: .5em;
 }
 
-section.detailInformatie > img:first-of-type {
+section.detailInformation > img:first-of-type {
   grid-column-start: 1;
   grid-column-end: -1;
   grid-row-start: 1;
@@ -1072,7 +1074,7 @@ section.detailInformatie > img:first-of-type {
   border-radius: 4px;
 }
 
-section.detailInformatie a {
+section.detailInformation a {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 2;
@@ -1083,12 +1085,12 @@ section.detailInformatie a {
 }
 
 
-section.detailInformatie a > img, section.detailInformatie button:last-of-type > img {
+section.detailInformation a > img, section.detailInformation button:last-of-type > img {
   width: 3em;
   height: auto;
 }
 
-section.detailInformatie button:first-of-type {
+section.detailInformation button:first-of-type {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;
@@ -1097,7 +1099,7 @@ section.detailInformatie button:first-of-type {
   text-align: right;
 }
 
-section.detailInformatie button:last-of-type {
+section.detailInformation button:last-of-type {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 2;
@@ -1106,7 +1108,7 @@ section.detailInformatie button:last-of-type {
   text-align: right;
 }
 
-section.detailInformatie h1 {
+section.detailInformation h1 {
   grid-column-start: 1;
   grid-column-end: -1;
   grid-row-start: 3;
@@ -1129,37 +1131,38 @@ section.tattoo-grid img {
 }
 
 /*****************/
-/* section.delen */
+/* section.share */
 /*****************/
-.delen > div {
+.share > div {
   display: flex;
   align-items: center;
   gap: 7.5em;
 }
 
-.delen > div img {
+.share > div img {
   width: 3em;
   height: auto;
   margin-left: 2em;
 }
 
-section.delen ul {
+section.share ul {
   display: flex;
   justify-content: space-evenly;
 }
 
-section.delen ul img {
+section.share ul img {
   width: 3em;
   margin-top: 2em;
   margin-bottom: 2em;
 }
 
-section.delen {
+section.share {
   position: fixed;
 	left: 0;
 	right: 0;
-	top: 38em;
+	top: 48em;
 	bottom: 0;
+  z-index: 2000;
 
   transform: translateY(100%);
 	transition: transform 0.3s ease-in-out;
@@ -1168,10 +1171,30 @@ section.delen {
 	background: var(--color-background);
 }
 
-.delen.toonMenu {
+.share.toonMenu {
   background-color: var(--color-text);
   color: var(--color-background);
 	transform: translateY(0);
+}
+
+/******************/
+/* Keyframes save */
+/*****************/
+@keyframes growSaveImg {
+  0% {
+    scale: 0.5;
+  }
+  50% {
+    scale: 0.75;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+.growAnimation {
+  animation-name: growSaveImg;
+  animation-duration: 150ms;
 }
 
 /****************************/
@@ -1229,4 +1252,28 @@ h2.selected {
 .content h2,
 .content p {
   text-align: center;
+}
+/*****************/
+/* Artistpagina */
+/*****************/
+section.artistSection {
+  display: flex;
+  flex-direction: column;
+}
+
+section.artistSection img {
+  width: 100vw;
+}
+
+.artistInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin: 1em;
+}
+.collectionSection {
+  margin: 1em;
+}
+.artistInfo p {
+  font-weight: 300;
 }

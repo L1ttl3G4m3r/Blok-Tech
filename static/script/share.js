@@ -1,6 +1,6 @@
-let openShareButton = document.querySelector(".openDelen")
-let closeShareButton = document.querySelector(".sluitDelen")
-let shareMenu = document.querySelector(".delen")
+let openShareButton = document.querySelector(".openShare")
+let closeShareButton = document.querySelector(".closeShare")
+let shareMenu = document.querySelector(".share")
 
 function openShare () {
   shareMenu.classList.add("toonMenu")

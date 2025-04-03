@@ -6,7 +6,7 @@
   <body>
     <header><%- include('partials/header-detail') %></header>
     <main>
-      <section class="detailInformatie">
+      <section class="detailInformation">
         <h1>
           <%= typeof titel !== "undefined" ? titel : "Geen titel beschikbaar" %>
         </h1>
@@ -23,12 +23,12 @@
 
         <!-- icoontjes -->
         <a href="/artiesten">
-          <img src="/static/icons/normal/profile.svg" alt="" />
+          <img src="/static/icons/normal/profile.svg" alt="Profiel icoon" />
           <h4>Tattoo plaatsen? Vind jouw artiest!</h4>
         </a>
         <button>
           <img
-            class="openDelen"
+            class="openShare"
             src="/static/icons/normal/share.svg"
             alt="Delen"
           />
@@ -36,7 +36,7 @@
 
         <button class="add-to-collection" data-url="<%= img %>">
           <img
-            class="opslaan"
+            class="save"
             src="/static/icons/normal/collection.svg"
             alt="Opslaan"
           />
@@ -59,12 +59,12 @@
         <% } %>
       </section>
 
-      <section class="delen">
+      <section class="share">
         <div>
           <img
-            class="sluitDelen"
+            class="closeShare"
             src="static/icons/black/close.svg"
-            alt="sluiten"
+            alt="Sluiten"
           />
           <h3>Delen</h3>
         </div>
@@ -86,7 +86,7 @@
           </li>
           <li>
             <a href="https://www.x.com/">
-              <img src="static/icons/socials/twitter.svg" alt="Twitter" /> <!-- Wijzig nog naar x logo -->
+              <img src="static/icons/socials/X.svg" alt="X vroeger heette het Twitter" />
             </a>
           </li>
         </ul>
