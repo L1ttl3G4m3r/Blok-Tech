@@ -1174,6 +1174,26 @@ section.share {
 	transform: translateY(0);
 }
 
+/******************/
+/* Keyframes save */
+/*****************/
+@keyframes growSaveImg {
+  0% {
+    scale: 0.5;
+  }
+  50% {
+    scale: 0.75;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+.growAnimation {
+  animation-name: growSaveImg;
+  animation-duration: 150ms;
+}
+
 /****************************/
 /* Collection feature*/
 /****************************/
