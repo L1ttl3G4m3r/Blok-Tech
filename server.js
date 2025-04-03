@@ -11,16 +11,27 @@ const { MongoClient, ObjectId } = require("mongodb");
 const fetch = require("node-fetch");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const app = express();
-const port = process.env.PORT || 9000;
+const port = 9000;
 
+// storage config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    const uploadPath = path.join(__dirname, "uploads");
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+      console.log(`Map made: ${uploadPath}`);
+    }
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const filename =
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname);
+    console.log(`Filename made: ${filename}`);
+    cb(null, filename);
   },
 });
 
@@ -30,8 +41,15 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs").set("views", "views");
-app.use("/uploads", express.static("uploads"));
+
+// Static files serving
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(
+  "/profile-photos",
+  express.static(path.join(__dirname, "profile-photos"))
+);
 app.use("/static", express.static("static"));
+
 app.use(cors());
 app.use(
   session({
@@ -73,7 +91,7 @@ function isAuthenticated(req, res, next) {
   if (req.session.userId) {
     return next();
   }
-  res.redirect("/log-in");
+  res.redirect("/login");
 }
 
 // Helper Functions
@@ -138,8 +156,12 @@ app.get("/", async (req, res) => {
 
 app.get("/index", isAuthenticated, async (req, res) => {
   try {
+    const { ObjectId } = require("mongodb");
+    const currentSort = req.query.sort_by || "relevant";
     const usersCollection = db.collection("users");
     const artistsCollection = db.collection("artists");
+    const userPreferences = req.session?.userPreferences || {};
+    const isArtist = req.session?.user?.isArtist || false;
 
     if (!db) throw new Error("Database connection is not established");
 
@@ -147,7 +169,6 @@ app.get("/index", isAuthenticated, async (req, res) => {
     let collectionName = "users";
 
     try {
-      const { ObjectId } = require("mongodb");
       user = await usersCollection.findOne({
         _id: new ObjectId(req.session.userId),
       });
@@ -157,7 +178,6 @@ app.get("/index", isAuthenticated, async (req, res) => {
 
     if (!user) {
       try {
-        const { ObjectId } = require("mongodb");
         user = await artistsCollection.findOne({
           _id: new ObjectId(req.session.userId),
         });
@@ -171,20 +191,21 @@ app.get("/index", isAuthenticated, async (req, res) => {
 
     const postsCollection = db.collection("posts");
 
-    const sortBy = req.query.sort_by || "relevant";
-    const styles = req.session.userPreferences?.tattooStijl || [];
+    const query = req.query.q || "";
+    const styles = req.query.styles ? req.query.styles.split(",") : [];
     const colors = req.query.colors || "";
     const tattooPlek = req.query.tattooPlek || "";
     const woonplaats = req.query.woonplaats || "";
 
     console.log("Query parameters:", {
+      query,
       styles,
       colors,
       tattooPlek,
       woonplaats,
     });
 
-    let query = "tattoo";
+    let searchQuery = query ? query : "tattoo";
 
     if (styles.length > 0) {
       const styleQueries = styles.map((style) => {
@@ -207,18 +228,25 @@ app.get("/index", isAuthenticated, async (req, res) => {
             return "tattoo";
         }
       });
-      query = styleQueries.join(" ");
+      searchQuery += ` ${styleQueries.join(" ")}`;
     }
 
     if (colors === "black_and_white") {
-      query += " black and white tattoo";
+      searchQuery += " black and white tattoo";
     } else if (colors === "color") {
-      query += " colorful tattoo";
+      searchQuery += " colorful tattoo";
     }
 
-    console.log("Unsplash query:", query);
+    if (tattooPlek) {
+      searchQuery += ` ${tattooPlek} tattoo`;
+    }
+    if (woonplaats) {
+      searchQuery += ` ${woonplaats}`;
+    }
 
-    const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
+    console.log("Unsplash query:", searchQuery);
+
+    const imageUrls = await fetchUnsplashImages(searchQuery, 28, currentSort);
     console.log("Fetched Unsplash images:", imageUrls);
 
     let filteredPosts = await postsCollection.find().toArray();
@@ -231,10 +259,10 @@ app.get("/index", isAuthenticated, async (req, res) => {
     console.log("Filtered posts:", filteredPosts);
 
     res.render("index.ejs", {
-      pageTitle: "Home",
-      username: req.session.username,
+      pageTitle: query ? `Zoekresultaten voor "${query}"` : "Home",
       gridImages: imageUrls,
-      currentSort: sortBy,
+      user,
+      currentSort,
       isArtist: req.session.isArtist,
       posts: filteredPosts,
       userPreferences: user || {},
@@ -244,10 +272,8 @@ app.get("/index", isAuthenticated, async (req, res) => {
       woonplaats,
     });
   } catch (error) {
-    console.error("Error fetching images for index:", error);
-    res
-      .status(500)
-      .send("Er is een fout opgetreden bij het laden van de homepagina");
+    console.error("Error loading index page:", error);
+    res.status(500).send("Er is een fout opgetreden.");
   }
 });
 
@@ -439,11 +465,11 @@ app.post("/registerArtists", async (req, res) => {
   }
 });
 
-app.get("/log-in", (req, res) =>
-  res.render("log-in.ejs", { pageTitle: "Inloggen" })
+app.get("/login", (req, res) =>
+  res.render("login.ejs", { pageTitle: "Inloggen" })
 );
 
-app.post("/log-in", async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -477,116 +503,17 @@ app.post("/log-in", async (req, res) => {
   }
 });
 
-app.post(
-  "/submit-post",
-  isAuthenticated,
-  upload.single("photo"),
-  async (req, res) => {
-    try {
-      const collection = db.collection("posts");
-      const photoPath = req.file ? `/uploads/${req.file.filename}` : null;
-
-      if (
-        !req.body.description ||
-        !req.body.studioName ||
-        !req.body.studioAddress
-      ) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message: "Beschrijving, studionaam en adres zijn verplicht.",
-          });
-      }
-
-      let tags = [];
-      try {
-        tags = req.body.tags ? req.body.tags.split(",") : [];
-        tags = tags.map((tag) => tag.trim()).filter((tag) => tag !== "");
-      } catch (error) {
-        console.error("Fout bij het verwerken van tags:", error);
-        return res
-          .status(400)
-          .json({ success: false, message: "Ongeldige tags format." });
-      }
-
-      const newPost = {
-        description: xss(req.body.description),
-        tags: tags.map((tag) => xss(tag)),
-        studio: {
-          name: xss(req.body.studioName),
-          address: xss(req.body.studioAddress),
-          lat: parseFloat(req.body.studioLat),
-          lng: parseFloat(req.body.studioLng),
-        },
-        photo: photoPath,
-        createdAt: new Date(),
-        userId: req.session.userId,
-      };
-
-      const result = await collection.insertOne(newPost);
-
-      if (result.acknowledged) {
-        return res
-          .status(200)
-          .json({ success: true, message: "Post succesvol toegevoegd" });
-      } else {
-        console.error("Fout bij het toevoegen van de post aan de database");
-        return res
-          .status(500)
-          .json({
-            success: false,
-            message: "Fout bij het toevoegen van de post aan de database",
-          });
-      }
-    } catch (error) {
-      console.error("Fout bij het opslaan van de post:", error);
-      return res
-        .status(500)
-        .json({
-          success: false,
-          message:
-            "Er is een fout opgetreden bij het opslaan van de post: " +
-            error.message,
-        });
-    }
-  }
-);
-
-app.get("/artiesten", isAuthenticated, async (req, res) => {
+app.get("/artists", isAuthenticated, async (req, res) => {
   try {
     const collection = db.collection("artists");
     const artists = await collection.find().toArray();
-    res.render("artiesten.ejs", {
+    res.render("artistSearch.ejs", {
       pageTitle: "Artiesten",
       artists: artists,
       currentSort: "relevant",
     });
   } catch (error) {
     console.error("Fout bij het ophalen van artiesten:", error);
-    res
-      .status(500)
-      .send("Er is een fout opgetreden bij het laden van de artiestenpagina");
-  }
-});
-
-app.get("/artiest/:id", isAuthenticated, async (req, res) => {
-  try {
-    const collection = db.collection("artists");
-    const artist = await collection.findOne({
-      _id: new ObjectId(req.params.id),
-    });
-
-    if (!artist) {
-      return res.status(404).send("Artiest niet gevonden");
-    }
-
-    res.render("detailpaginaA.ejs", {
-      pageTitle: `Artiest: ${artist.username}`,
-      artist: artist,
-    });
-  } catch (error) {
-    console.error("Fout bij het ophalen van artiest details:", error);
     res
       .status(500)
       .send("Er is een fout opgetreden bij het laden van de artiestenpagina");
@@ -636,7 +563,7 @@ app.post("/questionnaire", isAuthenticated, (req, res) => {
   res.redirect(`/index?${queryParams.toString()}`);
 });
 
-app.post("/save-answers", async (req, res) => {
+app.post("/saveAnswers", async (req, res) => {
   if (!req.session.userId) {
     console.log("Geen ingelogde gebruiker gevonden in de sessie.");
     return res
@@ -751,23 +678,68 @@ app.get("/selfmadeDetail", async (req, res) => {
   }
 });
 
-app.get("/detailpagina", (req, res) => {
-  const imageUrl = req.query.image;
-  if (!imageUrl) {
-    return res.status(400).send("Geen afbeelding gespecificeerd");
+app.get("/detailpage", async (req, res) => {
+  try {
+    const img = req.query.img || null;
+    const titel = req.query.title || "Geen titel beschikbaar";
+    const userId = req.query.userId || null;
+    const postId = req.query.postId || null;
+    const description =
+      req.query.description || "Geen beschrijving beschikbaar";
+    const tags = req.query.tags ? JSON.parse(req.query.tags) : [];
+
+    const postsCollection = db.collection("posts");
+    let post = null;
+    if (postId) {
+      post = await postsCollection.findOne({ _id: new ObjectId(postId) });
+    }
+
+    if (!post) {
+      post = { tags: [], description: "Geen beschrijving beschikbaar" };
+    }
+
+    res.render("detailpage", {
+      img,
+      titel,
+      pageTitle: "Detailpagina",
+      gridImages: await fetchUnsplashImages(30),
+      userId,
+      postId,
+      description,
+      tags,
+    });
+  } catch (error) {
+    console.error("Error loading detailpagina:", error);
+    res.status(500).send("Er is een fout opgetreden.");
   }
-
-  res.render("detailpagina.ejs", {
-    pageTitle: "Tattoo Detail",
-    imageUrl,
-  });
 });
 
-app.get("/detail/:id", isAuthenticated, (req, res) => {
-  res.render("detailpagina", { id: req.params.id, pageTitle: "Detailpagina" });
+app.get("/detail/:id", isAuthenticated, async (req, res) => {
+  try {
+    const imageId = req.params.id;
+    const imageUrls = await fetchUnsplashImages("tattoo", 30, "relevant");
+    const selectedImage = imageUrls.find(
+      (image, index) => index.toString() === imageId
+    );
+
+    if (!selectedImage) {
+      return res.status(404).send("Image not found");
+    }
+    console.log(selectedImage);
+
+    res.render("detailpage.ejs", {
+      pageTitle: "Detailpagina",
+      image: selectedImage,
+      artist_username: selectedImage.artist_username,
+      artist_name: selectedImage.artist_name,
+    });
+  } catch (error) {
+    console.error("Error fetching image details:", error);
+    res.status(500).send("An error occurred while loading the image details");
+  }
 });
 
-app.get("/detailpagina/:id", async (req, res) => {
+app.get("/detailpage/:id", async (req, res) => {
   try {
     const postsCollection = db.collection("posts");
     const { ObjectId } = require("mongodb");
@@ -779,7 +751,7 @@ app.get("/detailpagina/:id", async (req, res) => {
       return res.status(404).send("Post niet gevonden");
     }
 
-    res.render("detailpagina.ejs", { post });
+    res.render("detailpage.ejs", { post });
   } catch (error) {
     console.error("Error fetching post:", error);
     res
@@ -788,35 +760,7 @@ app.get("/detailpagina/:id", async (req, res) => {
   }
 });
 
-app.get("/preview", isAuthenticated, (req, res) => {
-  res.render("preview", { pageTitle: "Preview" });
-});
-
-app.get("/search", isAuthenticated, async (req, res) => {
-  try {
-    const query = req.query.q || "";
-    const sortBy = req.query.sort_by || "relevant";
-
-    if (!query) {
-      return res.status(400).send("Zoekterm is vereist");
-    }
-
-    const imageUrls = await fetchUnsplashImages(query, 28, sortBy);
-    res.render("index.ejs", {
-      pageTitle: `Zoekresultaten voor "${query}"`,
-      username: req.session.username,
-      gridImages: imageUrls,
-      currentSort: sortBy,
-    });
-  } catch (error) {
-    console.error("Error fetching search results:", error);
-    res
-      .status(500)
-      .send("Er is een fout opgetreden bij het ophalen van zoekresultaten");
-  }
-});
-
-app.get("/search-artists", isAuthenticated, async (req, res) => {
+app.get("/searchArtists", isAuthenticated, async (req, res) => {
   try {
     const query = req.query.q || "";
 
@@ -826,25 +770,75 @@ app.get("/search-artists", isAuthenticated, async (req, res) => {
 
     const collection = db.collection("artists");
     const artists = await collection
-      .find({
-        username: { $regex: query, $options: "i" },
-      })
+      .find({ username: { $regex: query, $options: "i" } })
       .toArray();
 
     res.json({ artists: artists });
   } catch (error) {
     console.error("Fout bij het zoeken naar artiesten:", error);
-    res
-      .status(500)
-      .json({
-        error: "Er is een fout opgetreden bij het zoeken naar artiesten",
-      });
+    res.status(500).json({
+      error: "Er is een fout opgetreden bij het zoeken naar artiesten",
+    });
   }
 });
 
-app.get("/collectie-bezoeker", isAuthenticated, async (req, res) => {
+app.get("/microinformation", async (req, res) => {
+  try {
+    const img = req.query.img || null;
+    const titel = req.query.titel || "Geen titel beschikbaar";
+    const postId = req.query.postId || null;
+
+    const postsCollection = db.collection("posts");
+    const artistsCollection = db.collection("artists");
+
+    const isValidObjectId = (id) => {
+      return ObjectId.isValid(id) && new ObjectId(id).toString() === id;
+    };
+
+    let post = null;
+    if (postId && isValidObjectId(postId)) {
+      post = await postsCollection.findOne({ _id: new ObjectId(postId) });
+    }
+
+    if (!post) {
+      post = { tags: [], description: "Geen beschrijving beschikbaar" };
+    }
+
+    const tags =
+      Array.isArray(post.tags) && post.tags.length > 0
+        ? post.tags
+        : ["Geen tags gevonden"];
+
+    const artists = await artistsCollection.find().toArray();
+    if (!artists || artists.length === 0) {
+      artists.push({
+        name: "Geen artiesten gevonden",
+        image: "static/icons/profile/avatar-stock.svg",
+      });
+    }
+
+    res.render("microInformation.ejs", {
+      img,
+      titel,
+      pageTitle: "Micro Information",
+      post,
+      tags,
+      artists,
+    });
+  } catch (error) {
+    console.error("Error loading page:", error);
+    res.status(500).send("Er is een fout opgetreden.");
+  }
+});
+
+app.get("/collection", isAuthenticated, async (req, res) => {
   try {
     const collection = db.collection("users");
+    const postsCollection = db.collection("posts");
+    const selfmadePosts = await postsCollection
+      .find({ userId: req.session.userId })
+      .toArray();
+
     const user = await collection.findOne({
       _id: new ObjectId(req.session.userId),
     });
@@ -857,10 +851,11 @@ app.get("/collectie-bezoeker", isAuthenticated, async (req, res) => {
       console.warn(`No userImages array found for user ${req.session.userId}`);
     }
 
-    res.render("collectie-bezoeker.ejs", {
+    res.render("collection.ejs", {
       pageTitle: "Collectie Bezoeker",
       username: req.session.username,
       userImages: userImages,
+      posts: selfmadePosts,
     });
   } catch (error) {
     console.error("Error fetching user's images:", error);
@@ -868,67 +863,272 @@ app.get("/collectie-bezoeker", isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/profiel', (req, res) => {
-  const user = req.session.user || {};
-  res.render('profiel.ejs', { pageTitle: 'Profiel', user });
-});
+app.get("/collectieArtist", isAuthenticated, async (req, res) => {
+  try {
+    const collection = db.collection("artists");
+    const user = await collection.findOne({
+      _id: new ObjectId(req.session.userId),
+    });
 
-app.get('/post', isAuthenticated, (req, res) => {
-  const mapboxToken = process.env.MAPBOX_TOKEN; // Zorg ervoor dat MAPBOX_TOKEN is ingesteld in je .env bestand
-  res.render('post.ejs', { pageTitle: 'Post', mapboxToken: mapboxToken });
-});
+    let artistImages = [];
 
-app.post('/submit-post', isAuthenticated, upload.single('photo'), async (req, res) => {
-try {
-    const collection = db.collection('posts');
-
-    // Controleer of een bestand is geüpload
-    const photoPath = req.file ? `/uploads/${req.file.filename}` : null;
-
-    // Valideer de aanwezigheid van verplichte velden
-    if (!req.body.description || !req.body.studioName || !req.body.studioAddress) {
-        return res.status(400).json({ success: false, message: 'Beschrijving, studionaam en adres zijn verplicht.' });
+    if (user && user.artistImages && Array.isArray(user.artistImages)) {
+      artistImages = user.artistImages;
+    } else {
+      console.warn(`No userImages array found for user ${req.session.userId}`);
     }
 
-    // Parse de tags, zorg ervoor dat het een array is
-    let tags = [];
+    res.render("collectionArtist.ejs", {
+      pageTitle: "Collectie Artist",
+      username: req.session.username,
+      artistImages: artistImages,
+    });
+  } catch (error) {
+    console.error("Error fetching user's images:", error);
+    res.status(500).send("An error occurred while loading the page.");
+  }
+});
+
+app.get("/artist/:id", isAuthenticated, async (req, res) => {
+  try {
+    const collection = db.collection("artists");
+    const artist = await collection.findOne({
+      _id: new ObjectId(req.params.id),
+    });
+
+    if (!artist) {
+      return res.status(404).send("Artiest niet gevonden");
+    }
+
+    res.render("detailpageArtist.ejs", {
+      pageTitle: `Artiest: ${artist.username}`,
+      artist: artist,
+      artistImages: artist.artistImages || [],
+    });
+  } catch (error) {
+    console.error("Fout bij het ophalen van artiest details:", error);
+    res
+      .status(500)
+      .send("Er is een fout opgetreden bij het laden van de artiestenpagina");
+  }
+});
+
+app.post("/addToCollection", isAuthenticated, async (req, res) => {
+  try {
+    const { imageUrl } = req.body;
+
+    if (!imageUrl) {
+      return res.status(400).send("Image URL is required");
+    }
+
+    const usersCollection = db.collection("users");
+    const artistsCollection = db.collection("artists");
+    const userId = req.session.userId;
+
+    if (!userId) {
+      return res.status(401).send("User not authenticated");
+    }
+
+    if (!ObjectId.isValid(userId)) {
+      return res.status(400).send("Invalid user ID");
+    }
+
+    let userUpdateSuccess = false;
+    let artistUpdateSuccess = false;
+
+    const userResult = await usersCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      { $addToSet: { userImages: imageUrl } }
+    );
+
+    if (userResult.modifiedCount > 0) {
+      userUpdateSuccess = true;
+    }
+
+    const artistResult = await artistsCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      { $addToSet: { artistImages: imageUrl } }
+    );
+
+    if (artistResult.modifiedCount > 0) {
+      artistUpdateSuccess = true;
+    }
+
+    if (!userUpdateSuccess && !artistUpdateSuccess) {
+      return res.status(404).send("No changes made to either collection");
+    }
+
+    res.status(200).send("Image added successfully");
+  } catch (error) {
+    console.error("Error adding to collection:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+app.get("/profile", async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
+
+  const usersCollection = db.collection("users");
+  const user = await usersCollection.findOne({
+    _id: new ObjectId(req.session.userId),
+  });
+
+  const profilePhoto =
+    user?.profilePhoto || "/static/icons/profile/avatar-stock.svg";
+
+  req.session.profilePhoto = profilePhoto;
+
+  res.render("profile.ejs", {
+    pageTitle: "Profiel",
+    user: {
+      userId: req.session.userId,
+      username: req.session.username || "Gast",
+      email: req.session.email || "",
+      isArtist: req.session.isArtist || false,
+      profilePhoto: req.session.profilePhoto,
+    },
+  });
+});
+
+app.get("/profileArtist", async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
+
+  const usersCollection = db.collection("artists");
+  const user = await usersCollection.findOne({
+    _id: new ObjectId(req.session.userId),
+  });
+
+  const profilePhoto =
+    user?.profilePhoto || "/static/icons/profile/avatar-stock.svg";
+
+  req.session.profilePhoto = profilePhoto;
+
+  res.render("profileArtists.ejs", {
+    pageTitle: "Profiel Artiesten",
+    user: {
+      userId: req.session.userId,
+      username: req.session.username || "Gast",
+      email: req.session.email || "",
+      isArtist: req.session.isArtist || false,
+      profilePhoto: req.session.profilePhoto,
+    },
+  });
+});
+
+app.get("/post", isAuthenticated, (req, res) => {
+  const mapboxToken = process.env.MAPBOX_TOKEN;
+  res.render("post.ejs", { pageTitle: "Post", mapboxToken: mapboxToken });
+});
+
+app.post(
+  "/submitPost",
+  isAuthenticated,
+  upload.single("photo"),
+  async (req, res) => {
     try {
-        tags = req.body.tags ? req.body.tags.split(',') : [];
-        // Verwijder lege strings en trim de tags
-        tags = tags.map(tag => tag.trim()).filter(tag => tag !== '');
-    } catch (error) {
-        console.error('Fout bij het verwerken van tags:', error);
-        return res.status(400).json({ success: false, message: 'Ongeldige tags format.' });
-    }
+      console.log("Aanvraag ontvangen op /submitPost");
+      console.log("Bestand:", req.file);
+      console.log("Body:", req.body);
 
-    // Data opslaan in MongoDB
-    const newPost = {
-        description: xss(req.body.description),
-        tags: tags.map(tag => xss(tag)),
+      // Controleer of een bestand is geüpload
+      const photoPath = req.file ? `/uploads/${req.file.filename}` : null;
+      if (!photoPath) {
+        console.log("Geen bestand geüpload!");
+        return res.status(400).json({
+          success: false,
+          message: "Geen bestand geüpload!",
+        });
+      }
+
+      // Controleer verplichte velden
+      const { description, studioName, studioAddress, studioLat, studioLng, tags } = req.body;
+      if (!description || !studioName || !studioAddress) {
+        console.log("Vereiste velden ontbreken!");
+        return res.status(400).json({
+          success: false,
+          message: "Beschrijving, studionaam en adres zijn verplicht.",
+        });
+      }
+
+      // Verwerk tags
+      let processedTags = [];
+      try {
+        processedTags = tags ? tags.split(",").map((tag) => tag.trim()).filter((tag) => tag !== "") : [];
+      } catch (error) {
+        console.error("Fout bij het verwerken van tags:", error);
+        return res.status(400).json({
+          success: false,
+          message: "Ongeldige tags format.",
+        });
+      }
+
+      // Maak een nieuw post-object
+      const newPost = {
+        description: xss(description),
+        tags: processedTags.map((tag) => xss(tag)),
         studio: {
-            name: xss(req.body.studioName),
-            address: xss(req.body.studioAddress),
-            lat: parseFloat(req.body.studioLat),
-            lng: parseFloat(req.body.studioLng)
+          name: xss(studioName),
+          address: xss(studioAddress),
+          lat: parseFloat(studioLat),
+          lng: parseFloat(studioLng),
         },
         photo: photoPath,
         createdAt: new Date(),
-        userId: req.session.userId
-    };
+        userId: req.session.userId,
+      };
 
-    const result = await collection.insertOne(newPost);
+      // Voeg de post toe aan de database
+      const collection = db.collection("posts");
+      const result = await collection.insertOne(newPost);
 
-    if (result.acknowledged) {
-        return res.status(200).json({ success: true, message: 'Post succesvol toegevoegd' });
-    } else {
-        console.error('Fout bij het toevoegen van de post aan de database');
-        return res.status(500).json({ success: false, message: 'Fout bij het toevoegen van de post aan de database' });
+      if (result.acknowledged) {
+        console.log("Post succesvol toegevoegd!");
+        return res.status(200).json({
+          success: true,
+          message: "Post succesvol toegevoegd",
+        });
+      } else {
+        console.error("Fout bij het toevoegen van de post aan de database");
+        return res.status(500).json({
+          success: false,
+          message: "Fout bij het toevoegen van de post aan de database",
+        });
+      }
+    } catch (error) {
+      console.error("Fout bij het opslaan van de post:", error);
+      return res.status(500).json({
+        success: false,
+        message:
+          "Er is een fout opgetreden bij het opslaan van de post: " + error.message,
+      });
+    }
+  }
+);
+
+app.post("/uploadPhoto", upload.single("photo"), async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).send("Niet geautoriseerd");
     }
 
-} catch (error) {
-    console.error('Fout bij het opslaan van de post:', error);
-    return res.status(500).json({ success: false, message: 'Er is een fout opgetreden bij het opslaan van de post: ' + error.message });
-}
+    const newProfilePhoto = `/profile-photos/${req.file.filename}`;
+    const usersCollection = db.collection("users");
+    await usersCollection.updateOne(
+      { _id: new ObjectId(req.session.userId) },
+      { $set: { profilePhoto: newProfilePhoto } }
+    );
+
+    req.session.profilePhoto = newProfilePhoto;
+
+    res.json({ success: true, photoUrl: newProfilePhoto });
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    res.status(500).send("Fout bij uploaden van de foto");
+  }
 });
 
 // Error Handling

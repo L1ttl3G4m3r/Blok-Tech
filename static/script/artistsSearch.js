@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const input = document.getElementById('artist-search-input');
   const resultsContainer = document.createElement('div');
-  resultsContainer.id = 'search-results';
+  resultsContainer.id = 'searchResults';
   input.parentNode.insertBefore(resultsContainer, input.nextSibling);
 
   input.addEventListener('input', debounce(searchArtists, 300));
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       try {
-          const response = await fetch(`/search-artists?q=${encodeURIComponent(query)}`);
+          const response = await fetch(`/searchArtists?q=${encodeURIComponent(query)}`);
           const data = await response.json();
           displayResults(data.artists);
       } catch (error) {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
       resultsContainer.innerHTML = '';
       artists.forEach(artist => {
           const link = document.createElement('a');
-          link.href = `/artiest/${artist._id}`;
+          link.href = `/artist/${artist._id}`;
           link.textContent = `${artist.username} - ${artist.studio.name}`;
           resultsContainer.appendChild(link);
       });

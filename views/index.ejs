@@ -4,22 +4,14 @@
     <%- include('partials/head') %>
   </head>
   <body>
-    <header><%- include('partials/header') %></header>
+    <header class="headerIndex"><%- include('partials/header') %></header>
     <main>
+      <% var userPreferences = userPreferences || {}; %>
+      <% var isArtist = typeof isArtist !== 'undefined' ? isArtist : false; %>
       <section class="intro">
         <h1>Inspiration for your tattoo</h1>
       </section>
-
-      <section class="search"><%- include('partials/searchbar') %></section>
-      <section class="filtersorting">
-        <%- include('partials/sorting') %> <%- include('partials/filter') %>
-      </section>
-
       <section class="carousel-section">
-        <div class="textcontainer">
-            <h2>Unieke ideeën</h2>
-        </div>
-
         <section class="carousel" id="tattoo-carousel">
             <% if (!userPreferences || !userPreferences.preferences || !userPreferences.preferences.tattooStijl || userPreferences.preferences.tattooStijl.length === 0) { %>
             <div class="zero-state">
@@ -33,32 +25,41 @@
             <% } %>
         </section>
     </section>
+      <section class="filtersorting">
+      <%- include('partials/sorting', { currentSort }) %>
+    </section>
+    <section class="search">
+      <%- include('partials/searchbar') %>
+      <%- include('partials/filter') %>
+    </section>
 
-      <section class="tattoo-grid" id="tattoo-grid">
-        <% if (gridImages && gridImages.length > 0) { %> <%
-        gridImages.forEach(image => { %>
-        <img
-          src="<%= image.url %>"
-          alt="<%= image.alt_description || 'Tattoo Image' %>"
-          data-id="<%= image.id %>"
-        />
-        <% }) %> <% } else { %>
-        <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
-        <% } %>
-        <div
-          id="imageUrlsData"
-          data-image-urls="<%= JSON.stringify(gridImages) %>"
-        ></div>
-      </section>
+
+    <section class="tattoo-grid" id="tattoo-grid">
+      <% if (gridImages && gridImages.length > 0) { %>
+          <% gridImages.forEach(image => { %>
+              <img
+                  src="<%= image.url %>"
+                  alt="<%= image.alt_description || 'Tattoo Image' %>"
+                  data-id="<%= image.id %>"
+                  class="clickable-image"
+              />
+          <% }) %>
+      <% } else { %>
+          <p>Geen afbeeldingen gevonden voor deze zoekopdracht.</p>
+      <% } %>
+    </section>
+
     </main>
 
     <footer>
-      <% if (isArtist) { %> <%- include('partials/navA') %> <% } else { %> <%-
+      <% if (isArtist) { %> <%- include('partials/navArtist') %> <% } else { %> <%-
       include('partials/nav') %> <% } %>
     </footer>
 
     <script src="/static/script/filter.js"></script>
-    <script src="/static/script/script.js"></script>
+    <script src="/static/script/nav.js"></script>
+    <script src="/static/script/detailPages.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <script src="/static/script/addAfbeelding.js"></script>
   </body>
 </html>

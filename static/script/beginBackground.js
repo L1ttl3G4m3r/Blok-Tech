@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   const backgroundContainer = document.getElementById('backgroundContainer');
-  const allImages = window.imageUrls; // Gebruik de globale variabele
+  const allImages = window.imageUrls;
+  const tattooGridImages = document.querySelectorAll('#tattoo-grid img');
+
+  tattooGridImages.forEach((img, index) => {
+      img.addEventListener('click', () => {
+          window.location.href = `/detail/${index}`;
+      });
+  });
 
   function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -20,40 +27,48 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
 
-  function setImageHeight(image) {
-      const img = new Image();
-      img.onload = function() {
-          const aspectRatio = this.height / this.width;
-          image.style.paddingBottom = `${aspectRatio * 100}%`;
-      }
-      img.src = image.style.backgroundImage.replace(/url\(['"]?(.+?)['"]?\)/, '$1');
-  }
-
-  function fillColumns() {
+  function addImagesToColumns() {
       const columns = document.querySelectorAll('.image-column');
       shuffleArray(allImages);
 
       columns.forEach((column, columnIndex) => {
-          column.innerHTML = '';
           for (let i = 0; i < 5; i++) {
               const imageIndex = (columnIndex * 5 + i) % allImages.length;
-              const newImage = document.createElement('div');
-              newImage.className = 'background-image';
-              newImage.style.backgroundImage = `url('${allImages[imageIndex].url}')`;
-              column.appendChild(newImage);
-              setImageHeight(newImage);
+              const imgElement = document.createElement('img');
+              imgElement.className = 'background-image';
+              imgElement.src = allImages[imageIndex].url;
+              imgElement.loading = 'lazy';
+              imgElement.alt = 'Tattoo image';
+              column.appendChild(imgElement);
           }
       });
+
+      observeLastRow();
+  }
+
+  function observeLastRow() {
+      const lastImages = document.querySelectorAll('.image-column img:last-child');
+      if (lastImages.length === 0) return;
+
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  addImagesToColumns();
+              }
+          });
+      }, {
+          root: null,
+          threshold: 0.01
+      });
+
+      lastImages.forEach(img => observer.observe(img));
   }
 
   function initializeBackground() {
       createImageColumns();
-      fillColumns();
+      addImagesToColumns();
   }
 
   initializeBackground();
-  setInterval(fillColumns, 30000); // Vul opnieuw elke 30 seconden
-
   window.addEventListener('resize', initializeBackground);
-
 });

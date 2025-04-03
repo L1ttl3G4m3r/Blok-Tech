@@ -3,23 +3,20 @@
   <head>
     <%- include('partials/head') %>
     <title><%= pageTitle %></title>
-    <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
     <header>
-      <%- include('partials/header') %>
-      <h1>Zelfgemaakte Tattoos</h1>
-      <a href="/index">Terug naar home</a>
+      <%- include('partials/microHeader') %>
     </header>
 
-    <section class="tattoo-gallery">
+    <h1>Zelfgemaakte Tattoos</h1>
+    <section class="tattoo-grid" id="tattoo-grid">
       <% if (posts && posts.length > 0) { %>
           <% posts.forEach(post => { %>
               <div class="tattoo-item">
-                  <a href="/detailpagina/<%= post._id %>">
-                      <img src="<%= post.photo %>" alt="<%= post.title %>">
-                  </a>
-                  <h4><%= post.title %></h4>
+                <a class="post-link" href="/detailpage?img=<%= post.photo %>&postId=<%= post._id %>&title=<%= post.title %>&description=<%= post.description %>&tags=<%= JSON.stringify(post.tags) %>">
+                  <img src="<%= post.photo %>" alt="<%= post.title %>">
+                </a>
               </div>
           <% }); %>
       <% } else { %>
@@ -27,7 +24,6 @@
       <% } %>
     </section>
 
-
-    <script src="/static/scripts.js"></script>
+    <script src="/static/script/detailPages.js"></script>
   </body>
 </html>

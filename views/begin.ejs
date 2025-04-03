@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
   <head>
     <%- include('partials/head') %>
     <link rel="stylesheet" href="/static/begin.css" />
   </head>
 
   <body>
-    <header><%- include('partials/header') %></header>
+    <header class="headerIndex"><%- include('partials/header') %></header>
     <div class="background-container" id="backgroundContainer">
       <% for(let i = 0; i < 7; i++) { %>
       <div class="image-column">
@@ -20,7 +20,7 @@
       <div class="buttoncontainer">
         <a href="/register" class="button-cta2">Registreren bezoeker</a>
         <a href="/registerArtists" class="button-cta2">Registreren artiest</a >
-        <a href="/log-in" class="button-cta">Inloggen</a>
+        <a href="/login" class="button-cta">Inloggen</a>
       </div>
     </main>
 

@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     clearColorsButton: document.getElementById('clearColors'),
   };
 
-  // Filter Sidebar functionaliteit
+  if (elements.filterSidebar) {
+    elements.filterSidebar.style.width = '0';
+  }
+
   elements.filterButton?.addEventListener('click', (event) => {
     event.preventDefault();
     elements.filterSidebar.style.width = elements.filterSidebar.style.width === '340px' ? '0' : '340px';
@@ -19,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
     elements.filterSidebar.style.width = '0';
   });
 
-  // Clear filters functionaliteit
   elements.clearStylesButton?.addEventListener('click', () => clearCheckboxes('styles'));
   elements.clearColorsButton?.addEventListener('click', () => clearCheckboxes('colors'));
 
@@ -29,13 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Apply filters functionaliteit
   elements.applyFiltersButton?.addEventListener('click', function(event) {
     event.preventDefault();
     applyFilters();
   });
 
-  // Sorteren functionaliteit
   elements.sortSelect?.addEventListener('change', function() {
     applyFilters();
   });
@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
       .map(input => input.value);
   }
 
-  // Initialiseer filters op basis van URL parameters
   function initializeFilters() {
     const searchParams = new URLSearchParams(window.location.search);
     const styles = searchParams.get('styles')?.split(',') || [];
