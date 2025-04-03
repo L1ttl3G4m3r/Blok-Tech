@@ -340,10 +340,35 @@ select {
   color: var(--color-text);
 }
 
-/****************/
-/* Carousel */
-/****************/
-section.carousel-section {
+/******************/
+/* Carousel index */
+/******************/
+/* Het gebruikt ook de artist-list CSS */
+
+.gridCarrousel {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr 2fr;
+}
+
+.gridCarrousel h3 {
+  grid-row-start: 2;
+  text-align: center;
+  padding: 1em;
+}
+
+.gridCarrousel img {
+  border-radius: 4px;
+  width: 7em;
+  height: auto;
+}
+
+.gridCarrousel img:first-of-type {
+  width: 7em;
+  height: 7em;
+}
+
+/* section.carousel-section {
   margin-top: 2em;
 }
 .textcontainer {
@@ -374,7 +399,7 @@ swiper-slide img {
 
 swiper-slide {
   width: 80%;
-}
+} */
 /****************/
 /* tattoo grid */
 /****************/
