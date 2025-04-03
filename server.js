@@ -11,7 +11,7 @@ const { MongoClient, ObjectId } = require("mongodb");
 const fetch = require("node-fetch");
 const multer = require("multer");
 const path = require("path");
-const fs = require('fs'); // Voeg fs module toe
+const fs = require("fs"); // Voeg fs module toe
 
 const app = express();
 const port = process.env.PORT || 9000;
@@ -27,8 +27,8 @@ const storage = multer.diskStorage({
       cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      const filename = file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname);
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
+      const filename = file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname);
       console.log(`Bestandsnaam ingesteld: ${filename}`);
       cb(null, filename);
   }
@@ -42,8 +42,8 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs").set("views", "views");
 
 // Static files serving
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use("/profile-photos", express.static(path.join(__dirname, 'profile-photos')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/profile-photos", express.static(path.join(__dirname, "profile-photos")));
 app.use("/static", express.static("static"));
 
 app.use(cors());
@@ -572,9 +572,7 @@ app.post(
           "Er is een fout opgetreden bij het opslaan van de post: " +
           error.message,
       });
-    }
-  }
-);
+}});
 
 app.get("/artists", isAuthenticated, async (req, res) => {
   try {
@@ -734,14 +732,12 @@ app.get("/carouselDetail", async (req, res) => {
 
 app.get("/selfmadeDetail", async (req, res) => {
   try {
-    // Haal de posts op uit de 'posts' collectie die de zelfgemaakte tatoeages bevatten
     const postsCollection = db.collection("posts");
     const selfmadePosts = await postsCollection.find().toArray();
 
-    // Geef de posts door aan de view
     res.render("selfmadeDetail.ejs", {
       pageTitle: "Zelfgemaakte Tattoo’s",
-      posts: selfmadePosts,  // Zorg ervoor dat de posts beschikbaar zijn in de view
+      posts: selfmadePosts,
     });
   } catch (error) {
     console.error("Error fetching selfmade posts:", error);
@@ -751,7 +747,6 @@ app.get("/selfmadeDetail", async (req, res) => {
 
 app.get("/detailpagina", async (req, res) => {
   try {
-    // Verkrijg de queryparameters
     const img = req.query.img || null;
     const titel = req.query.title || "Geen titel beschikbaar";
     const userId = req.query.userId || null;
@@ -759,7 +754,6 @@ app.get("/detailpagina", async (req, res) => {
     const description = req.query.description || "Geen beschrijving beschikbaar";
     const tags = req.query.tags ? JSON.parse(req.query.tags) : [];
 
-    // Haal de post op uit de database als postId aanwezig is
     const postsCollection = db.collection("posts");
     let post = null;
     if (postId) {
@@ -770,12 +764,11 @@ app.get("/detailpagina", async (req, res) => {
       post = { tags: [], description: "Geen beschrijving beschikbaar" };
     }
 
-    // Controleer of de img beschikbaar is en geef de juiste gegevens door
     res.render("detailpagina", {
       img,
       titel,
       pageTitle: "Detailpagina",
-      gridImages: await fetchUnsplashImages(30),  // of andere logica voor afbeeldingen
+      gridImages: await fetchUnsplashImages(30),
       userId,
       postId,
       description,
@@ -843,9 +836,7 @@ app.get("/search-artists", isAuthenticated, async (req, res) => {
 
     const collection = db.collection("artists");
     const artists = await collection
-      .find({
-        username: { $regex: query, $options: "i" },
-      })
+      .find({username: { $regex: query, $options: "i" }})
       .toArray();
 
     res.json({ artists: artists });
@@ -863,29 +854,24 @@ app.get("/microinformation", async (req, res) => {
     const titel = req.query.titel || "Geen titel beschikbaar";
     const postId = req.query.postId || null;
 
-    // Verbinding met de juiste MongoDB collecties
     const postsCollection = db.collection("posts");
     const artistsCollection = db.collection("artists");
 
-    // Functie om te controleren of een string een geldige ObjectId is
     const isValidObjectId = (id) => {
       return ObjectId.isValid(id) && (new ObjectId(id)).toString() === id;
     }
 
     let post = null;
     if (postId && isValidObjectId(postId)) {
-      // Zoek post op basis van postId
       post = await postsCollection.findOne({ _id: new ObjectId(postId) });
     }
 
     if (!post) {
-      post = { tags: [], description: "Geen beschrijving beschikbaar" };  // Standaardwaarde als post niet wordt gevonden
+      post = { tags: [], description: "Geen beschrijving beschikbaar" };
     }
 
-    // Tags
     const tags = Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : ["Geen tags gevonden"];
 
-    // Haal de artiesten uit de collectie
     const artists = await artistsCollection.find().toArray();
     if (!artists || artists.length === 0) {
       artists.push({
@@ -894,14 +880,13 @@ app.get("/microinformation", async (req, res) => {
       });
     }
 
-    // Render de micro-information.ejs en geef de data door
     res.render("micro-information.ejs", {
       img,
       titel,
       pageTitle: "Micro Information",
-      post,       // Voeg de post toe
-      tags,       // Voeg tags toe
-      artists,    // Voeg artiesten toe
+      post,
+      tags,
+      artists,
     });
   } catch (error) {
     console.error("Error loading page:", error);
@@ -978,12 +963,12 @@ app.get("/artist/:id", isAuthenticated, async (req, res) => {
       return res.status(404).send("Artiest niet gevonden");
     }
 
-    // Pass artist and their images to the template
     res.render("detailpaginaA.ejs", {
       pageTitle: `Artiest: ${artist.username}`,
       artist: artist,
-      artistImages: artist.artistImages || [], // Ensure an empty array if no images exist
+      artistImages: artist.artistImages || [],
     });
+
   } catch (error) {
     console.error("Fout bij het ophalen van artiest details:", error);
     res.status(500).send("Er is een fout opgetreden bij het laden van de artiestenpagina");
@@ -1047,17 +1032,14 @@ app.get("/profile", async (req, res) => {
     return res.redirect("/login");
   }
 
-  // Haal de meest recente gebruiker op uit de database
   const usersCollection = db.collection("users");
   const user = await usersCollection.findOne({
     _id: new ObjectId(req.session.userId),
   });
 
-  // Zorg dat er een standaard foto wordt gebruikt als er geen profielfoto is
   const profilePhoto =
     user?.profilePhoto || "/static/icons/profile/avatar-stock.svg";
 
-  // Update de sessie met de juiste profielfoto
   req.session.profilePhoto = profilePhoto;
 
   res.render("profile.ejs", {
@@ -1077,17 +1059,14 @@ app.get("/profileArtist", async (req, res) => {
     return res.redirect("/login");
   }
 
-  // Haal de meest recente gebruiker op uit de database
   const usersCollection = db.collection("artists");
   const user = await usersCollection.findOne({
     _id: new ObjectId(req.session.userId),
   });
 
-  // Zorg dat er een standaard foto wordt gebruikt als er geen profielfoto is
   const profilePhoto =
     user?.profilePhoto || "/static/icons/profile/avatar-stock.svg";
 
-  // Update de sessie met de juiste profielfoto
   req.session.profilePhoto = profilePhoto;
 
   res.render("profileArtists.ejs", {
@@ -1103,123 +1082,116 @@ app.get("/profileArtist", async (req, res) => {
 });
 
 app.get("/post", isAuthenticated, (req, res) => {
-  const mapboxToken = process.env.MAPBOX_TOKEN; // Zorg ervoor dat MAPBOX_TOKEN is ingesteld in je .env bestand
+  const mapboxToken = process.env.MAPBOX_TOKEN;
   res.render("post.ejs", { pageTitle: "Post", mapboxToken: mapboxToken });
 });
 
-app.post(
-  "/submit-post",
-  isAuthenticated,
-  upload.single("photo"),
-  async (req, res) => {
-      try {
-          console.log("Aanvraag ontvangen op /submit-post"); // Log dat de route is aangeroepen
-          console.log("Bestand:", req.file); // Log de waarde van req.file
-          console.log("Body:", req.body); // Log de waarde van req.body
+app.post("/submit-post",isAuthenticated,upload.single("photo"),async (req, res) => {
+  try {
+    console.log("Aanvraag ontvangen op /submit-post");
+    console.log("Bestand:", req.file);
+    console.log("Body:", req.body);
 
-          if (!req.file) {
-              console.log("Geen bestand geüpload!"); // Log als er geen bestand is geüpload
-              return res.status(400).json({
-                  success: false,
-                  message: "Geen bestand geüpload!",
-              });
+  if (!req.file) {
+    console.log("Geen bestand geüpload!");
+    return res.status(400).json({
+      success: false,
+      message: "Geen bestand geüpload!",
+  });
           }
 
-          const photoPath = `/uploads/${req.file.filename}`;
-          console.log("photoPath:", photoPath);
+  const photoPath = `/uploads/${req.file.filename}`;
+  console.log("photoPath:", photoPath);
 
-          if (
-              !req.body.description ||
-              !req.body.studioName ||
-              !req.body.studioAddress
-          ) {
-              console.log("Vereiste velden ontbreken!"); // Log als er vereiste velden ontbreken
-              return res.status(400).json({
-                  success: false,
-                  message: "Beschrijving, studionaam en adres zijn verplicht.",
-              });
-          }
+  if (
+    !req.body.description ||
+    !req.body.studioName ||
+    !req.body.studioAddress
+    ) {
+      console.log("Vereiste velden ontbreken!");
+      return res.status(400).json({
+      success: false,
+      message: "Beschrijving, studionaam en adres zijn verplicht.",
+  });
+    }
 
-          let tags = [];
-          try {
-              tags = req.body.tags ? req.body.tags.split(",") : [];
-              tags = tags.map((tag) => tag.trim()).filter((tag) => tag !== "");
-          } catch (error) {
-              console.error("Fout bij het verwerken van tags:", error);
-              return res
-                  .status(400)
-                  .json({ success: false, message: "Ongeldige tags format." });
-          }
+  let tags = [];
+    try {
+      tags = req.body.tags ? req.body.tags.split(",") : [];
+      tags = tags.map((tag) => tag.trim()).filter((tag) => tag !== "");
+    } catch (error) {
+      console.error("Fout bij het verwerken van tags:", error);
+      return res
+        .status(400)
+        .json({ success: false, message: "Ongeldige tags format." });
+    }
 
-          const newPost = {
-              description: xss(req.body.description),
-              tags: tags.map((tag) => xss(tag)),
-              studio: {
-                  name: xss(req.body.studioName),
-                  address: xss(req.body.studioAddress),
-                  lat: parseFloat(req.body.studioLat),
-                  lng: parseFloat(req.body.studioLng),
-              },
-              photo: photoPath,
-              createdAt: new Date(),
-              userId: req.session.userId,
-          };
+  const newPost = {
+    description: xss(req.body.description),
+    tags: tags.map((tag) => xss(tag)),
+    studio: {
+    name: xss(req.body.studioName),
+    address: xss(req.body.studioAddress),
+    lat: parseFloat(req.body.studioLat),
+    lng: parseFloat(req.body.studioLng),
+    },
+    photo: photoPath,
+    createdAt: new Date(),
+    userId: req.session.userId,
+    };
 
-          const collection = db.collection("posts");
-          const result = await collection.insertOne(newPost);
+    const collection = db.collection("posts");
+    const result = await collection.insertOne(newPost);
 
-          if (result.acknowledged) {
-              console.log("Post succesvol toegevoegd!"); // Log succesvolle toevoeging
-              return res
-                  .status(200)
-                  .json({ success: true, message: "Post succesvol toegevoegd" });
-          } else {
-              console.error("Fout bij het toevoegen van de post aan de database");
-              return res
-                  .status(500)
-                  .json({
-                      success: false,
-                      message: "Fout bij het toevoegen van de post aan de database",
-                  });
-          }
-      } catch (error) {
-          console.error("Fout bij het opslaan van de post:", error);
-          return res
-              .status(500)
-              .json({
-                  success: false,
-                  message:
-                      "Er is een fout opgetreden bij het opslaan van de post: " +
-                      error.message,
-              });
-      }
+  if (result.acknowledged) {
+    console.log("Post succesvol toegevoegd!");
+      return res
+        .status(200)
+        .json({ success: true, message: "Post succesvol toegevoegd" });
+  } else {
+      console.error("Fout bij het toevoegen van de post aan de database");
+     return res
+        .status(500)
+        .json({
+          success: false,
+          message: "Fout bij het toevoegen van de post aan de database",
+          });
+    }
+} catch (error) {
+  console.error("Fout bij het opslaan van de post:", error);
+  return res
+    .status(500)
+    .json({
+      success: false,
+      message:
+        "Er is een fout opgetreden bij het opslaan van de post: " +
+        error.message,
+   });
   }
+ }
 );
 
-  app.post("/upload-photo", upload.single("photo"), async (req, res) => {
-    try {
-      if (!req.session.userId) {
-        return res.status(401).send("Niet geautoriseerd");
-      }
-
-      const newProfilePhoto = `/profile-photos/${req.file.filename}`;
-
-      // Update de profielfoto in de database
-      const usersCollection = db.collection("users");
-      await usersCollection.updateOne(
-        { _id: new ObjectId(req.session.userId) },
-        { $set: { profilePhoto: newProfilePhoto } }
-      );
-
-      // Update de sessie met de nieuwe profielfoto
-      req.session.profilePhoto = newProfilePhoto;
-
-      res.json({ success: true, photoUrl: newProfilePhoto });
-    } catch (error) {
-      console.error("Error uploading photo:", error);
-      res.status(500).send("Fout bij uploaden van de foto");
+app.post("/upload-photo", upload.single("photo"), async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).send("Niet geautoriseerd");
     }
-  })
+
+    const newProfilePhoto = `/profile-photos/${req.file.filename}`;
+    const usersCollection = db.collection("users");
+    await usersCollection.updateOne(
+      { _id: new ObjectId(req.session.userId) },
+      { $set: { profilePhoto: newProfilePhoto } }
+    );
+
+    req.session.profilePhoto = newProfilePhoto;
+
+    res.json({ success: true, photoUrl: newProfilePhoto });
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    res.status(500).send("Fout bij uploaden van de foto");
+  }
+})
 
 // Error Handling
 app.use((req, res) => {
