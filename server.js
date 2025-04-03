@@ -936,7 +936,10 @@ app.get("/collectie", isAuthenticated, async (req, res) => {
   try {
     const collection = db.collection("users");
     const postsCollection = db.collection("posts");
-    const selfmadePosts = await postsCollection.find().toArray();
+    const selfmadePosts = await postsCollection
+    .find({ userId: req.session.userId })
+    .toArray();
+
     const user = await collection.findOne({
       _id: new ObjectId(req.session.userId),
     });
@@ -953,6 +956,7 @@ app.get("/collectie", isAuthenticated, async (req, res) => {
       pageTitle: "Collectie Bezoeker",
       username: req.session.username,
       userImages: userImages,
+      posts: selfmadePosts,
     });
   } catch (error) {
     console.error("Error fetching user's images:", error);

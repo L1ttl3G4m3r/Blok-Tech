@@ -32,12 +32,22 @@
       </div>
   </section>
 
-  <section class="content hidden" id="posts">
-    <h2>Jouw posts</h2>
-    <div class="collection-grid">
-
-    </div>
+  <section class="tattoo-grid" id="tattoo-grid">
+    <ul>
+      <% posts.forEach(post => { %>
+        <li>
+          <a class="post-link" href="/detailpagina?img=<%= post.photo %>&postId=<%= post._id %>&title=<%= post.title %>&description=<%= post.description %>&tags=<%= JSON.stringify(post.tags) %>">
+            <img src="<%= post.photo %>" alt="<%= post.title %>">
+          </a>
+          <p><strong>Beschrijving:</strong> <%= post.description %></p>
+          <p><strong>Tags:</strong> <%= post.tags.join(", ") %></p>
+          <p><strong>Gemaakt op:</strong> <%= post.createdAt.toDateString() %></p>
+        </li>
+      <% }) %>
+    </ul>
   </section>
+
+
 </main>
   <footer>
     <%- include('partials/nav') %>
@@ -48,6 +58,7 @@
   <script src="/static/script/tabs.js"></script>
   <script src="/static/script/nav.js"></script>
   <script src="/static/script/Addcollection.js"></script>
+
 </body>
 </html>
 </body>
