@@ -24,6 +24,7 @@
       <div class="tattoo-grid">
       <% if (userImages && userImages.length > 0) { %>
         <% userImages.forEach(function(imageUrl) { %>
+          <img src="<%= imageUrl %>" alt="<%= imageUrl.alt_description || 'Tattoo Image' %>">
         <% }); %>
       <% } else { %>
         <p>No images available.</p>
@@ -45,6 +46,8 @@
       <% }) %>
     </ul>
   </section>
+
+
 </main>
   <footer>
     <%- include('partials/nav') %>
@@ -55,8 +58,8 @@
   <script src="/static/script/tabs.js"></script>
   <script src="/static/script/nav.js"></script>
   <script src="/static/script/Addcollection.js"></script>
-</body>
-</html>
-</body>
-</html>
 
+</body>
+</html>
+</body>
+</html>
