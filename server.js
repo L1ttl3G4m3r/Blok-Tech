@@ -22,14 +22,14 @@ const storage = multer.diskStorage({
       const uploadPath = path.join(__dirname, "uploads");
       if (!fs.existsSync(uploadPath)) {
           fs.mkdirSync(uploadPath, { recursive: true });
-          console.log(`Map aangemaakt: ${uploadPath}`);
+          console.log(`Map made: ${uploadPath}`);
       }
       cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
       const filename = file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname);
-      console.log(`Bestandsnaam ingesteld: ${filename}`);
+      console.log(`Filename made: ${filename}`);
       cb(null, filename);
   }
 });
@@ -256,7 +256,7 @@ app.get("/index", isAuthenticated, async (req, res) => {
 
     res.render("index.ejs", {
       pageTitle: query ? `Zoekresultaten voor "${query}"` : "Home",
-      gridImages: imageUrls, 
+      gridImages: imageUrls,
       user,
       currentSort,
       isArtist: req.session.isArtist,
@@ -757,7 +757,7 @@ app.get("/detailpagina", async (req, res) => {
       post = { tags: [], description: "Geen beschrijving beschikbaar" };
     }
 
-    res.render("detailpagina", {
+    res.render("detailpage", {
       img,
       titel,
       pageTitle: "Detailpagina",
@@ -786,7 +786,7 @@ app.get("/detail/:id", isAuthenticated, async (req, res) => {
     }
     console.log(selectedImage);
 
-    res.render("detailpagina.ejs", {
+    res.render("detailpage.ejs", {
       pageTitle: "Detailpagina",
       image: selectedImage,
       artist_username: selectedImage.artist_username,
@@ -798,7 +798,7 @@ app.get("/detail/:id", isAuthenticated, async (req, res) => {
   }
 });
 
-app.get("/detailpagina/:id", async (req, res) => {
+app.get("/detailpage/:id", async (req, res) => {
   try {
     const postsCollection = db.collection("posts");
     const { ObjectId } = require("mongodb");
@@ -810,7 +810,7 @@ app.get("/detailpagina/:id", async (req, res) => {
       return res.status(404).send("Post niet gevonden");
     }
 
-    res.render("detailpagina.ejs", { post });
+    res.render("detailpage.ejs", { post });
   } catch (error) {
     console.error("Error fetching post:", error);
     res
@@ -934,7 +934,7 @@ app.get("/collectieArtist", isAuthenticated, async (req, res) => {
       console.warn(`No userImages array found for user ${req.session.userId}`);
     }
 
-    res.render("collectieArtist.ejs", {
+    res.render("collectionArtist.ejs", {
       pageTitle: "Collectie Artist",
       username: req.session.username,
       artistImages: artistImages,
@@ -956,7 +956,7 @@ app.get("/artist/:id", isAuthenticated, async (req, res) => {
       return res.status(404).send("Artiest niet gevonden");
     }
 
-    res.render("detailpaginaA.ejs", {
+    res.render("detailpageArtist.ejs", {
       pageTitle: `Artiest: ${artist.username}`,
       artist: artist,
       artistImages: artist.artistImages || [],
