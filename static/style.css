@@ -1171,8 +1171,6 @@ section.delen {
 .delen.toonMenu {
   background-color: var(--color-text);
   color: var(--color-background);
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
 	transform: translateY(0);
 }
 
