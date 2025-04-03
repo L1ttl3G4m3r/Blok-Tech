@@ -1269,6 +1269,7 @@ section.artistSection img {
   left: 0;
   width: 100%;
   background-color: white;
+  color: var(--color-background);
   border: 1px solid var(--disabled-text);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
@@ -1284,5 +1285,4 @@ section.artistSection img {
 
 #searchResults li:hover {
   background-color: var(--color-text);
-  color: var(--color-background);
 }
