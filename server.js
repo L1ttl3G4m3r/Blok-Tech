@@ -11,7 +11,7 @@ const { MongoClient, ObjectId } = require("mongodb");
 const fetch = require("node-fetch");
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs"); // Voeg fs module toe
+const fs = require("fs"); 
 
 const app = express();
 const port = process.env.PORT || 9000;
