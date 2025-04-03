@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const backgroundContainer = document.getElementById('backgroundContainer');
-  const allImages = window.imageUrls; // Gebruik de globale variabele
+  const allImages = window.imageUrls;
   const tattooGridImages = document.querySelectorAll('#tattoo-grid img');
 
-  // Tattoo grid klikfunctionaliteit
   tattooGridImages.forEach((img, index) => {
       img.addEventListener('click', () => {
           window.location.href = `/detail/${index}`;
@@ -38,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const imgElement = document.createElement('img');
               imgElement.className = 'background-image';
               imgElement.src = allImages[imageIndex].url;
-              imgElement.loading = 'lazy'; // Lazy loading
+              imgElement.loading = 'lazy';
               imgElement.alt = 'Tattoo image';
               column.appendChild(imgElement);
           }
@@ -54,12 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
               if (entry.isIntersecting) {
-                  addImagesToColumns(); // Voeg nieuwe afbeeldingen toe als de laatste rij zichtbaar wordt
+                  addImagesToColumns();
               }
           });
       }, {
           root: null,
-          threshold: 0.01 // Activeer zodra 1% van de laatste rij zichtbaar is
+          threshold: 0.01
       });
 
       lastImages.forEach(img => observer.observe(img));

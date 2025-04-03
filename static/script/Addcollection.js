@@ -3,7 +3,7 @@ document.querySelectorAll('.add-to-collection').forEach(button => {
     const imageUrl = button.getAttribute('data-url');
 
     try {
-      const response = await fetch('/add-to-collection', {
+      const response = await fetch('/addToCollection', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ imageUrl })

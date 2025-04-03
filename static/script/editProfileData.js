@@ -6,10 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const usernameInput = document.getElementById('username');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
-  const studioName = document.getElementById('studioname');
-  const studioAddress = document.getElementById('studioAddres');
 
-  // Profiel bewerkbaar maken
   editButton?.addEventListener('click', () => {
       const fields = [usernameInput, emailInput, passwordInput];
 
@@ -17,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (saveButton) saveButton.disabled = false;
   });
 
-  // Formulier verzenden
   form?.addEventListener('submit', function (e) {
       e.preventDefault();
       console.log('Formulier succesvol verzonden');

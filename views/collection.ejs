@@ -36,7 +36,7 @@
     <ul>
       <% posts.forEach(post => { %>
         <li>
-          <a class="post-link" href="/detailpagina?img=<%= post.photo %>&postId=<%= post._id %>&title=<%= post.title %>&description=<%= post.description %>&tags=<%= JSON.stringify(post.tags) %>">
+          <a class="post-link" href="/detailpage?img=<%= post.photo %>&postId=<%= post._id %>&title=<%= post.title %>&description=<%= post.description %>&tags=<%= JSON.stringify(post.tags) %>">
             <img src="<%= post.photo %>" alt="<%= post.title %>">
           </a>
           <p><strong>Beschrijving:</strong> <%= post.description %></p>

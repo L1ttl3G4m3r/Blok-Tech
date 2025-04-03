@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             searchResults.innerHTML = "";
-            searchInput.value = ""; // Clear the search input after selection
+            searchInput.value = "";
           } catch (error) {
             console.error("Error retrieving data:", error);
           }

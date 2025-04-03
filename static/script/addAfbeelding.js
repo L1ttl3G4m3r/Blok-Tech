@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Lees de imageUrls data uit het HTML-element
   const imageUrlsData = document.getElementById('imageUrlsData');
   if (imageUrlsData) {
       const serverImageUrls = JSON.parse(imageUrlsData.dataset.imageUrls);

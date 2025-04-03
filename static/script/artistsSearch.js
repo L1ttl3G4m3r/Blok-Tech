@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       try {
-          const response = await fetch(`/search-artists?q=${encodeURIComponent(query)}`);
+          const response = await fetch(`/searchArtists?q=${encodeURIComponent(query)}`);
           const data = await response.json();
           displayResults(data.artists);
       } catch (error) {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
       resultsContainer.innerHTML = '';
       artists.forEach(artist => {
           const link = document.createElement('a');
-          link.href = `/artiest/${artist._id}`;
+          link.href = `/artist/${artist._id}`;
           link.textContent = `${artist.username} - ${artist.studio.name}`;
           resultsContainer.appendChild(link);
       });

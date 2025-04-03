@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Afbeelding uploaden
   const imagePlaceholder = document.querySelector('.image-placeholder');
   const photoInput = document.getElementById('photoInput');
   const imagePreview = document.getElementById('imagePreview');
@@ -9,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const hiddenTagsInput = document.getElementById("hiddenTagsInput");
   let tags = [];
 
-  // Tags functionaliteit
   function renderTags() {
     tagsList.innerHTML = "";
     tags.forEach((tag, index) => {
@@ -69,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     const formData = new FormData(this);
     try {
-      const response = await fetch('/submit-post', {
+      const response = await fetch('/submitPost', {
         method: 'POST',
         body: formData
       });
@@ -86,6 +84,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initialize
   renderTags();
 });

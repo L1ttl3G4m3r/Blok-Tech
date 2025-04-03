@@ -8,36 +8,33 @@
     <header class="headerIndex"><%- include('partials/header') %></header>
 
     <main>
-      <!-- Titel -->
       <section class="intro">
         <h1>Inspiration for your tattoo</h1>
       </section>
 
-      <!-- Zoekfunctionaliteit -->
-      <section class="search">
-        <%- include('partials/searchbar-artists') %>
-      </section>
-
-      <!-- Carousel met unieke ideeën -->
-      <section class="carousel-section">
-
-        <div class="textcontainer">
-          <h2>Aanbevolen</h2>
-        </div>
-
         <section class="artist-section">
+          <div class="textcontainer">
+            <h2>Artiesten</h2>
+          </div>
           <%- include('partials/artists') %>
         </section>
+        <section class="search-artists"><%- include('partials/searchbarArtists') %></section>
+        <section class="studio-section">
         <div class="textcontainer">
             <h2>Studios</h2>
           </div>
           <%- include('partials/studiolist') %>
-      </section>
+        </section>
+
     </main>
 
     <!-- Footer -->
     <footer>
       <%- include('partials/nav') %>
     </footer>
+
+    <!-- Scripts -->
+    <script src="/static/script/artistsSearch.js"></script>
+    <script src="/static/script/nav.js"></script>
   </body>
 </html>
