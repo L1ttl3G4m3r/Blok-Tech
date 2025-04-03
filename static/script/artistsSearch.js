@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const input = document.getElementById('artist-search-input');
   const resultsContainer = document.createElement('div');
-  resultsContainer.id = 'search-results';
+  resultsContainer.id = 'searchResults';
   input.parentNode.insertBefore(resultsContainer, input.nextSibling);
 
   input.addEventListener('input', debounce(searchArtists, 300));

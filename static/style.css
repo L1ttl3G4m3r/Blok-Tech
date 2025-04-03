@@ -151,14 +151,6 @@ input[type="search"] {
   color: var(--color-text);
   border: 2px solid var(--color-text);
 }
-#search-results {
-  background-color: var(--color-text);
-  border-radius: 4px;
-}
-#search-results a {
-  color: var(--color-background);
-  margin: 1em;
-}
 .search-container {
   position: relative;
 }
@@ -1285,4 +1277,12 @@ section.artistSection img {
 
 #searchResults li:hover {
   background-color: var(--color-text);
+}
+
+#searchResults a {
+  color: black;
+}
+
+#searchResults:empty {
+  display: none;
 }
