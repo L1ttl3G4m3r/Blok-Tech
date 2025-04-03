@@ -1,5 +1,5 @@
 // opslaan image source veranderen
-let save = document.querySelector(".opslaan")
+let save = document.querySelector(".save")
 let originalSource = save.src
 let filledSource = "/static/icons/normal/collection-fill.svg"
 
