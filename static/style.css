@@ -848,24 +848,6 @@ input[type="radio"]:checked::before {
   color: var(--color-button);
 }
 
-/* section.containerNavSwiper {
-  display: flex;
-  justify-content: space-between;
-  margin: 1em;
-  background-color: #F3F0DD;
-} */
-
-/* .swiper-slide input[type="search"] {
-  width: 22em;
-  padding: 1em;
-  border-radius: .5em;
-  margin-top: 2em;
-} */
-
-/* .swiper-slide input[type="search"]:focus {
-  outline-color: var(--focus);
-} */
-
 .swiper-slide input[type="submit"] {
   background-color: var(--color-button);
   color: var(--color-text);
@@ -1276,4 +1258,31 @@ section.artistSection img {
 }
 .artistInfo p {
   font-weight: 300;
+}
+
+/*****************/
+/* searchResults */
+/*****************/
+#searchResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid var(--disabled-text);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  list-style: none;
+  padding: 1em;
+  margin: 0;
+}
+
+#searchResults li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#searchResults li:hover {
+  background-color: var(--color-text);
+  color: var(--color-background);
 }
