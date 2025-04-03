@@ -658,6 +658,9 @@ section.profile-section {
 /****************************/
 /* profile menu photo */
 /****************************/
+.textcontainer {
+  margin-left: 2em;
+}
 .photo-options-menu {
   position: fixed;
   bottom: 0;
@@ -1249,4 +1252,28 @@ h2.selected {
 .content h2,
 .content p {
   text-align: center;
+}
+/*****************/
+/* Artistpagina */
+/*****************/
+section.artistSection {
+  display: flex;
+  flex-direction: column;
+}
+
+section.artistSection img {
+  width: 100vw;
+}
+
+.artistInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin: 1em;
+}
+.collectionSection {
+  margin: 1em;
+}
+.artistInfo p {
+  font-weight: 300;
 }
