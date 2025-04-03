@@ -576,7 +576,7 @@ app.post(
   }
 );
 
-app.get("/artiesten", isAuthenticated, async (req, res) => {
+app.get("/artists", isAuthenticated, async (req, res) => {
   try {
     const collection = db.collection("artists");
     const artists = await collection.find().toArray();
@@ -587,29 +587,6 @@ app.get("/artiesten", isAuthenticated, async (req, res) => {
     });
   } catch (error) {
     console.error("Fout bij het ophalen van artiesten:", error);
-    res
-      .status(500)
-      .send("Er is een fout opgetreden bij het laden van de artiestenpagina");
-  }
-});
-
-app.get("/artiest/:id", isAuthenticated, async (req, res) => {
-  try {
-    const collection = db.collection("artists");
-    const artist = await collection.findOne({
-      _id: new ObjectId(req.params.id),
-    });
-
-    if (!artist) {
-      return res.status(404).send("Artiest niet gevonden");
-    }
-
-    res.render("detailpaginaA.ejs", {
-      pageTitle: `Artiest: ${artist.username}`,
-      artist: artist,
-    });
-  } catch (error) {
-    console.error("Fout bij het ophalen van artiest details:", error);
     res
       .status(500)
       .send("Er is een fout opgetreden bij het laden van de artiestenpagina");
@@ -932,7 +909,7 @@ app.get("/microinformation", async (req, res) => {
   }
 });
 
-app.get("/collectie", isAuthenticated, async (req, res) => {
+app.get("/collection", isAuthenticated, async (req, res) => {
   try {
     const collection = db.collection("users");
     const postsCollection = db.collection("posts");
@@ -1065,7 +1042,7 @@ app.post("/add-to-collection", isAuthenticated, async (req, res) => {
   }
 });
 
-app.get("/profiel", async (req, res) => {
+app.get("/profile", async (req, res) => {
   if (!req.session.userId) {
     return res.redirect("/login");
   }
@@ -1095,7 +1072,7 @@ app.get("/profiel", async (req, res) => {
   });
 });
 
-app.get("/profielArtist", async (req, res) => {
+app.get("/profileArtist", async (req, res) => {
   if (!req.session.userId) {
     return res.redirect("/login");
   }
